@@ -10,10 +10,7 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 
 require('dotenv').config({ path: './.env' });
 
-const mode = process.env.NODE_ENV || 'development'; // 기본값 development
-
-module.exports = () => ({
-  mode,
+module.exports = {
   entry: './src/index.tsx',
   output: {
     filename: 'static/js/[name].[contenthash:8].js',
@@ -21,8 +18,6 @@ module.exports = () => ({
     chunkFilename: 'static/js/[name].[contenthash:8].chunk.js',
     publicPath: '/',
   },
-  // // Webpack의 출력물에서 디버깅을 하기위해 소스 맵을 허용합니다.
-  devtool: 'source-map',
   target: 'web',
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
@@ -123,17 +118,4 @@ module.exports = () => ({
     }),
     new ESLintPlugin(),
   ],
-  devServer: {
-    static: false,
-    client: {
-      overlay: true,
-    },
-    historyApiFallback: true,
-    port: 8080,
-    compress: true,
-    hot: true,
-    proxy: {
-      '/api': 'http://localhost:8000',
-    },
-  },
-});
+};
