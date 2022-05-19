@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack serve --open --config webpack.dev.js",
-    "start:build": "serve -s build -l 3000",
-    "build": "rm -rf ./build && webpack --config webpack.prod.js"
+    "start": "NODE_ENV=development webpack serve --open --config webpack.dev.js",
+    "start:build": "serve -s build -l 8080",
+    "build": "rm -rf ./build && NODE_ENV=production webpack --config webpack.prod.js"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,7 @@
     "@types/react-router-dom": "^5.3.3",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
     "typescript": "^4.6.4"

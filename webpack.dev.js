@@ -1,5 +1,8 @@
 const { merge } = require('webpack-merge');
+const webpack = require('webpack');
 const common = require('./webpack.common.js');
+
+require('dotenv').config({ path: './.env.development' });
 
 module.exports = merge(common, {
   mode: 'development',
@@ -10,11 +13,16 @@ module.exports = merge(common, {
       overlay: true,
     },
     historyApiFallback: true,
-    port: 8080,
+    port: 3000,
     compress: true,
-    hot: true,
+    hot: true, // HMR 적용
     proxy: {
       '/api': 'http://localhost:8000',
     },
   },
+  plugins: [
+    new webpack.EnvironmentPlugin({
+      ...process.env,
+    }),
+  ],
 });

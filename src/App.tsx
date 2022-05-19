@@ -1,17 +1,24 @@
 import React from 'react';
-import Example from '@components/Example';
-import ExampleTwo from '@components/ExampleTwo';
+import { Route, Routes } from 'react-router-dom';
+import Home from '@pages/Home';
 
 import './style.css';
+import { Link } from 'react-router-dom';
+import Test from '@pages/Test';
 
 function App() {
   return (
     <div className="App">
-      리액트 보일러플레이트
-      <Example value="벨류" />
-      <ExampleTwo />
-      <p>{process.env.NODE_ENV}</p>
-      <p>{process.env.REACT_APP_EXAMPLE}</p>
+      <nav>
+        <Link to={'/'}>홈으로</Link>
+        <Link to={'/test'}>테스트</Link>
+      </nav>
+
+      <h1>react18, webpack5, babel, eslint, prettier BoilerPlate</h1>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/test" element={<Test />} />
+      </Routes>
     </div>
   );
 }

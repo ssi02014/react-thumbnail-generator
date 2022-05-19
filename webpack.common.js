@@ -8,8 +8,6 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 
-require('dotenv').config({ path: './.env' });
-
 module.exports = {
   entry: './src/index.tsx',
   output: {
@@ -33,7 +31,10 @@ module.exports = {
       new TerserPlugin({
         terserOptions: {
           compress: {
-            drop_console: true, // prod모드에서 콘솔 로그를 제거한다
+            drop_console: (() => {
+              console.log(process.env.NODE_ENV);
+              return process.env.NODE_ENV === 'production';
+            })(), // prod모드에서 콘솔 로그를 제거한다
           },
         },
       }),
@@ -102,9 +103,6 @@ module.exports = {
           },
         },
       ],
-    }),
-    new webpack.EnvironmentPlugin({
-      ...process.env,
     }),
     new webpack.ProvidePlugin({
       React: 'react',
