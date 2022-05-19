@@ -31,10 +31,7 @@ module.exports = {
       new TerserPlugin({
         terserOptions: {
           compress: {
-            drop_console: (() => {
-              console.log(process.env.NODE_ENV);
-              return process.env.NODE_ENV === 'production';
-            })(), // prod모드에서 콘솔 로그를 제거한다
+            drop_console: process.env.NODE_ENV === 'production', // 콘솔 제거
           },
         },
       }),
@@ -66,7 +63,7 @@ module.exports = {
         test: /\.html$/,
         use: [
           {
-            loader: 'html-loader', // html-loader 웹팩이 이해할 수 있게 하고 options 로는 minimize라는 코드 최적화 옵션을 사용하고 있다.
+            loader: 'html-loader',
             options: { minimize: true },
           },
         ],
@@ -83,14 +80,13 @@ module.exports = {
     ],
   },
   plugins: [
-    // HtmlWebPackPlugin 웹팩이 html 파일을 읽어서 html 파일을 빌드할 수 있게 해준다.
     new HtmlWebPackPlugin({
       template: './public/index.html',
       filename: 'index.html',
       favicon: './public/favicon.ico',
       minify: process.env.NODE_ENV === 'production' && {
-        collapseWhitespace: true, // 빈칸 제거
-        removeComments: true, // 주석제거
+        collapseWhitespace: true,
+        removeComments: true,
       },
     }),
     new CopyWebpackPlugin({

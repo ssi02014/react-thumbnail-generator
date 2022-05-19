@@ -4,6 +4,7 @@ const common = require('./webpack.common.js');
 
 require('dotenv').config({ path: './.env.development' });
 
+// merge를 이용해서 webpack.common 와 병합
 module.exports = merge(common, {
   mode: 'development',
   devtool: 'source-map',
