@@ -1,67 +1,81 @@
 {
-  "name": "react_init_boilerplate",
-  "version": "1.0.0",
-  "description": "리액트 환경 보일러플레이트",
-  "main": "index.js",
+  "name": "react-npm-deploy-boilerplate",
+  "version": "1.0.2",
+  "description": "react-npm-deploy-boilerplate",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=development webpack serve --open --config webpack.dev.js",
-    "start:build": "serve -s build -l 8080",
-    "build": "rm -rf ./build && NODE_ENV=production webpack --config webpack.prod.js"
+    "build": "rm -rf dist && tsc && babel --extensions .ts,.tsx ./src -d dist --copy-files",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ssi02014/React_Init_Boilerplate.git"
+    "url": "git+https://github.com/ssi02014/react-npm-deploy-boilerplate.git"
   },
   "author": "Gromit",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ssi02014/React_Init_Boilerplate/issues"
+    "url": "https://github.com/ssi02014/react-npm-deploy-boilerplate.git/issues"
   },
-  "homepage": "https://github.com/ssi02014/React_Init_Boilerplate#readme",
+  "homepage": "https://github.com/ssi02014/react-npm-deploy-boilerplate.git/blob/master/README.md",
   "dependencies": {
-    "@types/node": "^17.0.33",
-    "@types/react": "^18.0.9",
-    "@types/react-dom": "^18.0.4",
-    "@types/react-router-dom": "^5.3.3",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "react-router": "^6.3.0",
-    "react-router-dom": "^6.3.0",
-    "react-scripts": "^5.0.1",
-    "typescript": "^4.6.4"
+    "styled-components": "^5.3.5"
   },
   "devDependencies": {
+    "@babel/cli": "^7.17.10",
     "@babel/core": "^7.17.10",
     "@babel/preset-env": "^7.17.10",
     "@babel/preset-react": "^7.16.7",
     "@babel/preset-typescript": "^7.16.7",
+    "@storybook/addon-actions": "^6.5.3",
+    "@storybook/addon-essentials": "^6.5.3",
+    "@storybook/addon-interactions": "^6.5.3",
+    "@storybook/addon-links": "^6.5.3",
+    "@storybook/builder-webpack5": "^6.5.3",
+    "@storybook/manager-webpack5": "^6.5.3",
+    "@storybook/node-logger": "^6.5.3",
+    "@storybook/preset-create-react-app": "^4.1.0",
+    "@storybook/react": "^6.5.3",
+    "@storybook/testing-library": "^0.0.11",
+    "@types/node": "^17.0.35",
+    "@types/react": "^18.0.9",
+    "@types/react-dom": "^18.0.4",
+    "@types/styled-components": "^5.1.25",
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",
     "babel-loader": "^8.2.5",
     "clean-webpack-plugin": "^4.0.0",
-    "copy-webpack-plugin": "^10.2.4",
     "core-js": "^3.22.5",
-    "css-loader": "^6.7.1",
-    "css-minimizer-webpack-plugin": "^3.4.1",
-    "dotenv": "^16.0.1",
     "eslint": "^8.15.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.5.0",
+    "eslint-plugin-storybook": "^0.5.12",
     "eslint-webpack-plugin": "^3.1.1",
-    "file-loader": "^6.2.0",
     "fork-ts-checker-webpack-plugin": "^7.2.11",
-    "html-loader": "^3.1.0",
-    "html-webpack-plugin": "^5.5.0",
-    "mini-css-extract-plugin": "^2.6.0",
     "prettier": "^2.6.2",
-    "serve": "^13.0.2",
-    "style-loader": "^3.3.1",
-    "terser-webpack-plugin": "^5.3.1",
-    "url-loader": "^4.1.1",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-scripts": "^5.0.1",
+    "tsconfig-paths-webpack-plugin": "^3.5.2",
+    "typescript": "^4.6.4",
     "webpack": "^5.72.1",
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.9.0",
     "webpack-merge": "^5.8.0"
+  },
+  "eslintConfig": {
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
+    ]
   }
 }

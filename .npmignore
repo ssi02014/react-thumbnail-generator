@@ -1,0 +1,26 @@
+*.log
+npm-debug.log*
+
+# Coverage directory used by tools like istanbul
+coverage
+.nyc_output
+
+# Dependency directories
+node_modules
+
+# npm package lock
+package-lock.json
+yarn.lock
+
+# project files
+src
+.travis.yml
+babel.config.js
+.gitignore
+tsconfig.json
+tsconfig.paths.json
+.prettierrc
+.storybook
+stories
+.eslintrc.js
+webpack.*.js
