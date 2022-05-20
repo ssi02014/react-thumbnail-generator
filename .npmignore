@@ -14,13 +14,18 @@ yarn.lock
 
 # project files
 src
-.travis.yml
-babel.config.js
+
+# git
 .gitignore
+
+# setting
 tsconfig.json
 tsconfig.paths.json
 .prettierrc
-.storybook
-stories
 .eslintrc.js
 webpack.*.js
+babel.config.js
+
+# storybook
+stories
+.storybook
