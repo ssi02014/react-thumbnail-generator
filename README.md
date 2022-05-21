@@ -1,5 +1,6 @@
-# 💻 리액트 NPM 배포 보일러 플레이트
-- 리액트 컴포넌트 NPM 배포 보일러 플레이트 저장소
+# 💻 리액트 디자인 시스템 NPM 배포 보일러 플레이트
+- UI Kits, Design System 구축해서 NPM으로 오픈소스 배포에 최적화
+- 웹팩 개발 서버, 불 필요한 웹팩, 로더 모두 제거 후 경량화
 - TypeScript + Storybook 지원
 
 <br />
@@ -8,7 +9,6 @@
 ```
 yarn
 또는
-npm i
 ```
 
 <br />
@@ -51,7 +51,8 @@ yarn build
 <br />
 
 ### deploy
-- 주의. deploy하기 전에 package.json version 업데이트 해줘야 함
+- 주의 1. deploy하기 전에 package.json version 업데이트 해줘야 함
+- 주의 2. deploy하기 전에 꼭 build 진행해야 됌 dist 폴더가 npm에 올라감
 ```
 npm publish
 ``` 
