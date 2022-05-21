@@ -1,7 +1,7 @@
 # 💻 리액트 디자인 시스템 NPM 배포 보일러 플레이트
-- UI Kits, Design System 구축해서 NPM으로 오픈소스 배포에 최적화
+- UI Kits, Design System 구축해서 NPM으로 오픈소스 배포에 최적화 (TypeScript + Storybook 지원)
 - 웹팩 개발 서버, 불 필요한 웹팩, 로더 모두 제거 후 경량화
-- TypeScript + Storybook 지원
+- 모든 컴포넌트 UI 테스트는 웹팩 개발 서버를 띄우지 않고 스토리북 자체 개발 서버를 이용 (하단 내용 참고)
 
 <br />
 
@@ -9,6 +9,34 @@
 ```
 yarn
 또는
+```
+
+<br />
+
+### package.json 수정
+- 해당 보일러 플레이트를 clone해서 사용한다면 package.json 수정이 필요함
+- name, version, description, repo/url, author ... 등 수정 필요
+```json
+{
+  "name": "react-npm-deploy-boilerplate",
+  "version": "1.0.0",
+  "description": "react-npm-deploy-boilerplate",
+  "scripts": {
+    // ...
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ssi02014/react-npm-deploy-boilerplate.git"
+  },
+  "author": "Gromit",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ssi02014/react-npm-deploy-boilerplate.git/issues"
+  },
+  "homepage": "https://github.com/ssi02014/react-npm-deploy-boilerplate.git/blob/master/README.md",
+  // ...
+}
+
 ```
 
 <br />
@@ -59,7 +87,7 @@ npm publish
 
 <br />
 
-### download
+### 배포된 컴포넌트 활용
 ```
 yarn add (본인 배포 저장소)
 ```
