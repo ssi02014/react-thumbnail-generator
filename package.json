@@ -59,9 +59,7 @@
     "react-dom": "^18.1.0",
     "react-scripts": "^5.0.1",
     "tsconfig-paths-webpack-plugin": "^3.5.2",
-    "typescript": "^4.6.4",
-    "webpack": "^5.72.1",
-    "webpack-cli": "^4.9.2"
+    "typescript": "^4.6.4"
   },
   "eslintConfig": {
     "overrides": [
