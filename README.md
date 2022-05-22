@@ -5,6 +5,11 @@
 
 <br />
 
+### 스토리북 깃허브 페이지
+- https://ssi02014.github.io/react-npm-deploy-boilerplate/
+
+<br />
+
 ### 의존성 설치
 ```
 yarn

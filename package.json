@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rm -rf dist && tsc && babel --extensions .ts,.tsx ./src -d dist --copy-files",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook",
+    "deploy-storybook": "gh-pages -d storybook-static"
   },
   "repository": {
     "type": "git",
@@ -19,7 +20,7 @@
   "bugs": {
     "url": "https://github.com/ssi02014/react-npm-deploy-boilerplate.git/issues"
   },
-  "homepage": "https://github.com/ssi02014/react-npm-deploy-boilerplate.git/blob/master/README.md",
+  "homepage": "http://ssi02014.github.io/react-npm-deploy-boilerplate",
   "dependencies": {
     "styled-components": "^5.3.5"
   },
@@ -54,6 +55,7 @@
     "eslint-plugin-react-hooks": "^4.5.0",
     "eslint-plugin-storybook": "^0.5.12",
     "eslint-webpack-plugin": "^3.1.1",
+    "gh-pages": "^4.0.0",
     "prettier": "^2.6.2",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
