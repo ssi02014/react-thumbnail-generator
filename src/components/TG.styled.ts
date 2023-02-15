@@ -6,8 +6,8 @@ export const TGBodyWrapper = styled.section`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  right: 50px;
-  bottom: 50px;
+  right: 20px;
+  bottom: 20px;
   border-radius: 7px;
   box-shadow: 1px 1px 10px #cccccc;
   z-index: 9999;
@@ -41,26 +41,37 @@ export const TGContentWrapper = styled.div`
   }
 `;
 
-export const TGOpenButton = styled.button`
-  width: 50px;
+export const TGOpenButton = styled.button<{
+  bgColor: string;
+  textColor: string;
+}>`
+  padding: 0;
+  width: 60px;
   height: 50px;
   position: fixed;
-  right: 50px;
-  bottom: 50px;
+  right: 20px;
+  bottom: 20px;
   cursor: pointer;
-  border-radius: 50%;
-  border: 1px solid #cccccc;
+  border-radius: 6px;
+  border: none;
+  font-size: 0.5rem;
+  color: ${({ textColor }) => textColor};
+  background-color: ${({ bgColor }) => (bgColor ? bgColor : '')};
+
+  &:hover {
+    filter: brightness(0.9);
+  }
 `;
 
 export const TGTextarea = styled.textarea`
-  width: 300px;
+  width: 400px;
+  height: 26px;
   padding: 5px 10px;
   border: 1px solid #cccccc;
   border-radius: 4px;
   resize: none;
   outline: none;
-  font-size: 1.1rem;
-  height: 21px;
+  font-size: 1rem;
 `;
 
 export const TGButtonContainer = styled.div`
