@@ -1,6 +1,6 @@
+import TG from '../components/TG';
+import { TGOpenButton } from '../components/TG.styled';
 import React, { useState } from 'react';
-import TG from 'src/components/TG';
-import { TGOpenButton } from 'src/components/TG.styled';
 
 const ThumbnailGenerator = () => {
   const [isOpen, setIsOpen] = useState(false);
