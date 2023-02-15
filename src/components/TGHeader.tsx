@@ -1,5 +1,6 @@
 import React from 'react';
-import { TGHeaderWrapper } from './TG.styled';
+import { TGHeaderWrapper, TGIConButton } from './TG.styled';
+import { AiOutlineClose } from 'react-icons/ai';
 
 interface TGHeaderProps {
   onToggle: () => void;
@@ -8,8 +9,10 @@ interface TGHeaderProps {
 const TGHeader = ({ onToggle }: TGHeaderProps) => {
   return (
     <TGHeaderWrapper>
-      <h5>Thumbnail Generator</h5>
-      <button onClick={onToggle}>X</button>
+      <h5>Simple Thumbnail Generator</h5>
+      <TGIConButton onClick={onToggle} isBorder={false}>
+        <AiOutlineClose size={18} />
+      </TGIConButton>
     </TGHeaderWrapper>
   );
 };

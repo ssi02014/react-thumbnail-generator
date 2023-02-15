@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
+import { Color } from 'react-color-palette';
 
 interface TGCanvasProps {
-  bgColor: string;
-  fontColor: string;
+  bgColor: Color;
+  fontColor: Color;
   width: number;
   height: number;
   text: string;
@@ -42,11 +43,11 @@ const TGCanvas = React.forwardRef(
       const ctx = canvas.getContext('2d');
 
       if (ctx) {
-        ctx.fillStyle = bgColor;
+        ctx.fillStyle = bgColor.hex;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         setFont(canvas, text, {
-          color: fontColor,
+          color: fontColor.hex,
           size: 40,
           font: 'Arial',
         });
