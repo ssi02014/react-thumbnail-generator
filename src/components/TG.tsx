@@ -107,16 +107,18 @@ const TG = ({ onToggle }: TGProps) => {
           <TGControllerWrapper>
             <TGInput
               name="width"
-              label="Width"
+              label="Thumbnail Width"
               value={canvasSize.width}
               onChange={onChangeCanvasSize}
             />
             <TGInput
               name="height"
-              label="Height"
+              label="Thumbnail Height"
               value={canvasSize.height}
               onChange={onChangeCanvasSize}
             />
+          </TGControllerWrapper>
+          <TGControllerWrapper>
             <TGSelect
               label="Font Size"
               value={fontSize}

@@ -8,15 +8,13 @@ import React, {
 import { SelectWrapper, SelectInput, SelectItemContainer } from './TG.styled';
 import { SlArrowDown, SlArrowUp } from 'react-icons/sl';
 
-type SelectOmitType = 'ref' | 'children';
-
 interface SelectContextProps {
   color?: string;
   selectValue?: string | number;
   onChange: (value: string | number) => void;
 }
 
-interface SelectProps extends Omit<ComponentProps<'div'>, SelectOmitType> {
+interface SelectProps extends Omit<ComponentProps<'div'>, 'ref' | 'children'> {
   children: React.ReactNode;
   label: string;
   value: string | number;
@@ -66,7 +64,9 @@ const TGSelect = ({ children, onChange, color, value, label }: SelectProps) => {
         <label>{label}</label>
         <SelectInput ref={inputRef} onClick={handleToggleSelect}>
           <p>{value}</p>
-          <p>{isOpenSelect ? <SlArrowUp /> : <SlArrowDown />}</p>
+          <p>
+            {isOpenSelect ? <SlArrowUp size={12} /> : <SlArrowDown size={12} />}
+          </p>
         </SelectInput>
         {isOpenSelect && <SelectItemContainer>{children}</SelectItemContainer>}
       </SelectWrapper>

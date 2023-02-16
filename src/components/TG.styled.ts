@@ -17,7 +17,7 @@ export const TGCanvasWrapper = styled.div`
 `;
 
 export const TGLimitSizeText = styled.div`
-  font-size: 1rem;
+  font-size: 0.85rem;
   margin-top: 5px;
   text-align: center;
 
@@ -157,6 +157,7 @@ export const TGIConButton = styled.button<{ isBorder?: boolean }>`
   cursor: pointer;
 `;
 
+// TG Select
 export const SelectWrapper = styled.div`
   position: relative;
   width: 150px;
@@ -207,14 +208,19 @@ export const SelectListItem = styled.li`
   }
 `;
 
+// TG Input
 export const TGInputContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 40px;
+  justify-content: center;
+  height: 50px;
 
   label {
     font-size: 0.7rem;
     color: #969696;
+    height: 16px;
+    line-height: 16px;
+    line-height: 17px;
   }
 
   input {
