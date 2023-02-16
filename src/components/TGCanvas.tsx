@@ -1,16 +1,21 @@
 import React, { useEffect } from 'react';
 import { Color } from 'react-color-palette';
+import { TGCanvasWrapper } from './TG.styled';
 
 interface TGCanvasProps {
   bgColor: Color;
   fontColor: Color;
-  width: number;
-  height: number;
+  width: string;
+  height: string;
   text: string;
+  fontSize: string;
 }
 
 const TGCanvas = React.forwardRef(
-  ({ width, height, text, bgColor, fontColor }: TGCanvasProps, ref: any) => {
+  (
+    { width, height, text, bgColor, fontColor, fontSize }: TGCanvasProps,
+    ref: any
+  ) => {
     const setFont = (canvas: HTMLCanvasElement, text: string, args: any) => {
       const ctx = canvas.getContext('2d');
       const lines = text.split('\n');
@@ -48,13 +53,17 @@ const TGCanvas = React.forwardRef(
 
         setFont(canvas, text, {
           color: fontColor.hex,
-          size: 40,
+          size: +fontSize.replace('px', ''),
           font: 'Arial',
         });
       }
-    }, [text, width, height, bgColor, fontColor]);
+    }, [text, width, height, bgColor, fontColor, fontSize]);
 
-    return <canvas ref={ref} width={width} height={height} />;
+    return (
+      <TGCanvasWrapper>
+        <canvas ref={ref} width={+width} height={+height} />
+      </TGCanvasWrapper>
+    );
   }
 );
 

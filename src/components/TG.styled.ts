@@ -1,11 +1,9 @@
 import styled from 'styled-components';
 
 export const TGBodyWrapper = styled.section`
-  padding: 0 20px 40px 20px;
   position: fixed;
   display: flex;
   justify-content: center;
-  flex-direction: column;
   right: 20px;
   bottom: 20px;
   border-radius: 7px;
@@ -13,17 +11,49 @@ export const TGBodyWrapper = styled.section`
   z-index: 9999;
 `;
 
+export const TGCanvasWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+export const TGLimitSizeText = styled.div`
+  font-size: 1rem;
+  margin-top: 5px;
+  text-align: center;
+
+  span {
+    font-weight: bold;
+  }
+`;
+
+export const TGInnerWrapper = styled.div`
+  flex-direction: column;
+  width: 100%;
+  max-height: calc(100vh - 40px);
+  overflow-y: scroll;
+  padding: 0 10px 20px 10px;
+`;
+
 export const TGHeaderWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  background-color: transparent;
+  position: sticky;
+  top: 0;
+  flex-direction: column;
+  padding: 10px 0 5px 0;
+  background-color: #fff;
 
-  h5 {
+  & > div:first-child {
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+  }
+
+  a {
     color: #111;
     padding: 0;
     margin: 0;
+    font-size: 0.875rem;
+    font-weight: bold;
   }
 
   button {
@@ -65,13 +95,18 @@ export const TGOpenButton = styled.button<{
 
 export const TGTextarea = styled.textarea`
   width: 400px;
-  height: 26px;
+  height: 24px;
   padding: 5px 10px;
   border: 1px solid #cccccc;
   border-radius: 4px;
   resize: none;
   outline: none;
-  font-size: 1rem;
+  font-size: 1.1rem;
+
+  &::placeholder {
+    font-size: 1rem;
+    color: #cccccc;
+  }
 `;
 
 export const TGButtonContainer = styled.div`
@@ -104,8 +139,11 @@ export const TGControllerWrapper = styled.div`
   align-items: center;
   margin-top: 10px;
 
+  & > textarea + div {
+    margin-left: 10px;
+  }
   & > div + div {
-    margin-left: 15px;
+    margin-left: 10px;
   }
 `;
 
@@ -117,4 +155,74 @@ export const TGIConButton = styled.button<{ isBorder?: boolean }>`
   display: flex;
   align-items: center;
   cursor: pointer;
+`;
+
+export const SelectWrapper = styled.div`
+  position: relative;
+  width: 150px;
+
+  label {
+    font-size: 0.7rem;
+    color: #969696;
+  }
+`;
+
+export const SelectInput = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  padding: 6px 12px;
+
+  p {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+  }
+`;
+
+export const SelectItemContainer = styled.ul`
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 0 3px 0.5px #afafaf;
+  overflow-y: scroll;
+  list-style: none;
+  padding: 0;
+  height: 200px;
+`;
+
+export const SelectListItem = styled.li`
+  cursor: pointer;
+  padding: 10px 15px;
+  font-size: 0.9rem;
+
+  &:hover {
+    background-color: #ededed;
+  }
+`;
+
+export const TGInputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 40px;
+
+  label {
+    font-size: 0.7rem;
+    color: #969696;
+  }
+
+  input {
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    outline: none;
+    margin-top: 1px;
+  }
 `;
