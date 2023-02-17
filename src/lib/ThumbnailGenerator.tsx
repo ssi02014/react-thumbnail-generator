@@ -2,7 +2,7 @@ import TG from '../components/TG';
 import { TGOpenButton } from '../components/TG.styled';
 import React, { useState } from 'react';
 import thumbnail from '../assets/thumbnail.png';
-import TGIcon from 'components/TGIcon';
+import TGIcon from '../components/TGIcon';
 
 interface ThumbnailGeneratorProps {
   themeColor?: string;
