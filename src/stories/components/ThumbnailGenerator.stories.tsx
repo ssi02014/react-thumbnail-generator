@@ -8,7 +8,7 @@ export default {
 };
 
 const Template: Story = () => {
-  return <ThumbnailGenerator />;
+  return <ThumbnailGenerator iconShape="circle" />;
 };
 
 export const Default = Template.bind({});

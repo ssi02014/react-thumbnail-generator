@@ -1,6 +1,6 @@
 {
   "name": "react-thumbnail-generator",
-  "version": "0.1.10",
+  "version": "0.1.12",
   "description": "react-thumbnail-generator",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -23,7 +23,6 @@
   "homepage": "http://ssi02014.github.io/react-thumbnail-generator",
   "dependencies": {
     "react-color-palette": "^6.2.0",
-    "react-icons": "^4.7.1",
     "styled-components": "^5.3.6"
   },
   "devDependencies": {

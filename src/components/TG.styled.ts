@@ -73,20 +73,24 @@ export const TGContentWrapper = styled.div`
 
 export const TGOpenButton = styled.button<{
   bgColor: string;
-  textColor: string;
+  shape: 'rect' | 'round' | 'circle';
 }>`
   padding: 0;
-  width: 60px;
+  width: 50px;
   height: 50px;
   position: fixed;
   right: 20px;
   bottom: 20px;
   cursor: pointer;
-  border-radius: 6px;
   border: none;
   font-size: 0.5rem;
-  color: ${({ textColor }) => textColor};
+  color: #ffffff;
   background-color: ${({ bgColor }) => (bgColor ? bgColor : '')};
+  border-radius: ${({ shape }) => {
+    if (shape === 'rect') return '0px';
+    if (shape === 'round') return '5px';
+    return '50%';
+  }};
 
   &:hover {
     filter: brightness(0.9);
@@ -98,7 +102,7 @@ export const TGTextarea = styled.textarea`
   height: 24px;
   padding: 5px 10px;
   border: 1px solid #cccccc;
-  border-radius: 4px;
+  border-radius: 5px;
   resize: none;
   outline: none;
   font-size: 1.1rem;
@@ -231,4 +235,9 @@ export const TGInputContainer = styled.div`
     outline: none;
     margin-top: 1px;
   }
+`;
+
+// TG Icon
+export const TGIConImage = styled.img<{ color?: string }>`
+  fill: ${({ color }) => `${color}`};
 `;

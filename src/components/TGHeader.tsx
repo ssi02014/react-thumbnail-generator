@@ -1,13 +1,12 @@
 import React from 'react';
 import { TGHeaderWrapper, TGIConButton, TGLimitSizeText } from './TG.styled';
-import { AiOutlineClose } from 'react-icons/ai';
 
 interface TGHeaderProps {
   onToggle: () => void;
 }
 
 const TGHeader = ({ onToggle }: TGHeaderProps) => {
-  const LimitWidthSize = window.innerWidth - 100;
+  const LimitWidthSize = window.innerWidth - 70;
   return (
     <TGHeaderWrapper>
       <div>
@@ -18,7 +17,7 @@ const TGHeader = ({ onToggle }: TGHeaderProps) => {
           Simple Thumbnail Generator
         </a>
         <TGIConButton onClick={onToggle} isBorder={false}>
-          <AiOutlineClose size={18} />
+          X
         </TGIConButton>
       </div>
       <TGLimitSizeText>

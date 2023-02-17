@@ -1,15 +1,16 @@
 import TG from '../components/TG';
 import { TGOpenButton } from '../components/TG.styled';
 import React, { useState } from 'react';
-import { RxImage } from 'react-icons/rx';
+import thumbnail from '../assets/thumbnail.png';
+import TGIcon from 'components/TGIcon';
 
 interface ThumbnailGeneratorProps {
-  themeBgColor?: string;
-  themeTextColor?: string;
+  themeColor?: string;
+  iconShape?: 'rect' | 'round' | 'circle';
 }
 const ThumbnailGenerator = ({
-  themeBgColor = '#111111',
-  themeTextColor = '#ffffff',
+  themeColor = '#111111',
+  iconShape = 'round',
 }: ThumbnailGeneratorProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -24,10 +25,9 @@ const ThumbnailGenerator = ({
       ) : (
         <TGOpenButton
           onClick={onToggleGenerator}
-          textColor={themeTextColor}
-          bgColor={themeBgColor}>
-          <RxImage size={24} color={themeTextColor} />
-          Thumbnail
+          bgColor={themeColor}
+          shape={iconShape}>
+          <TGIcon src={thumbnail} width={35} height={35} />
         </TGOpenButton>
       )}
     </>

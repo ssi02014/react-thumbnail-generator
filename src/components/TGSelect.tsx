@@ -6,7 +6,9 @@ import React, {
   ComponentProps,
 } from 'react';
 import { SelectWrapper, SelectInput, SelectItemContainer } from './TG.styled';
-import { SlArrowDown, SlArrowUp } from 'react-icons/sl';
+import arrowBottom from '../assets/arrow-bottom.png';
+import arrowTop from '../assets/arrow-top.png';
+import TGIcon from './TGIcon';
 
 interface SelectContextProps {
   color?: string;
@@ -65,7 +67,11 @@ const TGSelect = ({ children, onChange, color, value, label }: SelectProps) => {
         <SelectInput ref={inputRef} onClick={handleToggleSelect}>
           <p>{value}</p>
           <p>
-            {isOpenSelect ? <SlArrowUp size={12} /> : <SlArrowDown size={12} />}
+            {isOpenSelect ? (
+              <TGIcon src={arrowTop} width={12} height={12} />
+            ) : (
+              <TGIcon src={arrowBottom} width={12} height={12} />
+            )}
           </p>
         </SelectInput>
         {isOpenSelect && <SelectItemContainer>{children}</SelectItemContainer>}

@@ -12,10 +12,12 @@ import TGHeader from './TGHeader';
 import { useColor } from 'react-color-palette';
 import 'react-color-palette/lib/css/styles.css';
 import TGColorPicker from './TGColorPicker';
-import { AiOutlineBgColors, AiOutlineFontColors } from 'react-icons/ai';
 import TGSelect from './TGSelect';
 import TGSelectItem from './TGSelectItem';
 import TGInput from './TGInput';
+import TGIcon from './TGIcon';
+import color from '../assets/color.png';
+import font from '../assets/font.png';
 
 interface TGProps {
   onToggle: () => void;
@@ -50,7 +52,7 @@ const TG = ({ onToggle }: TGProps) => {
   });
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const LimitWidthSize = window.innerWidth - 100;
+  const LimitWidthSize = window.innerWidth - 70;
 
   const onChangeFontSize = (value: string) => {
     setFontSize(value);
@@ -132,10 +134,10 @@ const TG = ({ onToggle }: TGProps) => {
           </TGControllerWrapper>
           <TGControllerWrapper>
             <TGColorPicker color={bgColor} setColor={setBgColor}>
-              <AiOutlineBgColors size={24} />
+              <TGIcon src={color} width={20} height={20} />
             </TGColorPicker>
             <TGColorPicker color={fontColor} setColor={setFontColor}>
-              <AiOutlineFontColors size={24} />
+              <TGIcon src={font} width={20} height={20} />
             </TGColorPicker>
           </TGControllerWrapper>
           <TGButtonContainer>
