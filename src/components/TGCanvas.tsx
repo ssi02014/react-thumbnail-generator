@@ -9,13 +9,39 @@ interface TGCanvasProps {
   height: string;
   text: string;
   fontSize: string;
+  fontStrokeType: 'None' | 'Thin' | 'Normal' | 'Thick';
+  strokeColor: Color;
+  fontFamily: string;
 }
 
 const TGCanvas = React.forwardRef(
   (
-    { width, height, text, bgColor, fontColor, fontSize }: TGCanvasProps,
+    {
+      width,
+      height,
+      text,
+      bgColor,
+      fontColor,
+      fontSize,
+      strokeColor,
+      fontStrokeType,
+      fontFamily,
+    }: TGCanvasProps,
     ref: any
   ) => {
+    const getPxByFontStrokeType = () => {
+      switch (fontStrokeType) {
+        case 'Thin':
+          return 3;
+        case 'Normal':
+          return 5;
+        case 'Thick':
+          return 7;
+        default:
+          return 0;
+      }
+    };
+
     const setFont = (canvas: HTMLCanvasElement, text: string, args: any) => {
       const ctx = canvas.getContext('2d');
       const lines = text.split('\n');
@@ -34,6 +60,12 @@ const TGCanvas = React.forwardRef(
             canvas.height / 2 -
             ((lines.length - 1) * lineHeight) / 2 +
             idx * lineHeight;
+
+          if (fontStrokeType !== 'None') {
+            ctx.lineWidth = getPxByFontStrokeType();
+            ctx.strokeStyle = `${strokeColor.hex}`;
+            ctx.strokeText(line, x, y);
+          }
 
           ctx.fillStyle = color;
           ctx.fillText(line, x, y);
@@ -54,10 +86,20 @@ const TGCanvas = React.forwardRef(
         setFont(canvas, text, {
           color: fontColor.hex,
           size: +fontSize.replace('px', ''),
-          font: 'Arial',
+          font: fontFamily,
         });
       }
-    }, [text, width, height, bgColor, fontColor, fontSize]);
+    }, [
+      text,
+      width,
+      height,
+      bgColor,
+      fontColor,
+      fontSize,
+      fontStrokeType,
+      strokeColor,
+      fontFamily,
+    ]);
 
     return (
       <TGCanvasWrapper>

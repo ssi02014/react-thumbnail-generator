@@ -18,11 +18,24 @@ import TGInput from './TGInput';
 import TGIcon from './TGIcon';
 import color from '../assets/color.png';
 import font from '../assets/font.png';
+import stroke from '../assets/stroke.png';
 
 interface TGProps {
+  additionalFontFamily?: string[];
   onToggle: () => void;
 }
 
+type StrokeTypes = 'None' | 'Thin' | 'Normal' | 'Thick';
+
+const fontFamilies = [
+  'Arial',
+  'monospace',
+  'Times New Roman',
+  'Georgia',
+  'Courier New',
+  'Verdana',
+];
+const strokeTypes = ['None', 'Thin', 'Normal', 'Thick'];
 const imageTypes = ['png', 'jpg', 'webp'];
 const fontSizes = [
   '10px',
@@ -42,11 +55,14 @@ const fontSizes = [
   '200px',
 ];
 
-const TG = ({ onToggle }: TGProps) => {
+const TG = ({ additionalFontFamily = [], onToggle }: TGProps) => {
   const [text, setText] = useState('Simple Thumbnail Generator 😁');
-  const [bgColor, setBgColor] = useColor('hex', '#121212');
+  const [bgColor, setBgColor] = useColor('hex', '#192841');
   const [fontColor, setFontColor] = useColor('hex', '#fff');
   const [fontSize, setFontSize] = useState('30px');
+  const [fontStrokeType, setFontStrokeType] = useState('None');
+  const [strokeColor, setStrokeColor] = useColor('hex', '#121212');
+  const [fontFamily, setFontFamily] = useState('Arial');
   const [canvasSize, setCanvasSize] = useState({
     width: '700',
     height: '400',
@@ -57,12 +73,14 @@ const TG = ({ onToggle }: TGProps) => {
   const LimitWidthSize = window.innerWidth - 70;
 
   const onChangeSelectValue = (
-    type: 'imageType' | 'fontSize',
+    type: 'imageType' | 'fontSize' | 'fontStrokeType' | 'fontFamily',
     value: string
   ) => {
     const selectType = {
       imageType: setImageType,
       fontSize: setFontSize,
+      fontStrokeType: setFontStrokeType,
+      fontFamily: setFontFamily,
     };
 
     const setState = selectType[type];
@@ -95,6 +113,8 @@ const TG = ({ onToggle }: TGProps) => {
     document.body.removeChild(link);
   };
 
+  const fontFamilyOptions = [...additionalFontFamily, ...fontFamilies];
+
   return (
     <TGBodyWrapper>
       <TGInnerWrapper>
@@ -103,12 +123,26 @@ const TG = ({ onToggle }: TGProps) => {
           <TGCanvas
             ref={canvasRef}
             bgColor={bgColor}
+            fontFamily={fontFamily}
             fontColor={fontColor}
             fontSize={fontSize}
             width={canvasSize.width}
             height={canvasSize.height}
+            fontStrokeType={fontStrokeType as StrokeTypes}
+            strokeColor={strokeColor}
             text={text}
           />
+          <TGControllerWrapper>
+            <TGColorPicker color={bgColor} setColor={setBgColor}>
+              <TGIcon src={color} width={20} height={20} />
+            </TGColorPicker>
+            <TGColorPicker color={fontColor} setColor={setFontColor}>
+              <TGIcon src={font} width={20} height={20} />
+            </TGColorPicker>
+            <TGColorPicker color={strokeColor} setColor={setStrokeColor}>
+              <TGIcon src={stroke} width={20} height={20} />
+            </TGColorPicker>
+          </TGControllerWrapper>
           <TGControllerWrapper>
             <TGTextarea
               value={text}
@@ -133,10 +167,10 @@ const TG = ({ onToggle }: TGProps) => {
           </TGControllerWrapper>
           <TGControllerWrapper>
             <TGSelect
-              label="Image Type"
-              value={imageType}
-              onChange={(value) => onChangeSelectValue('imageType', value)}>
-              {imageTypes.map((item) => (
+              label="Font Family"
+              value={fontFamily}
+              onChange={(value) => onChangeSelectValue('fontFamily', value)}>
+              {fontFamilyOptions.map((item) => (
                 <TGSelectItem value={item} key={item}>
                   {item}
                 </TGSelectItem>
@@ -152,14 +186,30 @@ const TG = ({ onToggle }: TGProps) => {
                 </TGSelectItem>
               ))}
             </TGSelect>
+            <TGSelect
+              label="Font Stroke"
+              value={fontStrokeType}
+              onChange={(value) =>
+                onChangeSelectValue('fontStrokeType', value)
+              }>
+              {strokeTypes.map((item) => (
+                <TGSelectItem value={item} key={item}>
+                  {item}
+                </TGSelectItem>
+              ))}
+            </TGSelect>
           </TGControllerWrapper>
           <TGControllerWrapper>
-            <TGColorPicker color={bgColor} setColor={setBgColor}>
-              <TGIcon src={color} width={20} height={20} />
-            </TGColorPicker>
-            <TGColorPicker color={fontColor} setColor={setFontColor}>
-              <TGIcon src={font} width={20} height={20} />
-            </TGColorPicker>
+            <TGSelect
+              label="Image Type"
+              value={imageType}
+              onChange={(value) => onChangeSelectValue('imageType', value)}>
+              {imageTypes.map((item) => (
+                <TGSelectItem value={item} key={item}>
+                  {item}
+                </TGSelectItem>
+              ))}
+            </TGSelect>
           </TGControllerWrapper>
           <TGButtonContainer>
             <button onClick={downloadCanvas}>DOWNLOAD</button>

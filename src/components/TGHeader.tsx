@@ -1,5 +1,7 @@
 import React from 'react';
 import { TGHeaderWrapper, TGIConButton, TGLimitSizeText } from './TG.styled';
+import TGIcon from './TGIcon';
+import close from '../assets/close.png';
 
 interface TGHeaderProps {
   onToggle: () => void;
@@ -17,7 +19,7 @@ const TGHeader = ({ onToggle }: TGHeaderProps) => {
           Simple Thumbnail Generator
         </a>
         <TGIConButton onClick={onToggle} isBorder={false}>
-          X
+          <TGIcon src={close} width={20} height={20} />
         </TGIConButton>
       </div>
       <TGLimitSizeText>

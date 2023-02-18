@@ -4,6 +4,7 @@ export const TGBodyWrapper = styled.section`
   position: fixed;
   display: flex;
   justify-content: center;
+  min-width: 700px;
   right: 20px;
   bottom: 20px;
   border-radius: 7px;
@@ -39,7 +40,7 @@ export const TGHeaderWrapper = styled.div`
   position: sticky;
   top: 0;
   flex-direction: column;
-  padding: 10px 0 5px 0;
+  padding: 10px 0 0 0;
   background-color: #fff;
 
   & > div:first-child {
@@ -82,6 +83,7 @@ export const TGOpenButton = styled.button`
   font-size: 0.5rem;
   color: #ffffff;
   transition: 0.2s;
+  z-index: 9999;
 
   &:hover {
     transform: scale(1.1);
@@ -111,9 +113,17 @@ export const TGButtonContainer = styled.div`
   margin-top: 20px;
 
   button {
+    background-color: #192841;
+    color: #fff;
     width: 200px;
-    padding: 8px;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
+
+    &:hover {
+      filter: brightness(0.8);
+    }
   }
 `;
 
@@ -155,7 +165,7 @@ export const TGIConButton = styled.button<{ isBorder?: boolean }>`
 // TG Select
 export const SelectWrapper = styled.div`
   position: relative;
-  width: 150px;
+  min-width: 150px;
 
   label {
     font-size: 0.7rem;
