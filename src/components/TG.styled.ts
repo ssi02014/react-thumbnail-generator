@@ -71,13 +71,9 @@ export const TGContentWrapper = styled.div`
   }
 `;
 
-export const TGOpenButton = styled.button<{
-  bgColor: string;
-  shape: 'rect' | 'round' | 'circle';
-}>`
+export const TGOpenButton = styled.button`
   padding: 0;
-  width: 50px;
-  height: 50px;
+  background-color: #fff;
   position: fixed;
   right: 20px;
   bottom: 20px;
@@ -85,20 +81,15 @@ export const TGOpenButton = styled.button<{
   border: none;
   font-size: 0.5rem;
   color: #ffffff;
-  background-color: ${({ bgColor }) => (bgColor ? bgColor : '')};
-  border-radius: ${({ shape }) => {
-    if (shape === 'rect') return '0px';
-    if (shape === 'round') return '5px';
-    return '50%';
-  }};
+  transition: 0.2s;
 
   &:hover {
-    filter: brightness(0.9);
+    transform: scale(1.1);
   }
 `;
 
 export const TGTextarea = styled.textarea`
-  width: 400px;
+  width: 350px;
   height: 24px;
   padding: 5px 10px;
   border: 1px solid #cccccc;
@@ -199,7 +190,7 @@ export const SelectItemContainer = styled.ul`
   overflow-y: scroll;
   list-style: none;
   padding: 0;
-  height: 200px;
+  max-height: 200px;
 `;
 
 export const SelectListItem = styled.li`

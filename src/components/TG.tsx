@@ -23,6 +23,7 @@ interface TGProps {
   onToggle: () => void;
 }
 
+const imageTypes = ['png', 'jpg', 'webp'];
 const fontSizes = [
   '10px',
   '20px',
@@ -50,12 +51,22 @@ const TG = ({ onToggle }: TGProps) => {
     width: '700',
     height: '400',
   });
+  const [imageType, setImageType] = useState('png');
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const LimitWidthSize = window.innerWidth - 70;
 
-  const onChangeFontSize = (value: string) => {
-    setFontSize(value);
+  const onChangeSelectValue = (
+    type: 'imageType' | 'fontSize',
+    value: string
+  ) => {
+    const selectType = {
+      imageType: setImageType,
+      fontSize: setFontSize,
+    };
+
+    const setState = selectType[type];
+    setState(value);
   };
 
   const onChangeCanvasSize = (e: ChangeEvent<HTMLInputElement>) => {
@@ -74,11 +85,11 @@ const TG = ({ onToggle }: TGProps) => {
   };
 
   const downloadCanvas = () => {
-    const url = canvasRef.current?.toDataURL('image/png');
+    const url = canvasRef.current?.toDataURL(`image/${imageType}`);
     const link = document.createElement('a');
 
     link.href = url as string;
-    link.setAttribute('download', `thumbnail.png`);
+    link.setAttribute('download', `thumbnail.${imageType}`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -122,9 +133,19 @@ const TG = ({ onToggle }: TGProps) => {
           </TGControllerWrapper>
           <TGControllerWrapper>
             <TGSelect
+              label="Image Type"
+              value={imageType}
+              onChange={(value) => onChangeSelectValue('imageType', value)}>
+              {imageTypes.map((item) => (
+                <TGSelectItem value={item} key={item}>
+                  {item}
+                </TGSelectItem>
+              ))}
+            </TGSelect>
+            <TGSelect
               label="Font Size"
               value={fontSize}
-              onChange={onChangeFontSize}>
+              onChange={(value) => onChangeSelectValue('fontSize', value)}>
               {fontSizes.map((item) => (
                 <TGSelectItem value={item} key={item}>
                   {item}

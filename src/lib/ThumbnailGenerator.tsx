@@ -1,17 +1,10 @@
 import TG from '../components/TG';
 import { TGOpenButton } from '../components/TG.styled';
 import React, { useState } from 'react';
-import thumbnail from '../assets/thumbnail.png';
+import image from '../assets/image.png';
 import TGIcon from '../components/TGIcon';
 
-interface ThumbnailGeneratorProps {
-  themeColor?: string;
-  iconShape?: 'rect' | 'round' | 'circle';
-}
-const ThumbnailGenerator = ({
-  themeColor = '#111111',
-  iconShape = 'round',
-}: ThumbnailGeneratorProps) => {
+const ThumbnailGenerator = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const onToggleGenerator = () => {
@@ -23,11 +16,8 @@ const ThumbnailGenerator = ({
       {isOpen ? (
         <TG onToggle={onToggleGenerator} />
       ) : (
-        <TGOpenButton
-          onClick={onToggleGenerator}
-          bgColor={themeColor}
-          shape={iconShape}>
-          <TGIcon src={thumbnail} width={35} height={35} />
+        <TGOpenButton onClick={onToggleGenerator}>
+          <TGIcon src={image} width={32} height={32} />
         </TGOpenButton>
       )}
     </>
