@@ -3,9 +3,21 @@ import { TGOpenButton } from '../components/TG.styled';
 import React, { useState } from 'react';
 import image from '../assets/image.png';
 import TGIcon from '../components/TGIcon';
+import { Position, getIconSize } from '../utils/style';
 
-const ThumbnailGenerator = () => {
+interface ThumbnailGeneratorProps {
+  iconSize?: 'small' | 'medium' | 'large';
+  position?: Position;
+  additionalFontFamily?: string[];
+}
+
+const ThumbnailGenerator = ({
+  iconSize = 'medium',
+  position = 'bottom-right',
+  additionalFontFamily = [],
+}: ThumbnailGeneratorProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const tgIconSize = getIconSize(iconSize);
 
   const onToggleGenerator = () => {
     setIsOpen(!isOpen);
@@ -14,10 +26,14 @@ const ThumbnailGenerator = () => {
   return (
     <>
       {isOpen ? (
-        <TG onToggle={onToggleGenerator} />
+        <TG
+          position={position}
+          additionalFontFamily={additionalFontFamily}
+          onToggle={onToggleGenerator}
+        />
       ) : (
-        <TGOpenButton onClick={onToggleGenerator}>
-          <TGIcon src={image} width={32} height={32} />
+        <TGOpenButton position={position} onClick={onToggleGenerator}>
+          <TGIcon src={image} width={tgIconSize} height={tgIconSize} />
         </TGOpenButton>
       )}
     </>

@@ -1,15 +1,38 @@
 import styled from 'styled-components';
+import { getPosition, Position } from '../utils/style';
 
-export const TGBodyWrapper = styled.section`
+export const TGOpenButton = styled.button<{ position: Position }>`
+  padding: 0;
+  background-color: #fff;
+  position: fixed;
+  cursor: pointer;
+  border: none;
+  font-size: 0.5rem;
+  color: #ffffff;
+  transition: 0.2s;
+  z-index: 9999;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  ${({ position }) => {
+    return getPosition(position);
+  }}
+`;
+
+export const TGBodyWrapper = styled.section<{ position: Position }>`
   position: fixed;
   display: flex;
   justify-content: center;
   min-width: 700px;
-  right: 20px;
-  bottom: 20px;
   border-radius: 7px;
   box-shadow: 1px 1px 10px #cccccc;
   z-index: 9999;
+
+  ${({ position }) => {
+    return getPosition(position);
+  }}
 `;
 
 export const TGCanvasWrapper = styled.div`
@@ -69,24 +92,6 @@ export const TGContentWrapper = styled.div`
 
   canvas + textarea {
     margin-top: 10px;
-  }
-`;
-
-export const TGOpenButton = styled.button`
-  padding: 0;
-  background-color: #fff;
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  cursor: pointer;
-  border: none;
-  font-size: 0.5rem;
-  color: #ffffff;
-  transition: 0.2s;
-  z-index: 9999;
-
-  &:hover {
-    transform: scale(1.1);
   }
 `;
 

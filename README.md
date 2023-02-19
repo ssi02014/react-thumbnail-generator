@@ -24,7 +24,12 @@ import ThumbnailGenerator from 'react-thumbnail-generator';
 const App = () => {
   return (
     <div>
-      <ThumbnailGenerator />
+      <ThumbnailGenerator
+        position="bottom-right" 
+        // You can select the location of the button that opens the modal.
+        iconSize="medium"
+        // You can select the size of the button that opens the modal.
+      />
     </div>
   )
 }

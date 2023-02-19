@@ -19,9 +19,11 @@ import TGIcon from './TGIcon';
 import color from '../assets/color.png';
 import font from '../assets/font.png';
 import stroke from '../assets/stroke.png';
+import { Position } from '../utils/style';
 
 interface TGProps {
   additionalFontFamily?: string[];
+  position: Position;
   onToggle: () => void;
 }
 
@@ -55,7 +57,7 @@ const fontSizes = [
   '200px',
 ];
 
-const TG = ({ additionalFontFamily = [], onToggle }: TGProps) => {
+const TG = ({ additionalFontFamily = [], position, onToggle }: TGProps) => {
   const [text, setText] = useState('Simple Thumbnail Generator 😁');
   const [bgColor, setBgColor] = useColor('hex', '#192841');
   const [fontColor, setFontColor] = useColor('hex', '#fff');
@@ -116,7 +118,7 @@ const TG = ({ additionalFontFamily = [], onToggle }: TGProps) => {
   const fontFamilyOptions = [...additionalFontFamily, ...fontFamilies];
 
   return (
-    <TGBodyWrapper>
+    <TGBodyWrapper position={position}>
       <TGInnerWrapper>
         <TGHeader onToggle={onToggle} />
         <TGContentWrapper>
