@@ -3,7 +3,7 @@ import { getPosition, Position } from '../utils/style';
 
 export const TGOpenButton = styled.button<{ position: Position }>`
   padding: 0;
-  background-color: #fff;
+  background-color: transparent;
   position: fixed;
   cursor: pointer;
   border: none;
@@ -29,6 +29,7 @@ export const TGBodyWrapper = styled.section<{ position: Position }>`
   border-radius: 7px;
   box-shadow: 1px 1px 10px #cccccc;
   z-index: 9999;
+  background-color: #ffffff;
 
   ${({ position }) => {
     return getPosition(position);
