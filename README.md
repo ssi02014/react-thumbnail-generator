@@ -1,4 +1,4 @@
-# 💻 REACT-THUMBNAIL-GENERATOR
+# 💻 react-thumbnail-generator
 
 <br />
 
@@ -13,6 +13,13 @@
   <img src="https://img.shields.io/badge/react--color--palette-6.2.0-green">
 </p>
  
+<br/>
+<br/>
+
+## Storybook Github Page
+
+[<img width="105" alt="스크린샷 2023-02-20 오후 10 32 01" src="https://user-images.githubusercontent.com/64779472/220122236-c90ae4a5-8271-41df-b150-230b97991d41.png">](https://ssi02014.github.io/react-thumbnail-generator/?path=/story/components-thumbnailgenerator--default)
+
 
 <br />
 
