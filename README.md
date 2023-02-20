@@ -23,6 +23,21 @@
 
 <br />
 
+## Features 😁
+- Download Thumbnail Image
+- Resize Canvas
+  - Limited Width Size (window.innerWidth - 70)
+- Choose Background Color
+- Choose Background Picture
+- Choose Font Family
+- Choose Font Size
+- Choose Font Stroke & color
+- Choose Font Color
+- Choose Image Type (`png`, `jpg`, `webp`)
+- Add Custom Web Font Family
+
+<br />
+
 ## How to use 😊
 ### STEP 1️⃣
 - Install library
@@ -165,6 +180,8 @@ const App = () => {
   - Type: `string`
 - iconSrc
   - **Optional**
+  - Default
+  <img width="43" alt="스크린샷 2023-02-20 오후 10 48 05" src="https://user-images.githubusercontent.com/64779472/220125380-77aaaa79-9baf-4252-aa46-a44e6e91dd3d.png">
   - Type: `string`
 - position
   - **Optional**
@@ -177,3 +194,9 @@ const App = () => {
 - additionalFontFamily
   - **Optional**
   - Type: `string[]`
+
+<br />
+
+## Reference
+- https://github.com/wormwlrm/kwakcheolyong
+- https://github.com/banner-maker/banner-makers
