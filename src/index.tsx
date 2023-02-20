@@ -1,2 +1,3 @@
-export { default as theme } from './shared/theme';
-export { default as Button } from './components/Button/Button';
+import ThumbnailGenerator from './lib/ThumbnailGenerator';
+
+export default ThumbnailGenerator;

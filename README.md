@@ -1,161 +1,202 @@
-# 💻 리액트 디자인 시스템 NPM 배포 보일러 플레이트
-- UI Kits, Design System 구축해서 NPM으로 오픈소스 배포에 최적화 (TypeScript + Storybook 지원)
-- 웹팩 개발 서버, 불 필요한 웹팩, 로더 모두 제거 후 경량화
-- 모든 컴포넌트 UI 테스트는 웹팩 개발 서버를 띄우지 않고 스토리북 자체 개발 서버를 이용 (하단 내용 참고)
+# 💻 react-thumbnail-generator
 
 <br />
 
-### 스토리북 깃허브 페이지
-- https://ssi02014.github.io/react-npm-deploy-boilerplate/
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/64779472/219855230-d6515d16-334c-432a-8d20-fa171e17c231.png" />
+</p>
+
+<h2 align="center">Simply create a thumbnail generator for your project🚀 </h2> 
+
+<p align="center">
+  <img src="https://img.shields.io/badge/styled--components-5.3.6-green">
+  <img src="https://img.shields.io/badge/react--color--palette-6.2.0-green">
+</p>
+ 
+<br/>
+<br/>
+
+## Storybook Github Page
+
+[<img width="105" alt="스크린샷 2023-02-20 오후 10 32 01" src="https://user-images.githubusercontent.com/64779472/220122236-c90ae4a5-8271-41df-b150-230b97991d41.png">](https://ssi02014.github.io/react-thumbnail-generator/?path=/story/components-thumbnailgenerator--default)
+
 
 <br />
 
-### 의존성 설치
-```
-yarn
-또는
-```
+## Features 😁
+- Download Thumbnail Image
+- Resize Canvas
+  - Limited Width Size (window.innerWidth - 70)
+- Choose Background Color
+- Choose Background Picture
+- Choose Font Family
+- Choose Font Size
+- Choose Font Stroke & color
+- Choose Font Color
+- Choose Image Type (`png`, `jpg`, `webp`)
+- Add Custom Web Font Family
 
 <br />
 
-### package.json 수정
-- 해당 보일러 플레이트를 clone해서 사용한다면 package.json 수정이 필요함
-- name, version, description, repo/url, author ... 등 수정 필요
-```json
-{
-  "name": "react-npm-deploy-boilerplate",
-  "version": "1.0.0",
-  "description": "react-npm-deploy-boilerplate",
-  "scripts": {
-    // ...
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ssi02014/react-npm-deploy-boilerplate.git"
-  },
-  "author": "Gromit",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ssi02014/react-npm-deploy-boilerplate.git/issues"
-  },
-  "homepage": "https://github.com/ssi02014/react-npm-deploy-boilerplate.git/blob/master/README.md",
-  // ...
-}
-
+## How to use 😊
+### STEP 1️⃣
+- Install library
 ```
-
-<br />
-
-### development
-- src폴더에서 컴포넌트 작업 후 `src/index.tsx`에서 export
-
-```js
-// src/components/Button/Button.tsx
-import React from 'react';
-import styled from 'styled-components';
-
-interface Props {
-  children: React.ReactNode;
-  size?: 'medium' | 'large';
-}
-
-const Button = ({ children, size = 'medium' }: Props) => {
-  return <StyledButton size={size}>{children}</StyledButton>;
-};
-
-// styled 코드
-
-export default Button
-```
-```js
-// src/index.tsx
-export { default as Button } from './components/Button/Button';
+yarn add react-thumbnail-generator
+or
+npm install react-thumbnail-generator
 ```
 
 <br />
 
-### build
-- 컴포넌트 작업 후 build
-- build 파일들은 `dist` 폴더에 생성
-```
-yarn build
+### STEP 2️⃣
+- Add the div box with the desired ID to `public/index.html`
+- `<ThumbnailGenerator>` is applied with a `Portal` to avoid being affected by CSS inheritance.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <!-- ... -->
+  </head>
+  <body>
+    <div id="root"></div>
+    <!-- Enter the ID you want. -->
+    <div id="thumbnail-generator"></div>
+  </body>
+</html>
+
 ```
 
 <br />
 
-### deploy
-- 주의 1. deploy하기 전에 package.json version 업데이트 해줘야 함
-- 주의 2. deploy하기 전에 꼭 build 진행해야 됌 dist 폴더가 npm에 올라감
-```
-npm publish
-``` 
+### STEP 3️⃣
+- Add \<ThumbnailGenerator> component.
 
-<br />
-
-### 배포된 컴포넌트 활용
-```
-yarn add (본인 배포 저장소)
-```
 ```jsx
-import { Button } from 'react-npm-deploy-boilerplate';
+import ThumbnailGenerator from 'react-thumbnail-generator';
+import iconImage from '../assets/colorImage.png';
 
-function App() {
+const App = () => {
   return (
     <div>
-      <Button>하이</Button>
-      <Button size="large">바이</Button>
+      <ThumbnailGenerator
+        id="thumbnail-generator"
+        // Enter the ID of the div you added in public/index.html.
+        // If you do not enter this option, it will be rendered in the "root" div
+        // However, there is a possibility that the UI will change due to CSS inheritance
+
+        iconSrc={iconImage}
+        // You can select the icon of the modal open button that you want.
+        // If you do not enter this option, the default icon takes effect.
+
+        position="bottom-right" 
+        // You can select the location of the button that opens the modal.
+        // If you do not enter this option, the default position(bottom-right) is applied
+
+        iconSize="medium"
+        // You can select the size of the button that opens the modal.
+        // If you do not enter this option, the default size(medium) applies
+        
+        additionalFontFamily={['Noto Sans', ...]}
+        // You can add the font you want. But those fonts should already be applied to your project.
+      />
     </div>
   )
 }
-
-export default App;
 ```
 
 <br />
 
-### storybook
-- storybook을 통해서 ui 테스트 가능
-- Example 코드는 src/stories 에서 확인 가능
+## How do I apply Web Fonts? 🤔
+### STEP 1️⃣
+- Add a web font. `public/index.html`
+- or CSS fontFamily
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- ... -->
+
+    <!-- Add a web font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Zeyada&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="thumbnail-generator"></div>
+  </body>
+</html>
 ```
-스토리북 실행
-yarn storybook
-```
+
+<br />
+
+### STEP 2️⃣
+- Enter font names in array form in the AdditionalFontFamily option
+
 ```jsx
-// src/stories/components/Button.stories.tsx
-import React from 'react';
-import { Story } from '@storybook/react/types-6-0';
-import Button from 'src/components/Button/Button';
+import ThumbnailGenerator from 'react-thumbnail-generator';
+import iconImage from '../assets/colorImage.png';
 
-export default {
-  title: 'components/Button',
-  argTypes: {
-    size: {
-      options: ['medium', 'large'],
-      control: { type: 'select' },
-    },
-  },
-};
-
-interface Props {
-  size: 'medium' | 'large';
-  select: any[];
-}
-
-const Template: Story<Props> = ({ size }: Props) => {
+const App = () => {
   return (
     <div>
-      <Button size={size}>안녕</Button>
+      <ThumbnailGenerator 
+        id="thumbnail-generator" 
+        additionalFontFamily={["Zeyada"]} // (*)
+      />
     </div>
-  );
-};
-
-export const Default = Template.bind({});
-
-Default.args = {
-  size: 'medium',
-};
-
+  )
+}
 ```
 
 <br />
 
+### Result Screen 🖥️
+
+<img width="721" alt="스크린샷 2023-02-20 오후 10 26 00" src="https://user-images.githubusercontent.com/64779472/220121084-1f2d57db-1c0d-4709-9c24-473ee4f55152.png">
+
+<br />
+
+## Video 📷
+### Background Color
+![ezgif com-video-to-gif](https://user-images.githubusercontent.com/64779472/220112887-cc3c81a9-7b88-49e2-bc53-677c0508388a.gif)
+
+### Picture
+![ezgif com-video-to-gif (1)](https://user-images.githubusercontent.com/64779472/220118455-d954b4b8-2ab6-48c4-b874-0350839b1330.gif)
+
+
+### 🔥 The text displayed on the screen will be line-wrapped.
+
+<br />
+
+## API 📄
+- id
+  - **Optional**
+  - Type: `string`
+- iconSrc
+  - **Optional**
+  - Default
+  <img width="43" alt="스크린샷 2023-02-20 오후 10 48 05" src="https://user-images.githubusercontent.com/64779472/220125380-77aaaa79-9baf-4252-aa46-a44e6e91dd3d.png">
+  - Type: `string`
+- position
+  - **Optional**
+  - Default: `bottom-right`
+  - Type: `bottom-right | bottom-left | top-right | top-left`
+- iconSize
+  - **Optional**
+  - Default: `medium`
+  - Type: `small | medium | large`
+- additionalFontFamily
+  - **Optional**
+  - Type: `string[]`
+
+<br />
+
+## Reference
+- https://github.com/wormwlrm/kwakcheolyong
+- https://github.com/banner-maker/banner-makers
