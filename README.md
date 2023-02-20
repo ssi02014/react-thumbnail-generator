@@ -181,7 +181,9 @@ const App = () => {
 - iconSrc
   - **Optional**
   - Default
+
   <img width="43" alt="스크린샷 2023-02-20 오후 10 48 05" src="https://user-images.githubusercontent.com/64779472/220125380-77aaaa79-9baf-4252-aa46-a44e6e91dd3d.png">
+
   - Type: `string`
 - position
   - **Optional**
