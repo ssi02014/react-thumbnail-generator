@@ -4,8 +4,10 @@ import React, { useState } from 'react';
 import image from '../assets/image.png';
 import TGIcon from '../components/TGIcon';
 import { Position, getIconSize } from '../utils/style';
+import TGPortal from '../components/TGPortal';
 
 interface ThumbnailGeneratorProps {
+  id?: string;
   iconSrc?: string;
   iconSize?: 'small' | 'medium' | 'large';
   position?: Position;
@@ -13,6 +15,7 @@ interface ThumbnailGeneratorProps {
 }
 
 const ThumbnailGenerator = ({
+  id,
   iconSrc = image,
   iconSize = 'medium',
   position = 'bottom-right',
@@ -27,17 +30,19 @@ const ThumbnailGenerator = ({
 
   return (
     <>
-      {isOpen ? (
-        <TG
-          position={position}
-          additionalFontFamily={additionalFontFamily}
-          onToggle={onToggleGenerator}
-        />
-      ) : (
-        <TGOpenButton position={position} onClick={onToggleGenerator}>
-          <TGIcon src={iconSrc} width={tgIconSize} height={tgIconSize} />
-        </TGOpenButton>
-      )}
+      <TGPortal id={id}>
+        {isOpen ? (
+          <TG
+            position={position}
+            additionalFontFamily={additionalFontFamily}
+            onToggle={onToggleGenerator}
+          />
+        ) : (
+          <TGOpenButton position={position} onClick={onToggleGenerator}>
+            <TGIcon src={iconSrc} width={tgIconSize} height={tgIconSize} />
+          </TGOpenButton>
+        )}
+      </TGPortal>
     </>
   );
 };

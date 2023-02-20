@@ -32,6 +32,7 @@ interface Props {
 const Template: Story = ({ iconSize, position, iconSrc }: Props) => {
   return (
     <ThumbnailGenerator
+      id="thumbnail-generator"
       iconSrc={iconSrc}
       position={position}
       iconSize={iconSize}
