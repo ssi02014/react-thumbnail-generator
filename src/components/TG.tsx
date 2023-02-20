@@ -9,17 +9,18 @@ import {
 } from './TG.styled';
 import TGCanvas from './TGCanvas';
 import TGHeader from './TGHeader';
-import { useColor } from 'react-color-palette';
+import { Color, useColor } from 'react-color-palette';
 import 'react-color-palette/lib/css/styles.css';
 import TGColorPicker from './TGColorPicker';
 import TGSelect from './TGSelect';
 import TGSelectItem from './TGSelectItem';
-import TGInput from './TGInput';
+import TGInputText from './TGInputText';
 import TGIcon from './TGIcon';
 import color from '../assets/color.png';
 import font from '../assets/font.png';
 import stroke from '../assets/stroke.png';
 import { Position } from '../utils/style';
+import TGInputFile from './TGInputFile';
 
 interface TGProps {
   additionalFontFamily?: string[];
@@ -70,10 +71,12 @@ const TG = ({ additionalFontFamily = [], position, onToggle }: TGProps) => {
     height: '400',
   });
   const [imageType, setImageType] = useState('png');
+  const [selectedImage, setSelectedImage] = useState<HTMLImageElement | null>(
+    null
+  );
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const LimitWidthSize = window.innerWidth - 70;
-
   const onChangeSelectValue = (
     type: 'imageType' | 'fontSize' | 'fontStrokeType' | 'fontFamily',
     value: string
@@ -104,6 +107,34 @@ const TG = ({ additionalFontFamily = [], position, onToggle }: TGProps) => {
     });
   };
 
+  const onChangeBgColor = (color: Color) => {
+    setSelectedImage(null);
+    setBgColor(color);
+  };
+
+  const onChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+
+    if (files) {
+      const img = new Image();
+
+      img.src = URL.createObjectURL(files[0]);
+      img.onload = async () => {
+        if (img.width > LimitWidthSize) {
+          return alert(
+            'Please register a picture smaller than Limit Width Size.'
+          );
+        }
+
+        setSelectedImage(img);
+        setCanvasSize({
+          width: `${img.width}`,
+          height: `${img.height}`,
+        });
+      };
+    }
+  };
+
   const downloadCanvas = () => {
     const url = canvasRef.current?.toDataURL(`image/${imageType}`);
     const link = document.createElement('a');
@@ -119,8 +150,8 @@ const TG = ({ additionalFontFamily = [], position, onToggle }: TGProps) => {
 
   return (
     <TGBodyWrapper position={position}>
+      <TGHeader onToggle={onToggle} />
       <TGInnerWrapper>
-        <TGHeader onToggle={onToggle} />
         <TGContentWrapper>
           <TGCanvas
             ref={canvasRef}
@@ -133,9 +164,11 @@ const TG = ({ additionalFontFamily = [], position, onToggle }: TGProps) => {
             fontStrokeType={fontStrokeType as StrokeTypes}
             strokeColor={strokeColor}
             text={text}
+            selectedImage={selectedImage}
           />
           <TGControllerWrapper>
-            <TGColorPicker color={bgColor} setColor={setBgColor}>
+            <TGInputFile onChangeImage={onChangeImage} />
+            <TGColorPicker color={bgColor} setColor={onChangeBgColor}>
               <TGIcon src={color} width={20} height={20} />
             </TGColorPicker>
             <TGColorPicker color={fontColor} setColor={setFontColor}>
@@ -154,13 +187,13 @@ const TG = ({ additionalFontFamily = [], position, onToggle }: TGProps) => {
           </TGControllerWrapper>
 
           <TGControllerWrapper>
-            <TGInput
+            <TGInputText
               name="width"
               label="Thumbnail Width"
               value={canvasSize.width}
               onChange={onChangeCanvasSize}
             />
-            <TGInput
+            <TGInputText
               name="height"
               label="Thumbnail Height"
               value={canvasSize.height}

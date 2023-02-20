@@ -6,12 +6,14 @@ import TGIcon from '../components/TGIcon';
 import { Position, getIconSize } from '../utils/style';
 
 interface ThumbnailGeneratorProps {
+  iconSrc?: string;
   iconSize?: 'small' | 'medium' | 'large';
   position?: Position;
   additionalFontFamily?: string[];
 }
 
 const ThumbnailGenerator = ({
+  iconSrc = image,
   iconSize = 'medium',
   position = 'bottom-right',
   additionalFontFamily = [],
@@ -33,7 +35,7 @@ const ThumbnailGenerator = ({
         />
       ) : (
         <TGOpenButton position={position} onClick={onToggleGenerator}>
-          <TGIcon src={image} width={tgIconSize} height={tgIconSize} />
+          <TGIcon src={iconSrc} width={tgIconSize} height={tgIconSize} />
         </TGOpenButton>
       )}
     </>

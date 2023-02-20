@@ -1,16 +1,16 @@
 import React, { ChangeEvent } from 'react';
-import { TGInputContainer } from './TG.styled';
+import { TGInputTextContainer } from './TG.styled';
 
-interface TGInputProps {
+interface TGInputTextProps {
   name: string;
   value: string;
   label: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const TGInput = ({ name, label, value, onChange }: TGInputProps) => {
+const TGInputText = ({ name, label, value, onChange }: TGInputTextProps) => {
   return (
-    <TGInputContainer>
+    <TGInputTextContainer>
       <label htmlFor={name}>{label}</label>
       <input
         name={name}
@@ -19,8 +19,8 @@ const TGInput = ({ name, label, value, onChange }: TGInputProps) => {
         value={value}
         onChange={onChange}
       />
-    </TGInputContainer>
+    </TGInputTextContainer>
   );
 };
 
-export default TGInput;
+export default TGInputText;

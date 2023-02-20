@@ -8,6 +8,12 @@
 
 <br />
 
+## I recommend it to these people 😄
+- A person to create a simple image.
+- A person who runs a personal blog and needs a thumbnail before registering a post.
+
+<br />
+
 ## How to install 😊
 ```
 yarn add react-thumbnail-generator
@@ -20,11 +26,14 @@ npm install react-thumbnail-generator
 ## How to use 😊
 ```jsx
 import ThumbnailGenerator from 'react-thumbnail-generator';
+import color from '../assets/color.png';
 
 const App = () => {
   return (
     <div>
       <ThumbnailGenerator
+        iconSre={color}
+        // You can select the icon of the modal open button that you want.
         position="bottom-right" 
         // You can select the location of the button that opens the modal.
         iconSize="medium"

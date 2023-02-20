@@ -12,6 +12,7 @@ interface TGCanvasProps {
   fontStrokeType: 'None' | 'Thin' | 'Normal' | 'Thick';
   strokeColor: Color;
   fontFamily: string;
+  selectedImage: HTMLImageElement | null;
 }
 
 const TGCanvas = React.forwardRef(
@@ -26,6 +27,7 @@ const TGCanvas = React.forwardRef(
       strokeColor,
       fontStrokeType,
       fontFamily,
+      selectedImage,
     }: TGCanvasProps,
     ref: any
   ) => {
@@ -80,8 +82,13 @@ const TGCanvas = React.forwardRef(
       const ctx = canvas.getContext('2d');
 
       if (ctx) {
-        ctx.fillStyle = bgColor.hex;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        if (selectedImage) {
+          console.log(width, height);
+          ctx.drawImage(selectedImage, 0, 0);
+        } else {
+          ctx.fillStyle = bgColor.hex;
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
 
         setFont(canvas, text, {
           color: fontColor.hex,
@@ -99,6 +106,7 @@ const TGCanvas = React.forwardRef(
       fontStrokeType,
       strokeColor,
       fontFamily,
+      selectedImage,
     ]);
 
     return (

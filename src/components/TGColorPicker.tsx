@@ -5,7 +5,7 @@ import { Color, ColorPicker } from 'react-color-palette';
 interface TGColorPickerProps {
   children: React.ReactNode;
   color: Color;
-  setColor: React.Dispatch<React.SetStateAction<Color>>;
+  setColor: (color: Color) => void;
 }
 const TGColorPicker = ({ children, color, setColor }: TGColorPickerProps) => {
   const [isOpenColorPicker, setIsOpenColorPicker] = useState(false);

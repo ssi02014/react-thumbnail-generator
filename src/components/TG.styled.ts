@@ -30,6 +30,7 @@ export const TGBodyWrapper = styled.section<{ position: Position }>`
   box-shadow: 1px 1px 10px #cccccc;
   z-index: 9999;
   background-color: #ffffff;
+  flex-direction: column;
 
   ${({ position }) => {
     return getPosition(position);
@@ -39,6 +40,7 @@ export const TGBodyWrapper = styled.section<{ position: Position }>`
 export const TGCanvasWrapper = styled.div`
   display: flex;
   justify-content: center;
+  width: 100%;
 `;
 
 export const TGLimitSizeText = styled.div`
@@ -54,9 +56,9 @@ export const TGLimitSizeText = styled.div`
 export const TGInnerWrapper = styled.div`
   flex-direction: column;
   width: 100%;
-  max-height: calc(100vh - 40px);
+  max-height: calc(100vh - 78px);
   overflow-y: scroll;
-  padding: 0 10px 20px 10px;
+  overflow-x: auto;
 `;
 
 export const TGHeaderWrapper = styled.div`
@@ -64,7 +66,8 @@ export const TGHeaderWrapper = styled.div`
   position: sticky;
   top: 0;
   flex-direction: column;
-  padding: 10px 0 0 0;
+  padding: 10px;
+  padding-bottom: 0;
   background-color: #fff;
 
   & > div:first-child {
@@ -90,6 +93,7 @@ export const TGContentWrapper = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
+  margin-bottom: 20px;
 
   canvas + textarea {
     margin-top: 10px;
@@ -220,7 +224,7 @@ export const SelectListItem = styled.li`
 `;
 
 // TG Input
-export const TGInputContainer = styled.div`
+export const TGInputTextContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -247,4 +251,29 @@ export const TGInputContainer = styled.div`
 // TG Icon
 export const TGIConImage = styled.img<{ color?: string }>`
   fill: ${({ color }) => `${color}`};
+`;
+
+// TG InputFile
+export const TGInputFileWrapper = styled.div`
+  background: #fff;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 1px solid #cccccc;
+
+  label {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    padding: 4px 5px;
+  }
+  img {
+    width: 100%;
+    height: 100%;
+  }
+  input {
+    display: none;
+  }
 `;
