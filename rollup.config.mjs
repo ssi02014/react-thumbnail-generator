@@ -1,8 +1,9 @@
 import nodeResolve from '@rollup/plugin-node-resolve';
 import babel from '@rollup/plugin-babel';
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
+import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import pkg from './package.json' assert { type: 'json' };
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx'];
@@ -18,7 +19,8 @@ export default {
   ],
   external: ['react'],
   plugins: [
-    commonjs(),
+    peerDepsExternal(),
+    commonjs({ include: 'node_modules/**' }),
     nodeResolve({
       extensions,
     }),
@@ -28,11 +30,6 @@ export default {
       include: ['src/**/*'],
     }),
     typescript({ tsconfig: './tsconfig.json' }),
-    terser({
-      ecma: 5,
-      module: true,
-      toplevel: true,
-      safari10: true,
-    }),
+    terser(),
   ],
 };

@@ -22,7 +22,6 @@
     "outDir": "./dist",
     "declaration": true,
     "emitDeclarationOnly": true,
-    "declarationDir": "dist",
   },
   "include": [
     "src"
