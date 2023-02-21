@@ -38,7 +38,7 @@
 
 <br />
 
-## How to use 😊
+## How to use React 😊
 ### STEP 1️⃣
 - Install library
 ```
@@ -105,10 +105,54 @@ const App = () => {
   )
 }
 ```
+<br />
+
+## How to use Next 😊
+### STEP 1️⃣
+- Add the div box with the desired ID to `_document`
+```jsx
+import { Html, Head, Main, NextScript } from "next/document";
+
+export default function Document() {
+  return (
+    <Html lang="en">
+      <Head />
+      <body>
+        <Main />
+        <div id="thumbnail-generator"></div>
+        <NextScript />
+      </body>
+    </Html>
+  );
+}
+```
 
 <br />
 
-## How do I apply Web Fonts? 🤔
+### STEP 2️⃣
+- Add \<ThumbnailGenerator> to dynamic import.
+
+```jsx
+import dynamic from "next/dynamic";
+
+const ThumbnailGenerator = dynamic(() => import("react-thumbnail-generator"), {
+  ssr: false,
+});
+
+export default function Home() {
+  return (
+    <>
+      <ThumbnailGenerator id="thumbnail-generator" />
+    </>
+  );
+}
+
+```
+
+
+<br />
+
+## How to add a Web font 😊
 ### STEP 1️⃣
 - Add a web font. `public/index.html`
 - or CSS fontFamily
@@ -168,9 +212,6 @@ const App = () => {
 
 ### Picture
 ![ezgif com-video-to-gif (1)](https://user-images.githubusercontent.com/64779472/220118455-d954b4b8-2ab6-48c4-b874-0350839b1330.gif)
-
-
-### 🔥 The text displayed on the screen will be line-wrapped.
 
 <br />
 
