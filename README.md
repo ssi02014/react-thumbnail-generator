@@ -3,7 +3,9 @@
 <br />
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/64779472/219855230-d6515d16-334c-432a-8d20-fa171e17c231.png" />
+  <a href="https://www.npmjs.com/package/react-thumbnail-generator">
+    <img src="https://user-images.githubusercontent.com/64779472/219855230-d6515d16-334c-432a-8d20-fa171e17c231.png" />
+  </a>
 </p>
 
 <h2 align="center">Simply create a thumbnail generator for your project🚀 </h2> 
