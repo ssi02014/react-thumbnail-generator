@@ -10,15 +10,12 @@ import {
 import TGCanvas from './TGCanvas';
 import TGHeader from './TGHeader';
 import { Color, useColor } from 'react-color-palette';
-import 'react-color-palette/lib/css/styles.css';
 import TGColorPicker from './TGColorPicker';
 import TGSelect from './TGSelect';
 import TGSelectItem from './TGSelectItem';
 import TGInputText from './TGInputText';
 import TGIcon from './TGIcon';
-import color from '../assets/color.png';
-import font from '../assets/font.png';
-import stroke from '../assets/stroke.png';
+import { fill, font, stroke } from '../assets/icons';
 import { Position } from '../utils/style';
 import TGInputFile from './TGInputFile';
 
@@ -167,9 +164,9 @@ const TG = ({ additionalFontFamily = [], position, onToggle }: TGProps) => {
             selectedImage={selectedImage}
           />
           <TGControllerWrapper>
-            <TGInputFile onChangeImage={onChangeImage} />
+            <TGInputFile width={20} height={20} onChangeImage={onChangeImage} />
             <TGColorPicker color={bgColor} setColor={onChangeBgColor}>
-              <TGIcon src={color} width={20} height={20} />
+              <TGIcon src={fill} width={20} height={20} />
             </TGColorPicker>
             <TGColorPicker color={fontColor} setColor={setFontColor}>
               <TGIcon src={font} width={20} height={20} />
@@ -180,6 +177,7 @@ const TG = ({ additionalFontFamily = [], position, onToggle }: TGProps) => {
           </TGControllerWrapper>
           <TGControllerWrapper>
             <TGTextarea
+              rows={1}
               value={text}
               onChange={(e) => setText(e.target.value)}
               placeholder="THUMBNAIL TEXT"

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 interface TGPortalProps {
@@ -7,10 +7,14 @@ interface TGPortalProps {
 }
 
 const TGPortal = ({ id, children }: TGPortalProps) => {
-  const modalRoot = document.querySelector(`#${id}`);
+  const [portalElement, setPortalElement] = useState<Element | null>(null);
 
-  if (!modalRoot) return <>{children}</>;
-  return ReactDOM.createPortal(children, modalRoot);
+  useEffect(() => {
+    setPortalElement(document.querySelector(`#${id}`));
+  }, [id]);
+
+  if (!portalElement) return <>{children}</>;
+  return ReactDOM.createPortal(children, portalElement);
 };
 
 export default TGPortal;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { TGHeaderWrapper, TGIConButton, TGLimitSizeText } from './TG.styled';
 import TGIcon from './TGIcon';
-import close from '../assets/close.png';
+import { close } from '../assets/icons';
 
 interface TGHeaderProps {
   onToggle: () => void;

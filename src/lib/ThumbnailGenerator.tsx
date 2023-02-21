@@ -1,7 +1,7 @@
 import TG from '../components/TG';
 import { TGOpenButton } from '../components/TG.styled';
 import React, { useState } from 'react';
-import image from '../assets/image.png';
+import { toggleButton } from '../assets/icons';
 import TGIcon from '../components/TGIcon';
 import { Position, getIconSize } from '../utils/style';
 import TGPortal from '../components/TGPortal';
@@ -16,7 +16,7 @@ interface ThumbnailGeneratorProps {
 
 const ThumbnailGenerator = ({
   id,
-  iconSrc = image,
+  iconSrc = toggleButton,
   iconSize = 'medium',
   position = 'bottom-right',
   additionalFontFamily = [],

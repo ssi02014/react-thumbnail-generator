@@ -1,3 +1,4 @@
+import { arrowBottom, arrowTop } from '../assets/icons';
 import React, {
   useCallback,
   useState,
@@ -6,8 +7,6 @@ import React, {
   ComponentProps,
 } from 'react';
 import { SelectWrapper, SelectInput, SelectItemContainer } from './TG.styled';
-import arrowBottom from '../assets/arrow-bottom.png';
-import arrowTop from '../assets/arrow-top.png';
 import TGIcon from './TGIcon';
 
 interface SelectContextProps {

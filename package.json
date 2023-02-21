@@ -1,6 +1,6 @@
 {
   "name": "react-thumbnail-generator",
-  "version": "1.0.1",
+  "version": "1.0.6",
   "description": "react-thumbnail-generator",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -76,5 +76,6 @@
         }
       }
     ]
-  }
+  },
+  "keywords": ["react", "react-thumbnail-generator", "thumbnail", "image", "banner", "icon", "generator"]
 }
