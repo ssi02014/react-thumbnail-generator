@@ -10,7 +10,6 @@ import {
 import TGCanvas from './TGCanvas';
 import TGHeader from './TGHeader';
 import { Color, useColor } from 'react-color-palette';
-import 'react-color-palette/lib/css/styles.css';
 import TGColorPicker from './TGColorPicker';
 import TGSelect from './TGSelect';
 import TGSelectItem from './TGSelectItem';
