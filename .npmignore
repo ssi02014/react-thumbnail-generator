@@ -25,6 +25,7 @@ tsconfig.paths.json
 .eslintrc.js
 webpack.*.js
 babel.config.js
+rollup.config.mjs
 
 # storybook
 stories
