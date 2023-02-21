@@ -2,14 +2,13 @@ import React from 'react';
 import { Story } from '@storybook/react/types-6-0';
 import ThumbnailGenerator from '../../lib/ThumbnailGenerator';
 import { Size, Position } from '../../utils/style';
-import color from '../../assets/color.png';
-import image from '../../assets/image.png';
+import { toggleButton, fill } from '../../assets/icons';
 
 export default {
   title: 'components/ThumbnailGenerator',
   argTypes: {
     iconSrc: {
-      options: [image, color],
+      options: [toggleButton, fill],
       control: { type: 'select' },
     },
     iconSize: {
@@ -45,5 +44,5 @@ export const Default = Template.bind({});
 Default.args = {
   position: 'bottom-right',
   iconSize: 'medium',
-  iconSrc: image,
+  iconSrc: toggleButton,
 };

@@ -31,6 +31,7 @@ export const TGBodyWrapper = styled.section<{ position: Position }>`
   z-index: 9999;
   background-color: #ffffff;
   flex-direction: column;
+  overflow: hidden;
 
   ${({ position }) => {
     return getPosition(position);
@@ -102,7 +103,7 @@ export const TGContentWrapper = styled.div`
 
 export const TGTextarea = styled.textarea`
   width: 350px;
-  height: 24px;
+  height: auto;
   padding: 5px 10px;
   border: 1px solid #cccccc;
   border-radius: 5px;
@@ -393,17 +394,15 @@ export const TGInputFileWrapper = styled.div`
   justify-content: center;
   cursor: pointer;
   border: 1px solid #cccccc;
+  padding: 4px 5px;
 
   label {
     cursor: pointer;
     width: 20px;
     height: 20px;
-    padding: 4px 5px;
+    margin: 0;
   }
-  img {
-    width: 100%;
-    height: 100%;
-  }
+
   input {
     display: none;
   }
