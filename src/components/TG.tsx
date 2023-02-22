@@ -16,47 +16,28 @@ import TGSelectItem from './TGSelectItem';
 import TGInputText from './TGInputText';
 import TGIcon from './TGIcon';
 import { fill, font, stroke } from '../assets/icons';
-import { Position } from '../utils/style';
 import TGInputFile from './TGInputFile';
 import Divider from './Divider';
-
-interface TGProps {
-  additionalFontFamily?: string[];
-  position: Position;
-  onToggle: () => void;
-}
+import {
+  fontFamilies,
+  fontSizes,
+  imageTypes,
+  strokeTypes,
+} from 'constants/select';
 
 type StrokeTypes = 'None' | 'Thin' | 'Normal' | 'Thick';
 
-const fontFamilies = [
-  'Arial',
-  'monospace',
-  'Times New Roman',
-  'Georgia',
-  'Courier New',
-  'Verdana',
-];
-const strokeTypes = ['None', 'Thin', 'Normal', 'Thick'];
-const imageTypes = ['png', 'jpg', 'webp'];
-const fontSizes = [
-  '10px',
-  '20px',
-  '30px',
-  '40px',
-  '50px',
-  '60px',
-  '70px',
-  '80px',
-  '90px',
-  '100px',
-  '120px',
-  '140px',
-  '160px',
-  '180px',
-  '200px',
-];
+interface TGProps {
+  additionalFontFamily?: string[];
+  modalPosition: 'left' | 'right' | 'center';
+  onToggle: () => void;
+}
 
-const TG = ({ additionalFontFamily = [], position, onToggle }: TGProps) => {
+const TG = ({
+  additionalFontFamily = [],
+  modalPosition,
+  onToggle,
+}: TGProps) => {
   const [text, setText] = useState('Simple Thumbnail Generator 😁');
   const [bgColor, setBgColor] = useColor('hex', '#192841');
   const [fontColor, setFontColor] = useColor('hex', '#fff');
@@ -82,17 +63,19 @@ const TG = ({ additionalFontFamily = [], position, onToggle }: TGProps) => {
   const LimitWidthSize = window.innerWidth - 70;
   const LimitHeightSize = 5000;
 
+  const setStateType = {
+    imageType: setImageType,
+    fontSize: setFontSize,
+    fontStrokeType: setFontStrokeType,
+    fontFamily: setFontFamily,
+    canvasSize: setCanvasSize,
+    fontAxis: setFontAxisAndAngle,
+  };
+
   const onChangeSelectValue = (
     type: 'imageType' | 'fontSize' | 'fontStrokeType' | 'fontFamily',
     value: string
   ) => {
-    const setStateType = {
-      imageType: setImageType,
-      fontSize: setFontSize,
-      fontStrokeType: setFontStrokeType,
-      fontFamily: setFontFamily,
-    };
-
     const setState = setStateType[type];
     setState(value);
   };
@@ -116,11 +99,6 @@ const TG = ({ additionalFontFamily = [], position, onToggle }: TGProps) => {
     if (name === 'height' && +replacedValue > LimitHeightSize) {
       return alert('Please set the height smaller than 5000px');
     }
-
-    const setStateType = {
-      canvasSize: setCanvasSize,
-      fontAxis: setFontAxisAndAngle,
-    };
 
     const setState = setStateType[type];
 
@@ -172,7 +150,7 @@ const TG = ({ additionalFontFamily = [], position, onToggle }: TGProps) => {
   const fontFamilyOptions = [...additionalFontFamily, ...fontFamilies];
 
   return (
-    <TGBodyWrapper position={position}>
+    <TGBodyWrapper modalPosition={modalPosition}>
       <TGHeader onToggle={onToggle} />
       <TGInnerWrapper>
         <TGContentWrapper>

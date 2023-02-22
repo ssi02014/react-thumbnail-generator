@@ -1,7 +1,7 @@
 import React from 'react';
 import { Story } from '@storybook/react/types-6-0';
 import ThumbnailGenerator from '../../lib/ThumbnailGenerator';
-import { Size, Position } from '../../utils/style';
+import { Size } from '../../utils/style';
 import { toggleButton, fill } from '../../assets/icons';
 
 export default {
@@ -11,12 +11,12 @@ export default {
       options: [toggleButton, fill],
       control: { type: 'select' },
     },
-    iconSize: {
-      options: ['small', 'medium', 'large'],
+    modalPosition: {
+      options: ['left', 'right', 'center'],
       control: { type: 'select' },
     },
-    position: {
-      options: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
+    iconSize: {
+      options: ['small', 'medium', 'large'],
       control: { type: 'select' },
     },
   },
@@ -24,16 +24,23 @@ export default {
 
 interface Props {
   iconSize?: Size;
-  position?: Position;
   iconSrc?: string;
+  modalPosition?: 'left' | 'right' | 'center';
+  iconPosition?: [number, number, number, number];
 }
 
-const Template: Story = ({ iconSize, position, iconSrc }: Props) => {
+const Template: Story = ({
+  modalPosition,
+  iconPosition,
+  iconSize,
+  iconSrc,
+}: Props) => {
   return (
     <ThumbnailGenerator
       id="thumbnail-generator"
       iconSrc={iconSrc}
-      position={position}
+      modalPosition={modalPosition}
+      iconPosition={iconPosition}
       iconSize={iconSize}
     />
   );
@@ -42,7 +49,8 @@ const Template: Story = ({ iconSize, position, iconSrc }: Props) => {
 export const Default = Template.bind({});
 
 Default.args = {
-  position: 'bottom-right',
   iconSize: 'medium',
   iconSrc: toggleButton,
+  modalPosition: 'right',
+  iconPosition: [0, 20, 20, 0],
 };

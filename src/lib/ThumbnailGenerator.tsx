@@ -11,6 +11,8 @@ interface ThumbnailGeneratorProps {
   iconSrc?: string;
   iconSize?: 'small' | 'medium' | 'large';
   position?: Position;
+  iconPosition?: [number, number, number, number];
+  modalPosition?: 'left' | 'right' | 'center';
   additionalFontFamily?: string[];
 }
 
@@ -18,7 +20,8 @@ const ThumbnailGenerator = ({
   id,
   iconSrc = toggleButton,
   iconSize = 'medium',
-  position = 'bottom-right',
+  iconPosition = [0, 20, 20, 0],
+  modalPosition = 'right',
   additionalFontFamily = [],
 }: ThumbnailGeneratorProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,12 +36,12 @@ const ThumbnailGenerator = ({
       <TGPortal id={id}>
         {isOpen ? (
           <TG
-            position={position}
+            modalPosition={modalPosition}
             additionalFontFamily={additionalFontFamily}
             onToggle={onToggleGenerator}
           />
         ) : (
-          <TGOpenButton position={position} onClick={onToggleGenerator}>
+          <TGOpenButton iconPosition={iconPosition} onClick={onToggleGenerator}>
             <TGIcon src={iconSrc} width={tgIconSize} height={tgIconSize} />
           </TGOpenButton>
         )}

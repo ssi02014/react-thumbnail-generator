@@ -5,10 +5,9 @@ interface TGIconProps {
   src: string;
   width: number;
   height: number;
-  color?: string;
 }
-const TGIcon = ({ src, width, height, color }: TGIconProps) => {
-  return <TGIConImage src={src} width={width} height={height} color={color} />;
+const TGIcon = ({ src, width, height }: TGIconProps) => {
+  return <TGIConImage src={src} width={width} height={height} />;
 };
 
 export default TGIcon;

@@ -63,7 +63,10 @@ const TGSelect = ({ children, onChange, color, value, label }: SelectProps) => {
       value={{ color, selectValue: value, onChange: handleChange }}>
       <SelectWrapper>
         <label>{label}</label>
-        <SelectInput ref={inputRef} onClick={handleToggleSelect}>
+        <SelectInput
+          ref={inputRef}
+          onClick={handleToggleSelect}
+          isOpenSelect={isOpenSelect}>
           <p>{value}</p>
           <p>
             {isOpenSelect ? (
