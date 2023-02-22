@@ -18,6 +18,7 @@ import TGIcon from './TGIcon';
 import { fill, font, stroke } from '../assets/icons';
 import { Position } from '../utils/style';
 import TGInputFile from './TGInputFile';
+import Divider from './Divider';
 
 interface TGProps {
   additionalFontFamily?: string[];
@@ -71,37 +72,62 @@ const TG = ({ additionalFontFamily = [], position, onToggle }: TGProps) => {
   const [selectedImage, setSelectedImage] = useState<HTMLImageElement | null>(
     null
   );
+  const [fontAxisAndAngle, setFontAxisAndAngle] = useState({
+    xAxis: '0',
+    yAxis: '0',
+    angle: '0',
+  });
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const LimitWidthSize = window.innerWidth - 70;
+  const LimitHeightSize = 5000;
+
   const onChangeSelectValue = (
     type: 'imageType' | 'fontSize' | 'fontStrokeType' | 'fontFamily',
     value: string
   ) => {
-    const selectType = {
+    const setStateType = {
       imageType: setImageType,
       fontSize: setFontSize,
       fontStrokeType: setFontStrokeType,
       fontFamily: setFontFamily,
     };
 
-    const setState = selectType[type];
+    const setState = setStateType[type];
     setState(value);
   };
 
-  const onChangeCanvasSize = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeCanvasSize = (
+    e: ChangeEvent<HTMLInputElement>,
+    type: 'canvasSize' | 'fontAxis'
+  ) => {
     const regex = /[^0-9]/g;
     const { name, value } = e.target;
-    const replacedValue = value.replace(regex, '');
+    const replacedValue = value.replace(regex, (match, idx) => {
+      if (!idx && match === '-') {
+        return '-';
+      }
+      return '';
+    });
 
     if (name === 'width' && +replacedValue > LimitWidthSize) {
-      return alert('Please set it smaller than Limit Width Size.');
+      return alert(`Please set the width smaller than ${LimitWidthSize}px`);
+    }
+    if (name === 'height' && +replacedValue > LimitHeightSize) {
+      return alert('Please set the height smaller than 5000px');
     }
 
-    setCanvasSize({
-      ...canvasSize,
+    const setStateType = {
+      canvasSize: setCanvasSize,
+      fontAxis: setFontAxisAndAngle,
+    };
+
+    const setState = setStateType[type];
+
+    setState((prev: any) => ({
+      ...prev,
       [name]: replacedValue,
-    });
+    }));
   };
 
   const onChangeBgColor = (color: Color) => {
@@ -156,13 +182,14 @@ const TG = ({ additionalFontFamily = [], position, onToggle }: TGProps) => {
             fontFamily={fontFamily}
             fontColor={fontColor}
             fontSize={fontSize}
-            width={canvasSize.width}
-            height={canvasSize.height}
+            canvasSize={canvasSize}
             fontStrokeType={fontStrokeType as StrokeTypes}
+            fontAxisAndAngle={fontAxisAndAngle}
             strokeColor={strokeColor}
             text={text}
             selectedImage={selectedImage}
           />
+
           <TGControllerWrapper>
             <TGInputFile width={20} height={20} onChangeImage={onChangeImage} />
             <TGColorPicker color={bgColor} setColor={onChangeBgColor}>
@@ -175,27 +202,52 @@ const TG = ({ additionalFontFamily = [], position, onToggle }: TGProps) => {
               <TGIcon src={stroke} width={20} height={20} />
             </TGColorPicker>
           </TGControllerWrapper>
+
+          <TGControllerWrapper>
+            <TGInputText
+              name="xAxis"
+              label="Font x-axis"
+              value={fontAxisAndAngle.xAxis}
+              onChange={(e) => onChangeCanvasSize(e, 'fontAxis')}
+            />
+            <TGInputText
+              name="yAxis"
+              label="Font y-axis"
+              value={fontAxisAndAngle.yAxis}
+              onChange={(e) => onChangeCanvasSize(e, 'fontAxis')}
+            />
+            <TGInputText
+              name="angle"
+              label="Font Angle"
+              value={fontAxisAndAngle.angle}
+              maxLength={4}
+              onChange={(e) => onChangeCanvasSize(e, 'fontAxis')}
+            />
+          </TGControllerWrapper>
+
           <TGControllerWrapper>
             <TGTextarea
-              rows={1}
+              rows={4}
               value={text}
               onChange={(e) => setText(e.target.value)}
               placeholder="THUMBNAIL TEXT"
             />
           </TGControllerWrapper>
 
+          <Divider color="#f3f3f3" height={10} margin={[20, 0, 10, 0]} />
+
           <TGControllerWrapper>
             <TGInputText
               name="width"
               label="Thumbnail Width"
               value={canvasSize.width}
-              onChange={onChangeCanvasSize}
+              onChange={(e) => onChangeCanvasSize(e, 'canvasSize')}
             />
             <TGInputText
               name="height"
               label="Thumbnail Height"
               value={canvasSize.height}
-              onChange={onChangeCanvasSize}
+              onChange={(e) => onChangeCanvasSize(e, 'canvasSize')}
             />
           </TGControllerWrapper>
           <TGControllerWrapper>
@@ -232,6 +284,9 @@ const TG = ({ additionalFontFamily = [], position, onToggle }: TGProps) => {
               ))}
             </TGSelect>
           </TGControllerWrapper>
+
+          <Divider color="#f3f3f3" height={10} margin={[20, 0, 10, 0]} />
+
           <TGControllerWrapper>
             <TGSelect
               label="Image Type"

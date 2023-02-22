@@ -43,8 +43,8 @@
 - Choose Font Family
 - Choose Font Size
 - Choose Font Stroke & Color
+- Choose Font Position & Angle
 - Choose Image Type (png, jpg, webp)
-- Choose Font Size
 - Add Custom Web Font Family
 - Supports TypeScript
 - Supports Next.js

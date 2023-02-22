@@ -5,8 +5,8 @@ import { TGCanvasWrapper } from './TG.styled';
 interface TGCanvasProps {
   bgColor: Color;
   fontColor: Color;
-  width: string;
-  height: string;
+  canvasSize: { width: string; height: string };
+  fontAxisAndAngle: { xAxis: string; yAxis: string; angle: string };
   text: string;
   fontSize: string;
   fontStrokeType: 'None' | 'Thin' | 'Normal' | 'Thick';
@@ -18,8 +18,7 @@ interface TGCanvasProps {
 const TGCanvas = React.forwardRef(
   (
     {
-      width,
-      height,
+      canvasSize,
       text,
       bgColor,
       fontColor,
@@ -28,6 +27,7 @@ const TGCanvas = React.forwardRef(
       fontStrokeType,
       fontFamily,
       selectedImage,
+      fontAxisAndAngle,
     }: TGCanvasProps,
     ref: any
   ) => {
@@ -49,7 +49,9 @@ const TGCanvas = React.forwardRef(
       const lines = text.split('\n');
 
       if (ctx) {
+        const { xAxis, yAxis, angle } = fontAxisAndAngle;
         const { color, size, font } = args;
+
         ctx.font = `${size}px ${font}`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -57,20 +59,26 @@ const TGCanvas = React.forwardRef(
         const lineHeight = size * 1.2;
 
         lines.forEach((line, idx) => {
-          const x = canvas.width / 2;
+          const x = canvas.width / 2 + parseInt(xAxis || '0');
           const y =
             canvas.height / 2 -
             ((lines.length - 1) * lineHeight) / 2 +
-            idx * lineHeight;
+            idx * lineHeight +
+            parseInt(yAxis || '0');
+
+          ctx.save();
+          ctx.translate(x, y);
+          ctx.rotate((parseInt(angle) * Math.PI) / 180);
 
           if (fontStrokeType !== 'None') {
             ctx.lineWidth = getPxByFontStrokeType();
             ctx.strokeStyle = `${strokeColor.hex}`;
-            ctx.strokeText(line, x, y);
+            ctx.strokeText(line, 0, 0);
           }
 
           ctx.fillStyle = color;
-          ctx.fillText(line, x, y);
+          ctx.fillText(line, 0, 0);
+          ctx.restore();
         });
       }
     };
@@ -83,7 +91,6 @@ const TGCanvas = React.forwardRef(
 
       if (ctx) {
         if (selectedImage) {
-          console.log(width, height);
           ctx.drawImage(selectedImage, 0, 0);
         } else {
           ctx.fillStyle = bgColor.hex;
@@ -98,8 +105,7 @@ const TGCanvas = React.forwardRef(
       }
     }, [
       text,
-      width,
-      height,
+      canvasSize,
       bgColor,
       fontColor,
       fontSize,
@@ -107,11 +113,16 @@ const TGCanvas = React.forwardRef(
       strokeColor,
       fontFamily,
       selectedImage,
+      fontAxisAndAngle,
     ]);
 
     return (
       <TGCanvasWrapper>
-        <canvas ref={ref} width={+width} height={+height} />
+        <canvas
+          ref={ref}
+          width={+canvasSize.width}
+          height={+canvasSize.height}
+        />
       </TGCanvasWrapper>
     );
   }

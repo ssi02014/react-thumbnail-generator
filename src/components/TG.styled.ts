@@ -356,7 +356,7 @@ export const SelectListItem = styled.li`
 `;
 
 // TG Input
-export const TGInputTextContainer = styled.div`
+export const TGInputTextContainer = styled.div<{ width?: number }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -366,7 +366,6 @@ export const TGInputTextContainer = styled.div`
     font-size: 0.7rem;
     color: #969696;
     height: 16px;
-    line-height: 16px;
     line-height: 17px;
   }
 
@@ -377,6 +376,7 @@ export const TGInputTextContainer = styled.div`
     font-size: 0.9rem;
     outline: none;
     margin-top: 1px;
+    width: ${({ width }) => `${width}px`};
   }
 `;
 
