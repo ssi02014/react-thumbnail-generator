@@ -1,7 +1,9 @@
 import styled from 'styled-components';
-import { getPosition, Position } from '../utils/style';
+import { getIconPosition, getModalPosition } from 'utils/style';
 
-export const TGOpenButton = styled.button<{ position: Position }>`
+export const TGOpenButton = styled.button<{
+  iconPosition: [number, number, number, number];
+}>`
   padding: 0;
   background-color: transparent;
   position: fixed;
@@ -16,12 +18,12 @@ export const TGOpenButton = styled.button<{ position: Position }>`
     transform: scale(1.1);
   }
 
-  ${({ position }) => {
-    return getPosition(position);
-  }}
+  ${({ iconPosition }) => getIconPosition(iconPosition)}
 `;
 
-export const TGBodyWrapper = styled.section<{ position: Position }>`
+export const TGBodyWrapper = styled.section<{
+  modalPosition: 'left' | 'right' | 'center';
+}>`
   position: fixed;
   display: flex;
   justify-content: center;
@@ -33,9 +35,7 @@ export const TGBodyWrapper = styled.section<{ position: Position }>`
   flex-direction: column;
   overflow: hidden;
 
-  ${({ position }) => {
-    return getPosition(position);
-  }}
+  ${({ modalPosition }) => getModalPosition(modalPosition)}
 `;
 
 export const TGCanvasWrapper = styled.div`
@@ -115,6 +115,10 @@ export const TGTextarea = styled.textarea`
     font-size: 1rem;
     color: #cccccc;
   }
+
+  &:focus {
+    border: 1px solid #0e1b30;
+  }
 `;
 
 export const TGButtonContainer = styled.div`
@@ -126,7 +130,7 @@ export const TGButtonContainer = styled.div`
   button {
     background-color: #192841;
     color: #fff;
-    width: 200px;
+    width: 300px;
     padding: 12px 15px;
     border: none;
     border-radius: 5px;
@@ -294,14 +298,29 @@ export const TGControllerWrapper = styled.div`
   }
 `;
 
-export const TGIConButton = styled.button<{ isBorder?: boolean }>`
+export const TGIConButton = styled.button<{
+  isOpenColorPicker?: boolean;
+  isBorder?: boolean;
+}>`
   padding: 4px 5px;
   background: #fff;
-  border: ${({ isBorder }) => (isBorder ? `1px solid #cccccc` : 'none')};
   border-radius: 5px;
   display: flex;
   align-items: center;
   cursor: pointer;
+
+  ${({ isBorder, isOpenColorPicker }) => {
+    if (!isBorder) return `border: none;`;
+    return `
+      border: ${
+        isOpenColorPicker ? '1px solid #0e1b30;' : '1px solid #cccccc;'
+      };
+    `;
+  }}
+
+  &:hover {
+    border: ${({ isBorder }) => (isBorder ? `1px solid #0e1b30` : 'none')};
+  }
 `;
 
 // TG Select
@@ -315,12 +334,13 @@ export const SelectWrapper = styled.div`
   }
 `;
 
-export const SelectInput = styled.div`
+export const SelectInput = styled.div<{ isOpenSelect: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  border: 1px solid #cccccc;
+  border: ${({ isOpenSelect }) =>
+    isOpenSelect ? `1px solid #0e1b30` : `1px solid #cccccc`};
   border-radius: 5px;
   padding: 6px 12px;
 
@@ -377,13 +397,15 @@ export const TGInputTextContainer = styled.div<{ width?: number }>`
     outline: none;
     margin-top: 1px;
     width: ${({ width }) => `${width}px`};
+
+    &:focus {
+      border: 1px solid #0e1b30;
+    }
   }
 `;
 
 // TG Icon
-export const TGIConImage = styled.img<{ color?: string }>`
-  fill: ${({ color }) => `${color}`};
-`;
+export const TGIConImage = styled.img``;
 
 // TG InputFile
 export const TGInputFileWrapper = styled.div`
@@ -394,16 +416,20 @@ export const TGInputFileWrapper = styled.div`
   justify-content: center;
   cursor: pointer;
   border: 1px solid #cccccc;
-  padding: 4px 5px;
 
   label {
     cursor: pointer;
     width: 20px;
     height: 20px;
+    padding: 4px 5px;
     margin: 0;
   }
 
   input {
     display: none;
+  }
+
+  &:hover {
+    border: 1px solid #0e1b30;
   }
 `;

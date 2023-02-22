@@ -8,11 +8,19 @@
   </a>
 </p>
 
-<h2 align="center">Simply create a thumbnail generator for your project🚀 </h2> 
+<h2 align="center">Simply create a thumbnail generator for your project 🚀 </h2> 
 
 <p align="center">
-  <img src="https://img.shields.io/badge/styled--components-5.3.6-green">
-  <img src="https://img.shields.io/badge/react--color--palette-6.2.0-green">
+  <img src="https://img.shields.io/badge/typescript-blue">
+  <img src="https://img.shields.io/badge/react-blue">
+  <img src="https://img.shields.io/badge/styled--components-green">
+  <img src="https://img.shields.io/badge/react--color--palette-important">
+  <img src="https://img.shields.io/badge/storybook-ff69b4">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/rollup-red">
+  <img src="https://img.shields.io/badge/babel-yellow">
 </p>
  
 <br/>
@@ -38,16 +46,12 @@
 ## Features 😁
 - Download Thumbnail Image
 - Resize Canvas
-- Choose Background Color
-- Choose Background Picture
-- Choose Font Family
-- Choose Font Size
-- Choose Font Stroke & Color
-- Choose Font Position & Angle
-- Choose Image Type (png, jpg, webp)
+- Choose Background Color & Picture
+- Choose Font Family & Size & Stroke & Color & Position & Angle
 - Add Custom Web Font Family
-- Supports TypeScript
-- Supports Next.js
+- Select the Modal button and the location of the Modal.
+- Choose Image Type (`png`, `jpg`, `webp`)
+- Supports TypeScript & Next
 
 
 <br />
@@ -101,12 +105,15 @@ const App = () => {
         // However, there is a possibility that the UI will change due to CSS inheritance
 
         iconSrc={iconImage}
-        // You can select the icon of the modal open button that you want.
-        // If you do not enter this option, the default icon takes effect.
+        // Insert the icon of the button to open the Thumbnail Model.
+        // If you do not insert this option, the default icon takes effect.
 
-        position="bottom-right" 
-        // You can select the location of the button that opens the modal.
-        // If you do not enter this option, the default position(bottom-right) is applied
+        iconPosition={[0, 20, 20, 0]}
+        // Select the location of the button to open the Thumbnail Model.
+        // Sequence: [top, right, bottom, left]
+
+        modalPosition='right'
+        // Select the location to open ThumbnailModal.
 
         iconSize="medium"
         // You can select the size of the button that opens the modal.
@@ -216,16 +223,16 @@ const App = () => {
 
 ### Result Screen 🖥️
 
-<img width="721" alt="스크린샷 2023-02-20 오후 10 26 00" src="https://user-images.githubusercontent.com/64779472/220121084-1f2d57db-1c0d-4709-9c24-473ee4f55152.png">
+![스크린샷 2023-02-23 오전 12 47 56](https://user-images.githubusercontent.com/64779472/220677341-7b6c062f-f0f6-49dd-8bcd-b402b61660ea.png)
 
 <br />
 
 ## Video 📷
-### Background Color
-![ezgif com-video-to-gif](https://user-images.githubusercontent.com/64779472/220112887-cc3c81a9-7b88-49e2-bc53-677c0508388a.gif)
+### Default
+![ezgif com-video-to-gif (1)](https://user-images.githubusercontent.com/64779472/220687212-d60e66fb-f8e6-450d-b33e-ca161a1b04d8.gif)
 
 ### Picture
-![ezgif com-video-to-gif (1)](https://user-images.githubusercontent.com/64779472/220118455-d954b4b8-2ab6-48c4-b874-0350839b1330.gif)
+![ezgif com-video-to-gif](https://user-images.githubusercontent.com/64779472/220687159-375c736a-b9cc-4646-8e82-8cbca983b34c.gif)
 
 <br />
 
@@ -240,10 +247,15 @@ const App = () => {
   <img width="43" alt="스크린샷 2023-02-20 오후 10 48 05" src="https://user-images.githubusercontent.com/64779472/220125380-77aaaa79-9baf-4252-aa46-a44e6e91dd3d.png">
 
   - Type: `string`
-- position
+- iconPosition
   - **Optional**
-  - Default: `bottom-right`
-  - Type: `bottom-right | bottom-left | top-right | top-left`
+  - Sequence: [top, right, bottom, left]
+  - Default: `[0, 20, 20, 0]`
+  - Type:`[number, number, number, number]`
+- modalPosition
+  - **Optional**
+  - Default: `right`
+  - Type:`left | right | center`
 - iconSize
   - **Optional**
   - Default: `medium`

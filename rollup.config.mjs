@@ -4,6 +4,7 @@ import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
+import postcss from 'rollup-plugin-postcss';
 import pkg from './package.json' assert { type: 'json' };
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx'];
@@ -20,6 +21,7 @@ export default {
   external: ['react'],
   plugins: [
     peerDepsExternal(),
+    postcss(),
     commonjs({ include: 'node_modules/**' }),
     nodeResolve({
       extensions,

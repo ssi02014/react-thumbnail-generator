@@ -21,6 +21,10 @@ const TGColorPicker = ({ children, color, setColor }: TGColorPickerProps) => {
     }
   };
 
+  const handleOpenColorPicker = () => {
+    setIsOpenColorPicker(!isOpenColorPicker);
+  };
+
   useEffect(() => {
     document.addEventListener('mousedown', handleCloseColorPicker);
 
@@ -32,7 +36,8 @@ const TGColorPicker = ({ children, color, setColor }: TGColorPickerProps) => {
   return (
     <TGColorPickerWrapper>
       <TGIConButton
-        onClick={() => setIsOpenColorPicker(!isOpenColorPicker)}
+        isOpenColorPicker={isOpenColorPicker}
+        onClick={handleOpenColorPicker}
         isBorder={true}>
         {children}
       </TGIConButton>
