@@ -1,6 +1,6 @@
 {
   "name": "react-thumbnail-generator",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "react-thumbnail-generator",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -21,10 +21,7 @@
     "url": "https://github.com/ssi02014/react-thumbnail-generator.git/issues"
   },
   "homepage": "http://ssi02014.github.io/react-thumbnail-generator",
-  "dependencies": {
-    "react-color-palette": "^6.2.0",
-    "styled-components": "^5.3.6"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/cli": "^7.20.7",
     "@babel/core": "^7.20.12",
@@ -63,11 +60,13 @@
     "gh-pages": "^5.0.0",
     "prettier": "^2.8.4",
     "react": "^18.2.0",
+    "react-color-palette": "^6.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
     "rollup": "^3.17.2",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
+    "styled-components": "^5.3.6",
     "tsconfig-paths-webpack-plugin": "^4.0.0",
     "typescript": "^4.9.5"
   },
