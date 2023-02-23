@@ -202,12 +202,14 @@ const TG = ({
               label="Canvas Width"
               value={canvasState.canvasWidth}
               onChange={onChangeCanvasSize}
+              disabled={!!canvasState.selectedImage}
             />
             <TGInputText
               name="canvasHeight"
               label="Canvas Height"
               value={canvasState.canvasHeight}
               onChange={onChangeCanvasSize}
+              disabled={!!canvasState.selectedImage}
             />
           </S.TGControllerWrapper>
           <S.TGControllerWrapper>

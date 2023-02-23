@@ -376,7 +376,7 @@ export const SelectListItem = styled.li`
 `;
 
 // TG Input
-export const TGInputTextContainer = styled.div<{ width?: number }>`
+export const TGInputTextContainer = styled.div<{ width: number | string }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -400,6 +400,10 @@ export const TGInputTextContainer = styled.div<{ width?: number }>`
 
     &:focus {
       border: 1px solid #0e1b30;
+    }
+
+    &:disabled {
+      color: #cccccc;
     }
   }
 `;
