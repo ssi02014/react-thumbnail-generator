@@ -121,7 +121,7 @@ export const TGTextarea = styled.textarea`
   }
 `;
 
-export const TGButtonContainer = styled.div`
+export const TGButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -294,6 +294,10 @@ export const TGControllerWrapper = styled.div`
     margin-left: 10px;
   }
   & > div + div {
+    margin-left: 10px;
+  }
+
+  & > div + button {
     margin-left: 10px;
   }
 `;

@@ -13,5 +13,6 @@ export interface CanvasState {
   xAxis: string;
   yAxis: string;
   angle: string;
+  isBlur: boolean;
   selectedImage: HTMLImageElement | null;
 }

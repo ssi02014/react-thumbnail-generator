@@ -26,6 +26,7 @@ const TGCanvas = React.forwardRef(
       xAxis,
       yAxis,
       angle,
+      isBlur,
     } = canvasState;
 
     const getLineWidthByStrokeType = () => {
@@ -45,37 +46,34 @@ const TGCanvas = React.forwardRef(
     ) => {
       const lines = value.split('\n');
       const size = +fontSize.replace('px', '');
+      const lineHeight = size * 1.2;
 
-      if (ctx) {
-        ctx.font = `${size}px ${fontFamily}`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
+      ctx.font = `${size}px ${fontFamily}`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
 
-        const lineHeight = size * 1.2;
+      lines.forEach((line, idx) => {
+        const x = canvas.width / 2 + +(xAxis || '0');
+        const y =
+          canvas.height / 2 -
+          ((lines.length - 1) * lineHeight) / 2 +
+          idx * lineHeight +
+          +(yAxis || '0');
 
-        lines.forEach((line, idx) => {
-          const x = canvas.width / 2 + +(xAxis || '0');
-          const y =
-            canvas.height / 2 -
-            ((lines.length - 1) * lineHeight) / 2 +
-            idx * lineHeight +
-            +(yAxis || '0');
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate((+angle * Math.PI) / 180);
 
-          ctx.save();
-          ctx.translate(x, y);
-          ctx.rotate((+angle * Math.PI) / 180);
+        if (fontStrokeType !== 'None') {
+          ctx.lineWidth = getLineWidthByStrokeType();
+          ctx.strokeStyle = `${strokeColor.hex}`;
+          ctx.strokeText(line, 0, 0);
+        }
 
-          if (fontStrokeType !== 'None') {
-            ctx.lineWidth = getLineWidthByStrokeType();
-            ctx.strokeStyle = `${strokeColor.hex}`;
-            ctx.strokeText(line, 0, 0);
-          }
-
-          ctx.fillStyle = fontColor.hex;
-          ctx.fillText(line, 0, 0);
-          ctx.restore();
-        });
-      }
+        ctx.fillStyle = fontColor.hex;
+        ctx.fillText(line, 0, 0);
+        ctx.restore();
+      });
     };
 
     useEffect(() => {
@@ -84,12 +82,17 @@ const TGCanvas = React.forwardRef(
       const ctx = canvas.getContext('2d');
 
       if (ctx) {
+        ctx.save();
+
+        if (isBlur) ctx.filter = 'blur(4px)'; // (*)
         if (selectedImage) {
           ctx.drawImage(selectedImage, 0, 0);
         } else {
           ctx.fillStyle = bgColor.hex;
           ctx.fillRect(0, 0, canvas.width, canvas.height);
         }
+
+        ctx.restore();
         setCanvasText(canvas, ctx);
       }
     }, [bgColor, fontColor, strokeColor, canvasState]);

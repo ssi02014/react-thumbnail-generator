@@ -47,6 +47,7 @@
 - Download Thumbnail Image
 - Resize Canvas
 - Choose Background Color & Picture
+- Choose Blur
 - Choose Font Family & Size & Stroke & Color & Position & Angle
 - Add Custom Web Font Family
 - Select the Modal button and the location of the Modal.

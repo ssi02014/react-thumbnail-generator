@@ -5,10 +5,9 @@ export const getValidMessage = (
   condition: boolean,
   type: 'imageSize' | 'canvasSize'
 ) => {
-  const LIMIT_WIDTH = window.innerWidth - 70;
   const message = {
-    imageSize: 'Please register a picture smaller than Limit Width Size.',
-    canvasSize: `Please set the width smaller than ${LIMIT_WIDTH}px`,
+    imageSize: `Please register a picture smaller than "Limit Width"`,
+    canvasSize: `Please set the canvas width smaller than "Limit Width"`,
   } as { [key: string]: string };
 
   if (condition) return message[type];

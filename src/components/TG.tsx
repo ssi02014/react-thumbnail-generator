@@ -15,7 +15,7 @@ import {
   strokeTypes,
 } from 'constants/select';
 import { CanvasState } from '../types/canvas';
-import { fill, font, stroke } from '../assets/icons';
+import { fill, font, stroke, blur } from '../assets/icons';
 import { Color, useColor } from 'react-color-palette';
 import * as S from './TG.styled';
 import { downloadCanvas, getValidMessage } from '../utils/common';
@@ -26,13 +26,12 @@ interface TGProps {
   onToggle: () => void;
 }
 
-const LIMIT_WIDTH = window.innerWidth - 70;
-
 const TG = ({
   additionalFontFamily = [],
   modalPosition,
   onToggle,
 }: TGProps) => {
+  const LIMIT_WIDTH = window.innerWidth - 70;
   const [canvasState, setCanvasState] = useState<CanvasState>({
     value: 'Simple Thumbnail Generator 😁',
     fontSize: '30px',
@@ -44,6 +43,7 @@ const TG = ({
     xAxis: '0',
     yAxis: '0',
     angle: '0',
+    isBlur: false,
     selectedImage: null,
   });
 
@@ -110,7 +110,7 @@ const TG = ({
     if (files) {
       const img = new Image();
 
-      img.src = URL.createObjectURL(files[0]);
+      img.src = files[0] && URL.createObjectURL(files[0]);
       img.onload = async () => {
         const validMessage = getValidMessage(
           img.width > LIMIT_WIDTH,
@@ -126,6 +126,13 @@ const TG = ({
         });
       };
     }
+  };
+
+  const toggleCanvasBlur = () => {
+    setCanvasState({
+      ...canvasState,
+      isBlur: !canvasState.isBlur,
+    });
   };
 
   const handleDownloadImage = () => {
@@ -160,6 +167,9 @@ const TG = ({
             <TGColorPicker color={strokeColor} setColor={setStrokeColor}>
               <TGIcon src={stroke} width={20} height={20} />
             </TGColorPicker>
+            <S.TGIConButton isBorder onClick={toggleCanvasBlur}>
+              <TGIcon src={blur} width={20} height={20} />
+            </S.TGIConButton>
           </S.TGControllerWrapper>
 
           <S.TGControllerWrapper>
@@ -264,9 +274,9 @@ const TG = ({
             </TGSelect>
           </S.TGControllerWrapper>
 
-          <S.TGButtonContainer>
+          <S.TGButtonWrapper>
             <button onClick={handleDownloadImage}>DOWNLOAD</button>
-          </S.TGButtonContainer>
+          </S.TGButtonWrapper>
         </S.TGContentWrapper>
       </S.TGInnerWrapper>
     </S.TGBodyWrapper>
