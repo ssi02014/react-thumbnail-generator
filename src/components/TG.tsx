@@ -1,21 +1,11 @@
-import React, { ChangeEvent, useRef, useState } from 'react';
-import {
-  TGBodyWrapper,
-  TGButtonContainer,
-  TGContentWrapper,
-  TGControllerWrapper,
-  TGInnerWrapper,
-  TGTextarea,
-} from './TG.styled';
+import React, { ChangeEvent, useMemo, useRef, useState } from 'react';
 import TGCanvas from './TGCanvas';
 import TGHeader from './TGHeader';
-import { Color, useColor } from 'react-color-palette';
 import TGColorPicker from './TGColorPicker';
 import TGSelect from './TGSelect';
 import TGSelectItem from './TGSelectItem';
 import TGInputText from './TGInputText';
 import TGIcon from './TGIcon';
-import { fill, font, stroke } from '../assets/icons';
 import TGInputFile from './TGInputFile';
 import Divider from './Divider';
 import {
@@ -24,8 +14,11 @@ import {
   imageTypes,
   strokeTypes,
 } from 'constants/select';
-
-type StrokeTypes = 'None' | 'Thin' | 'Normal' | 'Thick';
+import { CanvasState } from '../types/canvas';
+import { fill, font, stroke } from '../assets/icons';
+import { Color, useColor } from 'react-color-palette';
+import * as S from './TG.styled';
+import { downloadCanvas, getValidMessage } from '../utils/common';
 
 interface TGProps {
   additionalFontFamily?: string[];
@@ -33,83 +26,81 @@ interface TGProps {
   onToggle: () => void;
 }
 
+const LIMIT_WIDTH = window.innerWidth - 70;
+
 const TG = ({
   additionalFontFamily = [],
   modalPosition,
   onToggle,
 }: TGProps) => {
-  const [text, setText] = useState('Simple Thumbnail Generator 😁');
-  const [bgColor, setBgColor] = useColor('hex', '#192841');
-  const [fontColor, setFontColor] = useColor('hex', '#fff');
-  const [fontSize, setFontSize] = useState('30px');
-  const [fontStrokeType, setFontStrokeType] = useState('None');
-  const [strokeColor, setStrokeColor] = useColor('hex', '#121212');
-  const [fontFamily, setFontFamily] = useState('Arial');
-  const [canvasSize, setCanvasSize] = useState({
-    width: '700',
-    height: '400',
-  });
-  const [imageType, setImageType] = useState('png');
-  const [selectedImage, setSelectedImage] = useState<HTMLImageElement | null>(
-    null
-  );
-  const [fontAxisAndAngle, setFontAxisAndAngle] = useState({
+  const [canvasState, setCanvasState] = useState<CanvasState>({
+    value: 'Simple Thumbnail Generator 😁',
+    fontSize: '30px',
+    fontStrokeType: 'None',
+    fontFamily: 'Arial',
+    canvasWidth: '700',
+    canvasHeight: '400',
+    imageType: 'png',
     xAxis: '0',
     yAxis: '0',
     angle: '0',
+    selectedImage: null,
   });
 
+  const [bgColor, setBgColor] = useColor('hex', '#192841');
+  const [fontColor, setFontColor] = useColor('hex', '#fff');
+  const [strokeColor, setStrokeColor] = useColor('hex', '#121212');
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const LimitWidthSize = window.innerWidth - 70;
-  const LimitHeightSize = 5000;
 
-  const setStateType = {
-    imageType: setImageType,
-    fontSize: setFontSize,
-    fontStrokeType: setFontStrokeType,
-    fontFamily: setFontFamily,
-    canvasSize: setCanvasSize,
-    fontAxis: setFontAxisAndAngle,
+  const getReplaceCallback = (name: string) => {
+    const canvas = ['canvasWidth', 'canvasHeight'];
+
+    if (canvas.includes(name)) return () => '';
+    return (match: string, idx: number) => (!idx && match === '-' ? '-' : '');
   };
 
-  const onChangeSelectValue = (
-    type: 'imageType' | 'fontSize' | 'fontStrokeType' | 'fontFamily',
-    value: string
-  ) => {
-    const setState = setStateType[type];
-    setState(value);
-  };
-
-  const onChangeCanvasSize = (
-    e: ChangeEvent<HTMLInputElement>,
-    type: 'canvasSize' | 'fontAxis'
-  ) => {
+  const onChangeCanvasSize = (e: ChangeEvent<HTMLInputElement>) => {
     const regex = /[^0-9]/g;
     const { name, value } = e.target;
-    const replacedValue = value.replace(regex, (match, idx) => {
-      if (!idx && match === '-') {
-        return '-';
-      }
-      return '';
-    });
 
-    if (name === 'width' && +replacedValue > LimitWidthSize) {
-      return alert(`Please set the width smaller than ${LimitWidthSize}px`);
-    }
-    if (name === 'height' && +replacedValue > LimitHeightSize) {
-      return alert('Please set the height smaller than 5000px');
-    }
+    const replacedCallback = getReplaceCallback(name);
+    const replacedValue = value.replace(regex, replacedCallback);
 
-    const setState = setStateType[type];
+    const validMessage = getValidMessage(
+      name === 'canvasWidth' && +replacedValue > LIMIT_WIDTH,
+      'canvasSize'
+    );
 
-    setState((prev: any) => ({
-      ...prev,
+    if (validMessage) return alert(validMessage);
+
+    setCanvasState({
+      ...canvasState,
       [name]: replacedValue,
-    }));
+    });
+  };
+
+  const onChangeTextValue = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+
+    setCanvasState({
+      ...canvasState,
+      [name]: value,
+    });
+  };
+
+  const onChangeSelectValue = (name: string, value: string | number) => {
+    setCanvasState({
+      ...canvasState,
+      [name]: value,
+    });
   };
 
   const onChangeBgColor = (color: Color) => {
-    setSelectedImage(null);
+    setCanvasState({
+      ...canvasState,
+      selectedImage: null,
+    });
     setBgColor(color);
   };
 
@@ -121,54 +112,44 @@ const TG = ({
 
       img.src = URL.createObjectURL(files[0]);
       img.onload = async () => {
-        if (img.width > LimitWidthSize) {
-          return alert(
-            'Please register a picture smaller than Limit Width Size.'
-          );
-        }
+        const validMessage = getValidMessage(
+          img.width > LIMIT_WIDTH,
+          'imageSize'
+        );
+        if (validMessage) return alert(validMessage);
 
-        setSelectedImage(img);
-        setCanvasSize({
-          width: `${img.width}`,
-          height: `${img.height}`,
+        setCanvasState({
+          ...canvasState,
+          selectedImage: img,
+          canvasWidth: `${img.width}`,
+          canvasHeight: `${img.height}`,
         });
       };
     }
   };
 
-  const downloadCanvas = () => {
-    const url = canvasRef.current?.toDataURL(`image/${imageType}`);
-    const link = document.createElement('a');
-
-    link.href = url as string;
-    link.setAttribute('download', `thumbnail.${imageType}`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const handleDownloadImage = () => {
+    downloadCanvas(canvasRef, canvasState.imageType);
   };
 
-  const fontFamilyOptions = [...additionalFontFamily, ...fontFamilies];
+  const fontFamilyOptions = useMemo(() => {
+    return [...additionalFontFamily, ...fontFamilies];
+  }, [additionalFontFamily]);
 
   return (
-    <TGBodyWrapper modalPosition={modalPosition}>
+    <S.TGBodyWrapper modalPosition={modalPosition}>
       <TGHeader onToggle={onToggle} />
-      <TGInnerWrapper>
-        <TGContentWrapper>
+      <S.TGInnerWrapper>
+        <S.TGContentWrapper>
           <TGCanvas
             ref={canvasRef}
             bgColor={bgColor}
-            fontFamily={fontFamily}
             fontColor={fontColor}
-            fontSize={fontSize}
-            canvasSize={canvasSize}
-            fontStrokeType={fontStrokeType as StrokeTypes}
-            fontAxisAndAngle={fontAxisAndAngle}
             strokeColor={strokeColor}
-            text={text}
-            selectedImage={selectedImage}
+            canvasState={canvasState}
           />
 
-          <TGControllerWrapper>
+          <S.TGControllerWrapper>
             <TGInputFile width={20} height={20} onChangeImage={onChangeImage} />
             <TGColorPicker color={bgColor} setColor={onChangeBgColor}>
               <TGIcon src={fill} width={20} height={20} />
@@ -179,60 +160,62 @@ const TG = ({
             <TGColorPicker color={strokeColor} setColor={setStrokeColor}>
               <TGIcon src={stroke} width={20} height={20} />
             </TGColorPicker>
-          </TGControllerWrapper>
+          </S.TGControllerWrapper>
 
-          <TGControllerWrapper>
+          <S.TGControllerWrapper>
             <TGInputText
               name="xAxis"
               label="Font x-axis"
-              value={fontAxisAndAngle.xAxis}
-              onChange={(e) => onChangeCanvasSize(e, 'fontAxis')}
+              value={canvasState.xAxis}
+              onChange={onChangeCanvasSize}
             />
             <TGInputText
               name="yAxis"
               label="Font y-axis"
-              value={fontAxisAndAngle.yAxis}
-              onChange={(e) => onChangeCanvasSize(e, 'fontAxis')}
+              value={canvasState.yAxis}
+              onChange={onChangeCanvasSize}
             />
             <TGInputText
               name="angle"
               label="Font Angle"
-              value={fontAxisAndAngle.angle}
+              value={canvasState.angle}
               maxLength={4}
-              onChange={(e) => onChangeCanvasSize(e, 'fontAxis')}
+              onChange={onChangeCanvasSize}
             />
-          </TGControllerWrapper>
+          </S.TGControllerWrapper>
 
-          <TGControllerWrapper>
-            <TGTextarea
+          <S.TGControllerWrapper>
+            <S.TGTextarea
+              name="value"
               rows={4}
-              value={text}
-              onChange={(e) => setText(e.target.value)}
+              value={canvasState.value}
+              onChange={onChangeTextValue}
               placeholder="THUMBNAIL TEXT"
             />
-          </TGControllerWrapper>
+          </S.TGControllerWrapper>
 
           <Divider color="#f3f3f3" height={10} margin={[20, 0, 10, 0]} />
 
-          <TGControllerWrapper>
+          <S.TGControllerWrapper>
             <TGInputText
-              name="width"
-              label="Thumbnail Width"
-              value={canvasSize.width}
-              onChange={(e) => onChangeCanvasSize(e, 'canvasSize')}
+              name="canvasWidth"
+              label="Canvas Width"
+              value={canvasState.canvasWidth}
+              onChange={onChangeCanvasSize}
             />
             <TGInputText
-              name="height"
-              label="Thumbnail Height"
-              value={canvasSize.height}
-              onChange={(e) => onChangeCanvasSize(e, 'canvasSize')}
+              name="canvasHeight"
+              label="Canvas Height"
+              value={canvasState.canvasHeight}
+              onChange={onChangeCanvasSize}
             />
-          </TGControllerWrapper>
-          <TGControllerWrapper>
+          </S.TGControllerWrapper>
+          <S.TGControllerWrapper>
             <TGSelect
+              name="fontFamily"
               label="Font Family"
-              value={fontFamily}
-              onChange={(value) => onChangeSelectValue('fontFamily', value)}>
+              value={canvasState.fontFamily}
+              onChange={onChangeSelectValue}>
               {fontFamilyOptions.map((item) => (
                 <TGSelectItem value={item} key={item}>
                   {item}
@@ -240,9 +223,10 @@ const TG = ({
               ))}
             </TGSelect>
             <TGSelect
+              name="fontSize"
               label="Font Size"
-              value={fontSize}
-              onChange={(value) => onChangeSelectValue('fontSize', value)}>
+              value={canvasState.fontSize}
+              onChange={onChangeSelectValue}>
               {fontSizes.map((item) => (
                 <TGSelectItem value={item} key={item}>
                   {item}
@@ -250,39 +234,40 @@ const TG = ({
               ))}
             </TGSelect>
             <TGSelect
+              name="fontStrokeType"
               label="Font Stroke"
-              value={fontStrokeType}
-              onChange={(value) =>
-                onChangeSelectValue('fontStrokeType', value)
-              }>
+              value={canvasState.fontStrokeType}
+              onChange={onChangeSelectValue}>
               {strokeTypes.map((item) => (
                 <TGSelectItem value={item} key={item}>
                   {item}
                 </TGSelectItem>
               ))}
             </TGSelect>
-          </TGControllerWrapper>
+          </S.TGControllerWrapper>
 
           <Divider color="#f3f3f3" height={10} margin={[20, 0, 10, 0]} />
 
-          <TGControllerWrapper>
+          <S.TGControllerWrapper>
             <TGSelect
+              name="imageType"
               label="Image Type"
-              value={imageType}
-              onChange={(value) => onChangeSelectValue('imageType', value)}>
+              value={canvasState.imageType}
+              onChange={onChangeSelectValue}>
               {imageTypes.map((item) => (
                 <TGSelectItem value={item} key={item}>
                   {item}
                 </TGSelectItem>
               ))}
             </TGSelect>
-          </TGControllerWrapper>
-          <TGButtonContainer>
-            <button onClick={downloadCanvas}>DOWNLOAD</button>
-          </TGButtonContainer>
-        </TGContentWrapper>
-      </TGInnerWrapper>
-    </TGBodyWrapper>
+          </S.TGControllerWrapper>
+
+          <S.TGButtonContainer>
+            <button onClick={handleDownloadImage}>DOWNLOAD</button>
+          </S.TGButtonContainer>
+        </S.TGContentWrapper>
+      </S.TGInnerWrapper>
+    </S.TGBodyWrapper>
   );
 };
 
