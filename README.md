@@ -224,8 +224,9 @@ const App = () => {
 
 ### Result Screen 🖥️
 
-![스크린샷 2023-02-23 오전 12 47 56](https://user-images.githubusercontent.com/64779472/220677341-7b6c062f-f0f6-49dd-8bcd-b402b61660ea.png)
+<img src="https://user-images.githubusercontent.com/64779472/220677341-7b6c062f-f0f6-49dd-8bcd-b402b61660ea.png" width="450">
 
+<br />
 <br />
 
 ## Video 📷
@@ -234,6 +235,9 @@ const App = () => {
 
 ### Picture
 ![ezgif com-video-to-gif](https://user-images.githubusercontent.com/64779472/220687159-375c736a-b9cc-4646-8e82-8cbca983b34c.gif)
+
+### Blur
+![ezgif com-video-to-gif (2)](https://user-images.githubusercontent.com/64779472/220988711-d1399c3a-ee4a-4827-9d20-6adf7a437bd4.gif)
 
 <br />
 
