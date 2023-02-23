@@ -1,95 +1,90 @@
 import React, { useEffect } from 'react';
 import { Color } from 'react-color-palette';
+import { CanvasState } from '../types/canvas';
 import { TGCanvasWrapper } from './TG.styled';
 
 interface TGCanvasProps {
+  canvasState: CanvasState;
   bgColor: Color;
   fontColor: Color;
-  canvasSize: { width: string; height: string };
-  fontAxisAndAngle: { xAxis: string; yAxis: string; angle: string };
-  text: string;
-  fontSize: string;
-  fontStrokeType: 'None' | 'Thin' | 'Normal' | 'Thick';
   strokeColor: Color;
-  fontFamily: string;
-  selectedImage: HTMLImageElement | null;
 }
 
 const TGCanvas = React.forwardRef(
   (
-    {
-      canvasSize,
-      text,
-      bgColor,
-      fontColor,
-      fontSize,
-      strokeColor,
-      fontStrokeType,
-      fontFamily,
-      selectedImage,
-      fontAxisAndAngle,
-    }: TGCanvasProps,
+    { canvasState, bgColor, fontColor, strokeColor }: TGCanvasProps,
     ref: any
   ) => {
-    const getPxByFontStrokeType = () => {
-      switch (fontStrokeType) {
-        case 'Thin':
-          return 3;
-        case 'Normal':
-          return 5;
-        case 'Thick':
-          return 7;
-        default:
-          return 0;
-      }
+    const {
+      value,
+      canvasWidth,
+      canvasHeight,
+      fontSize,
+      fontStrokeType,
+      selectedImage,
+      fontFamily,
+      xAxis,
+      yAxis,
+      angle,
+      isBlur,
+    } = canvasState;
+
+    const getLineWidthByStrokeType = () => {
+      const strokeObj = {
+        None: 0,
+        Thin: 3,
+        Normal: 5,
+        Thick: 7,
+      } as { [key: string]: number };
+
+      return strokeObj[fontStrokeType];
     };
 
-    const setFont = (canvas: HTMLCanvasElement, text: string, args: any) => {
-      const ctx = canvas.getContext('2d');
-      const lines = text.split('\n');
+    const setCanvasText = (
+      canvas: HTMLCanvasElement,
+      ctx: CanvasRenderingContext2D
+    ) => {
+      const lines = value.split('\n');
+      const size = +fontSize.replace('px', '');
+      const lineHeight = size * 1.2;
 
-      if (ctx) {
-        const { xAxis, yAxis, angle } = fontAxisAndAngle;
-        const { color, size, font } = args;
+      ctx.font = `${size}px ${fontFamily}`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
 
-        ctx.font = `${size}px ${font}`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
+      lines.forEach((line, idx) => {
+        const x = canvas.width / 2 + +(xAxis || '0');
+        const y =
+          canvas.height / 2 -
+          ((lines.length - 1) * lineHeight) / 2 +
+          idx * lineHeight +
+          +(yAxis || '0');
 
-        const lineHeight = size * 1.2;
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate((+angle * Math.PI) / 180);
 
-        lines.forEach((line, idx) => {
-          const x = canvas.width / 2 + parseInt(xAxis || '0');
-          const y =
-            canvas.height / 2 -
-            ((lines.length - 1) * lineHeight) / 2 +
-            idx * lineHeight +
-            parseInt(yAxis || '0');
+        if (fontStrokeType !== 'None') {
+          ctx.lineWidth = getLineWidthByStrokeType();
+          ctx.strokeStyle = `${strokeColor.hex}`;
+          ctx.strokeText(line, 0, 0);
+        }
 
-          ctx.save();
-          ctx.translate(x, y);
-          ctx.rotate((parseInt(angle) * Math.PI) / 180);
-
-          if (fontStrokeType !== 'None') {
-            ctx.lineWidth = getPxByFontStrokeType();
-            ctx.strokeStyle = `${strokeColor.hex}`;
-            ctx.strokeText(line, 0, 0);
-          }
-
-          ctx.fillStyle = color;
-          ctx.fillText(line, 0, 0);
-          ctx.restore();
-        });
-      }
+        ctx.fillStyle = fontColor.hex;
+        ctx.fillText(line, 0, 0);
+        ctx.restore();
+      });
     };
 
     useEffect(() => {
-      const canvas = ref.current;
-
-      if (!canvas) return;
+      if (!ref.current) return;
+      const canvas = ref.current as HTMLCanvasElement;
       const ctx = canvas.getContext('2d');
 
       if (ctx) {
+        ctx.save();
+
+        if (isBlur) ctx.filter = 'blur(4px)'; // (*)
         if (selectedImage) {
           ctx.drawImage(selectedImage, 0, 0);
         } else {
@@ -97,32 +92,14 @@ const TGCanvas = React.forwardRef(
           ctx.fillRect(0, 0, canvas.width, canvas.height);
         }
 
-        setFont(canvas, text, {
-          color: fontColor.hex,
-          size: +fontSize.replace('px', ''),
-          font: fontFamily,
-        });
+        ctx.restore();
+        setCanvasText(canvas, ctx);
       }
-    }, [
-      text,
-      canvasSize,
-      bgColor,
-      fontColor,
-      fontSize,
-      fontStrokeType,
-      strokeColor,
-      fontFamily,
-      selectedImage,
-      fontAxisAndAngle,
-    ]);
+    }, [bgColor, fontColor, strokeColor, canvasState]);
 
     return (
       <TGCanvasWrapper>
-        <canvas
-          ref={ref}
-          width={+canvasSize.width}
-          height={+canvasSize.height}
-        />
+        <canvas ref={ref} width={+canvasWidth} height={+canvasHeight} />
       </TGCanvasWrapper>
     );
   }

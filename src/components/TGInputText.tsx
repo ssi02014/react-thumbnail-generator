@@ -1,13 +1,8 @@
-import React, { ChangeEvent } from 'react';
+import React, { ComponentProps } from 'react';
 import { TGInputTextContainer } from './TG.styled';
 
-interface TGInputTextProps {
-  name: string;
-  value: string | number;
+interface TGInputTextProps extends ComponentProps<'input'> {
   label: string;
-  width?: number;
-  maxLength?: number;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const TGInputText = ({
@@ -16,18 +11,20 @@ const TGInputText = ({
   value,
   width = 100,
   maxLength = 5,
+  disabled = false,
   onChange,
 }: TGInputTextProps) => {
   return (
     <TGInputTextContainer width={width}>
       <label htmlFor={name}>{label}</label>
       <input
+        type="text"
         name={name}
         id={name}
-        type="text"
         value={value}
         maxLength={maxLength}
         onChange={onChange}
+        disabled={disabled}
       />
     </TGInputTextContainer>
   );

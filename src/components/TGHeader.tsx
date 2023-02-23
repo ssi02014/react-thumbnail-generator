@@ -9,7 +9,6 @@ interface TGHeaderProps {
 
 const TGHeader = ({ onToggle }: TGHeaderProps) => {
   const LimitWidthSize = window.innerWidth - 70;
-  const LimitHeightSize = 5000;
   return (
     <TGHeaderWrapper>
       <div>
@@ -24,7 +23,7 @@ const TGHeader = ({ onToggle }: TGHeaderProps) => {
         </TGIConButton>
       </div>
       <TGLimitSizeText>
-        Limit: <span>{`${LimitWidthSize}px, ${LimitHeightSize}px`}</span>
+        Limit Width: <span>{`${LimitWidthSize}px`}</span>
       </TGLimitSizeText>
     </TGHeaderWrapper>
   );

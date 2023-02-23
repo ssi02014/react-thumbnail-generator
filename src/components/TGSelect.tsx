@@ -12,21 +12,30 @@ import TGIcon from './TGIcon';
 interface SelectContextProps {
   color?: string;
   selectValue?: string | number;
-  onChange: (value: string | number) => void;
+  onChange: (name: string, value: string | number) => void;
 }
 
-interface SelectProps extends Omit<ComponentProps<'div'>, 'ref' | 'children'> {
+interface SelectProps
+  extends Omit<ComponentProps<'div'>, 'ref' | 'children' | 'onChange'> {
+  name: string;
   children: React.ReactNode;
   label: string;
   value: string | number;
-  onChange: (e: any) => void;
+  onChange: (name: string, value: string | number) => void;
 }
 
 export const SelectContext = React.createContext<SelectContextProps | null>(
   null
 );
 
-const TGSelect = ({ children, onChange, color, value, label }: SelectProps) => {
+const TGSelect = ({
+  children,
+  name,
+  color,
+  value,
+  label,
+  onChange,
+}: SelectProps) => {
   const [isOpenSelect, setIsOpenSelect] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -38,7 +47,7 @@ const TGSelect = ({ children, onChange, color, value, label }: SelectProps) => {
   const handleChange = useCallback(
     (value: string | number) => {
       if (onChange) {
-        onChange(value);
+        onChange(name, value);
         setIsOpenSelect(false);
       }
     },
