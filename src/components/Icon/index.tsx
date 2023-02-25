@@ -1,12 +1,6 @@
-import React from 'react';
+import React, { ComponentProps } from 'react';
 
-interface IconProps {
-  src: string;
-  width: number;
-  height: number;
-}
-
-const Icon = ({ src, width, height }: IconProps) => {
+const Icon = ({ src, width, height }: ComponentProps<'img'>) => {
   return <img src={src} width={width} height={height} />;
 };
 
