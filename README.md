@@ -3,12 +3,20 @@
 <br />
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/react-thumbnail-generator">
+  <a href="https://www.npmjs.com/package/react-thumbnail-generator" target="_blank">
     <img src="https://user-images.githubusercontent.com/64779472/219855230-d6515d16-334c-432a-8d20-fa171e17c231.png" />
   </a>
 </p>
 
+
 <h2 align="center">Simply create a thumbnail generator for your project 🚀 </h2> 
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/react-thumbnail-generator" target="_blank">
+  <img src="https://img.shields.io/npm/v/react-thumbnail-generator.svg"></a>
+  <a href="https://www.npmjs.com/package/react-thumbnail-generator" target="_blank">
+  <img src="https://img.shields.io/npm/dt/react-thumbnail-generator.svg"></a>
+</p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/typescript-blue">

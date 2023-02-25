@@ -27,7 +27,9 @@ const Accordion = ({ title, children }: AccordionProps) => {
           )}
         </span>
       </S.AccordionTopContainer>
-      <S.AccordionPanelContainer className={isOpenPanel ? 'active' : ''}>
+      <S.AccordionPanelContainer
+        isOpen={isOpenPanel}
+        className={isOpenPanel ? 'active' : ''}>
         {children}
       </S.AccordionPanelContainer>
     </S.AccordionWrapper>

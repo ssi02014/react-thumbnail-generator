@@ -32,18 +32,9 @@ export const AccordionTopContainer = styled.div`
   }
 `;
 
-export const AccordionPanelContainer = styled.div`
+export const AccordionPanelContainer = styled.div<{ isOpen: boolean }>`
   background-color: #fff;
-  overflow: hidden;
-  transition: max-height 0.3s linear;
-  max-height: 0;
-
-  & > p {
-    padding: 20px 40px;
-    font-size: 1.15rem;
-  }
-
-  &.active {
-    max-height: 200px;
-  }
+  transition: max-height 0.2s linear;
+  overflow: ${({ isOpen }) => (isOpen ? 'visible' : 'hidden')};
+  max-height: ${({ isOpen }) => (isOpen ? '200px' : '0')};
 `;
