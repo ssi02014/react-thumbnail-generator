@@ -2,9 +2,9 @@ import TG from '../components/TG';
 import { TGOpenButton } from '../components/TG.styled';
 import React, { useState } from 'react';
 import { toggleButton } from '../assets/icons';
-import TGIcon from '../components/TGIcon';
 import { Position, getIconSize } from '../utils/style';
 import TGPortal from '../components/TGPortal';
+import Icon from '../components/Icon';
 
 interface ThumbnailGeneratorProps {
   id?: string;
@@ -42,7 +42,7 @@ const ThumbnailGenerator = ({
           />
         ) : (
           <TGOpenButton iconPosition={iconPosition} onClick={onToggleGenerator}>
-            <TGIcon src={iconSrc} width={tgIconSize} height={tgIconSize} />
+            <Icon src={iconSrc} width={tgIconSize} height={tgIconSize} />
           </TGOpenButton>
         )}
       </TGPortal>

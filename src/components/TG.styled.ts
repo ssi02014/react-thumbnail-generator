@@ -86,6 +86,10 @@ export const TGHeaderWrapper = styled.div`
 
   button {
     cursor: pointer;
+    transition: transform 0.2s;
+    &:hover {
+      transform: rotate(90deg);
+    }
   }
 `;
 
@@ -115,7 +119,8 @@ export const TGTextarea = styled.textarea`
     color: #cccccc;
   }
 
-  &:focus {
+  &:focus,
+  &:hover {
     border: 1px solid #0e1b30;
   }
 `;
@@ -188,6 +193,10 @@ export const SelectInput = styled.div<{ isOpenSelect: boolean }>`
     justify-content: center;
     font-size: 0.9rem;
   }
+
+  &:hover {
+    border: 1px solid #0e1b30;
+  }
 `;
 
 export const SelectItemContainer = styled.ul`
@@ -235,18 +244,17 @@ export const TGInputTextContainer = styled.div<{ width: number | string }>`
     margin-top: 1px;
     width: ${({ width }) => `${width}px`};
 
-    &:focus {
+    &:focus,
+    &:hover {
       border: 1px solid #0e1b30;
     }
 
     &:disabled {
       color: #cccccc;
+      border: 1px solid #cccccc;
     }
   }
 `;
-
-// TG Icon
-export const TGIConImage = styled.img``;
 
 // TG InputFile
 export const TGInputFileWrapper = styled.div`
