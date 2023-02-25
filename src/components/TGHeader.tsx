@@ -1,8 +1,8 @@
 import React from 'react';
 import { TGHeaderWrapper, TGLimitSizeText } from './TG.styled';
-import TGIcon from './TGIcon';
 import { close } from '../assets/icons';
 import { IconButton } from './Icon/styled';
+import Icon from './Icon';
 
 interface TGHeaderProps {
   onToggle: () => void;
@@ -17,10 +17,10 @@ const TGHeader = ({ onToggle }: TGHeaderProps) => {
           href="https://github.com/ssi02014/react-thumbnail-generator"
           target="_blank"
           rel="noreferrer">
-          Simple Thumbnail Generator
+          Thumbnail Generator
         </a>
         <IconButton onClick={onToggle} isBorder={false}>
-          <TGIcon src={close} width={20} height={20} />
+          <Icon src={close} width={20} height={20} />
         </IconButton>
       </div>
       <TGLimitSizeText>

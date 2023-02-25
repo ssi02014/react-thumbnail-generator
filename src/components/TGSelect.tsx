@@ -7,7 +7,7 @@ import React, {
   ComponentProps,
 } from 'react';
 import { SelectWrapper, SelectInput, SelectItemContainer } from './TG.styled';
-import TGIcon from './TGIcon';
+import Icon from './Icon';
 
 interface SelectContextProps {
   color?: string;
@@ -79,9 +79,9 @@ const TGSelect = ({
           <p>{value}</p>
           <p>
             {isOpenSelect ? (
-              <TGIcon src={arrowTop} width={12} height={12} />
+              <Icon src={arrowTop} width={12} height={12} />
             ) : (
-              <TGIcon src={arrowBottom} width={12} height={12} />
+              <Icon src={arrowBottom} width={12} height={12} />
             )}
           </p>
         </SelectInput>
