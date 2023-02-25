@@ -113,20 +113,22 @@ const App = () => {
         // If you do not enter this option, it will be rendered in the "root" div
         // However, there is a possibility that the UI will change due to CSS inheritance
 
-        iconSrc={iconImage}
-        // Insert the icon of the button to open the Thumbnail Model.
+        buttonIcon={<img src={iconImage} width={30} height={30} />}
+        // Insert the inner icon of the button that opens the thumbnail modal using the "<img>" tag
+        // I recommend the 1:1 ratio icon.
         // If you do not insert this option, the default icon takes effect.
 
+        iconSize="medium"
+        // Select the size of the default buttonIcon.
+        // If you do not enter this option, the default size(medium) applies
+        // But if you insert the button icon yourself, the option is meaningless.
+  
         iconPosition={[0, 20, 20, 0]}
         // Select the location of the button to open the Thumbnail Model.
         // Sequence: [top, right, bottom, left]
 
         modalPosition='right'
         // Select the location to open ThumbnailModal.
-
-        iconSize="medium"
-        // You can select the size of the button that opens the modal.
-        // If you do not enter this option, the default size(medium) applies
         
         additionalFontFamily={['Noto Sans', ...]}
         // You can add the font you want. But those fonts should already be applied to your project.
@@ -164,6 +166,7 @@ export default function Document() {
 
 ```jsx
 import dynamic from "next/dynamic";
+import Image from "next/image";
 
 const ThumbnailGenerator = dynamic(() => import("react-thumbnail-generator"), {
   ssr: false,
@@ -172,7 +175,10 @@ const ThumbnailGenerator = dynamic(() => import("react-thumbnail-generator"), {
 export default function Home() {
   return (
     <>
-      <ThumbnailGenerator id="thumbnail-generator" />
+      <ThumbnailGenerator 
+        id="thumbnail-generator" 
+        buttonIcon={<Image src={profilePic} width={30} height={30} alt="buttonIcon" />} 
+      />
     </>
   );
 }
@@ -253,13 +259,10 @@ const App = () => {
 - id
   - **Optional**
   - Type: `string`
-- iconSrc
+- buttonIcon
   - **Optional**
-  - Default
-
-  <img width="43" alt="스크린샷 2023-02-20 오후 10 48 05" src="https://user-images.githubusercontent.com/64779472/220125380-77aaaa79-9baf-4252-aa46-a44e6e91dd3d.png">
-
-  - Type: `string`
+  - Default: <img width="43" alt="스크린샷 2023-02-20 오후 10 48 05" src="https://user-images.githubusercontent.com/64779472/220125380-77aaaa79-9baf-4252-aa46-a44e6e91dd3d.png">
+  - Type: `Node`
 - iconPosition
   - **Optional**
   - Sequence: [top, right, bottom, left]

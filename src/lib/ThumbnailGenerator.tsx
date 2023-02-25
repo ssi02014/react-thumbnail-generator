@@ -8,7 +8,7 @@ import Icon from '../components/Icon';
 
 interface ThumbnailGeneratorProps {
   id?: string;
-  iconSrc?: string;
+  buttonIcon?: React.ReactNode;
   iconSize?: 'small' | 'medium' | 'large';
   position?: Position;
   iconPosition?: [number, number, number, number];
@@ -18,7 +18,7 @@ interface ThumbnailGeneratorProps {
 
 const ThumbnailGenerator = ({
   id,
-  iconSrc = toggleButton,
+  buttonIcon,
   iconSize = 'medium',
   iconPosition = [0, 20, 20, 0],
   modalPosition = 'right',
@@ -42,7 +42,11 @@ const ThumbnailGenerator = ({
           />
         ) : (
           <TGOpenButton iconPosition={iconPosition} onClick={onToggleGenerator}>
-            <Icon src={iconSrc} width={tgIconSize} height={tgIconSize} />
+            {buttonIcon ? (
+              buttonIcon
+            ) : (
+              <Icon src={toggleButton} width={tgIconSize} height={tgIconSize} />
+            )}
           </TGOpenButton>
         )}
       </TGPortal>

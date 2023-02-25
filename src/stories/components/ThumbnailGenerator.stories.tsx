@@ -7,10 +7,6 @@ import { toggleButton, fill } from '../../assets/icons';
 export default {
   title: 'components/ThumbnailGenerator',
   argTypes: {
-    iconSrc: {
-      options: [toggleButton, fill],
-      control: { type: 'select' },
-    },
     modalPosition: {
       options: ['left', 'right', 'center'],
       control: { type: 'select' },
@@ -24,7 +20,7 @@ export default {
 
 interface Props {
   iconSize?: Size;
-  iconSrc?: string;
+  buttonIcon?: React.ReactNode;
   modalPosition?: 'left' | 'right' | 'center';
   iconPosition?: [number, number, number, number];
 }
@@ -33,12 +29,12 @@ const Template: Story = ({
   modalPosition,
   iconPosition,
   iconSize,
-  iconSrc,
+  buttonIcon,
 }: Props) => {
   return (
     <ThumbnailGenerator
       id="thumbnail-generator"
-      iconSrc={iconSrc}
+      buttonIcon={buttonIcon}
       modalPosition={modalPosition}
       iconPosition={iconPosition}
       iconSize={iconSize}
@@ -50,7 +46,7 @@ export const Default = Template.bind({});
 
 Default.args = {
   iconSize: 'medium',
-  iconSrc: toggleButton,
+  buttonIcon: <img src={toggleButton} width={40} height={40} />,
   modalPosition: 'right',
   iconPosition: [0, 20, 20, 0],
 };
