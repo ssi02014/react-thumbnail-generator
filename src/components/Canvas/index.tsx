@@ -1,20 +1,17 @@
 import React, { useEffect } from 'react';
 import { Color } from 'react-color-palette';
-import { CanvasState } from '../types/canvas';
-import { TGCanvasWrapper } from './TG.styled';
+import { CanvasState } from '../../types/canvas';
+import * as S from './styled';
 
-interface TGCanvasProps {
+interface CanvasProps {
   canvasState: CanvasState;
   bgColor: Color;
   fontColor: Color;
   strokeColor: Color;
 }
 
-const TGCanvas = React.forwardRef(
-  (
-    { canvasState, bgColor, fontColor, strokeColor }: TGCanvasProps,
-    ref: any
-  ) => {
+const Canvas = React.forwardRef(
+  ({ canvasState, bgColor, fontColor, strokeColor }: CanvasProps, ref: any) => {
     const {
       value,
       canvasWidth,
@@ -84,7 +81,7 @@ const TGCanvas = React.forwardRef(
       if (ctx) {
         ctx.save();
 
-        if (isBlur) ctx.filter = 'blur(4px)'; // (*)
+        if (isBlur) ctx.filter = 'blur(5px)'; // (*)
         if (selectedImage) {
           ctx.drawImage(selectedImage, 0, 0);
         } else {
@@ -98,13 +95,13 @@ const TGCanvas = React.forwardRef(
     }, [bgColor, fontColor, strokeColor, canvasState]);
 
     return (
-      <TGCanvasWrapper>
+      <S.CanvasWrapper>
         <canvas ref={ref} width={+canvasWidth} height={+canvasHeight} />
-      </TGCanvasWrapper>
+      </S.CanvasWrapper>
     );
   }
 );
 
-TGCanvas.displayName = 'Search';
+Canvas.displayName = 'Search';
 
-export default TGCanvas;
+export default Canvas;

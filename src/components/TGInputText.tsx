@@ -9,7 +9,7 @@ const TGInputText = ({
   name,
   label,
   value,
-  width = 100,
+  width = 124,
   maxLength = 5,
   disabled = false,
   onChange,
