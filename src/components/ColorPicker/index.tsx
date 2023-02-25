@@ -1,13 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { TGColorPickerWrapper, TGIConButton } from './TG.styled';
-import { Color, ColorPicker } from 'react-color-palette';
+import { ColorPickerWrapper } from './styled';
+import { Color, ColorPicker as PaletteColorPicker } from 'react-color-palette';
+import { IconButton } from '../Icon/styled';
 
-interface TGColorPickerProps {
+interface ColorPickerPickerProps {
   children: React.ReactNode;
   color: Color;
   setColor: (color: Color) => void;
 }
-const TGColorPicker = ({ children, color, setColor }: TGColorPickerProps) => {
+const ColorPickerPicker = ({
+  children,
+  color,
+  setColor,
+}: ColorPickerPickerProps) => {
   const [isOpenColorPicker, setIsOpenColorPicker] = useState(false);
   const colorRef = useRef<HTMLDivElement>(null);
 
@@ -34,16 +39,16 @@ const TGColorPicker = ({ children, color, setColor }: TGColorPickerProps) => {
   }, [handleCloseColorPicker]);
 
   return (
-    <TGColorPickerWrapper>
-      <TGIConButton
+    <ColorPickerWrapper>
+      <IconButton
         isOpenColorPicker={isOpenColorPicker}
         onClick={handleOpenColorPicker}
         isBorder={true}>
         {children}
-      </TGIConButton>
+      </IconButton>
       {isOpenColorPicker && (
         <div ref={colorRef}>
-          <ColorPicker
+          <PaletteColorPicker
             width={250}
             height={150}
             color={color}
@@ -54,8 +59,8 @@ const TGColorPicker = ({ children, color, setColor }: TGColorPickerProps) => {
           />
         </div>
       )}
-    </TGColorPickerWrapper>
+    </ColorPickerWrapper>
   );
 };
 
-export default TGColorPicker;
+export default ColorPickerPicker;

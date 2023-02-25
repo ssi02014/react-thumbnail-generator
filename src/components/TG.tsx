@@ -1,11 +1,9 @@
 import React, { ChangeEvent, useMemo, useRef, useState } from 'react';
-import TGCanvas from './TGCanvas';
 import TGHeader from './TGHeader';
-import TGColorPicker from './TGColorPicker';
 import TGSelect from './TGSelect';
 import TGSelectItem from './TGSelectItem';
 import TGInputText from './TGInputText';
-import TGIcon from './TGIcon';
+import Icon from './Icon';
 import TGInputFile from './TGInputFile';
 import Divider from './Divider';
 import {
@@ -19,6 +17,10 @@ import { fill, font, stroke, blur } from '../assets/icons';
 import { Color, useColor } from 'react-color-palette';
 import * as S from './TG.styled';
 import { downloadCanvas, getValidMessage } from '../utils/common';
+import Accordion from './Accordion';
+import Canvas from './Canvas';
+import ColorPicker from './ColorPicker';
+import { IconButton } from './Icon/styled';
 
 interface TGProps {
   additionalFontFamily?: string[];
@@ -37,7 +39,7 @@ const TG = ({
     fontSize: '30px',
     fontStrokeType: 'None',
     fontFamily: 'Arial',
-    canvasWidth: '700',
+    canvasWidth: '600',
     canvasHeight: '400',
     imageType: 'png',
     xAxis: '0',
@@ -148,7 +150,7 @@ const TG = ({
       <TGHeader onToggle={onToggle} />
       <S.TGInnerWrapper>
         <S.TGContentWrapper>
-          <TGCanvas
+          <Canvas
             ref={canvasRef}
             bgColor={bgColor}
             fontColor={fontColor}
@@ -158,112 +160,121 @@ const TG = ({
 
           <S.TGControllerWrapper>
             <TGInputFile width={20} height={20} onChangeImage={onChangeImage} />
-            <TGColorPicker color={bgColor} setColor={onChangeBgColor}>
-              <TGIcon src={fill} width={20} height={20} />
-            </TGColorPicker>
-            <TGColorPicker color={fontColor} setColor={setFontColor}>
-              <TGIcon src={font} width={20} height={20} />
-            </TGColorPicker>
-            <TGColorPicker color={strokeColor} setColor={setStrokeColor}>
-              <TGIcon src={stroke} width={20} height={20} />
-            </TGColorPicker>
-            <S.TGIConButton isBorder onClick={toggleCanvasBlur}>
-              <TGIcon src={blur} width={20} height={20} />
-            </S.TGIConButton>
-          </S.TGControllerWrapper>
-
-          <S.TGControllerWrapper>
-            <TGInputText
-              name="xAxis"
-              label="Font x-axis"
-              value={canvasState.xAxis}
-              onChange={onChangeCanvasSize}
-            />
-            <TGInputText
-              name="yAxis"
-              label="Font y-axis"
-              value={canvasState.yAxis}
-              onChange={onChangeCanvasSize}
-            />
-            <TGInputText
-              name="angle"
-              label="Font Angle"
-              value={canvasState.angle}
-              maxLength={4}
-              onChange={onChangeCanvasSize}
-            />
+            <ColorPicker color={bgColor} setColor={onChangeBgColor}>
+              <Icon src={fill} width={20} height={20} />
+            </ColorPicker>
+            <ColorPicker color={fontColor} setColor={setFontColor}>
+              <Icon src={font} width={20} height={20} />
+            </ColorPicker>
+            <ColorPicker color={strokeColor} setColor={setStrokeColor}>
+              <Icon src={stroke} width={20} height={20} />
+            </ColorPicker>
+            <IconButton isBorder onClick={toggleCanvasBlur}>
+              <Icon src={blur} width={20} height={20} />
+            </IconButton>
           </S.TGControllerWrapper>
 
           <S.TGControllerWrapper>
             <S.TGTextarea
               name="value"
-              rows={4}
+              rows={5}
               value={canvasState.value}
               onChange={onChangeTextValue}
               placeholder="THUMBNAIL TEXT"
             />
           </S.TGControllerWrapper>
 
-          <Divider color="#f3f3f3" height={10} margin={[20, 0, 10, 0]} />
+          <Divider color="#f3f3f3" height={10} margin={[10, 0, 10, 0]} />
 
-          <S.TGControllerWrapper>
-            <TGInputText
-              name="canvasWidth"
-              label="Canvas Width"
-              value={canvasState.canvasWidth}
-              onChange={onChangeCanvasSize}
-              disabled={!!canvasState.selectedImage}
-            />
-            <TGInputText
-              name="canvasHeight"
-              label="Canvas Height"
-              value={canvasState.canvasHeight}
-              onChange={onChangeCanvasSize}
-              disabled={!!canvasState.selectedImage}
-            />
-          </S.TGControllerWrapper>
-          <S.TGControllerWrapper>
-            <TGSelect
-              name="fontFamily"
-              label="Font Family"
-              value={canvasState.fontFamily}
-              onChange={onChangeSelectValue}>
-              {fontFamilyOptions.map((item) => (
-                <TGSelectItem value={item} key={item}>
-                  {item}
-                </TGSelectItem>
-              ))}
-            </TGSelect>
-            <TGSelect
-              name="fontSize"
-              label="Font Size"
-              value={canvasState.fontSize}
-              onChange={onChangeSelectValue}>
-              {fontSizes.map((item) => (
-                <TGSelectItem value={item} key={item}>
-                  {item}
-                </TGSelectItem>
-              ))}
-            </TGSelect>
-            <TGSelect
-              name="fontStrokeType"
-              label="Font Stroke"
-              value={canvasState.fontStrokeType}
-              onChange={onChangeSelectValue}>
-              {strokeTypes.map((item) => (
-                <TGSelectItem value={item} key={item}>
-                  {item}
-                </TGSelectItem>
-              ))}
-            </TGSelect>
-          </S.TGControllerWrapper>
+          <Accordion title="Font Options">
+            <S.TGControllerWrapper>
+              <TGInputText
+                name="xAxis"
+                label="Font x-axis"
+                value={canvasState.xAxis}
+                onChange={onChangeCanvasSize}
+              />
+              <TGInputText
+                name="yAxis"
+                label="Font y-axis"
+                value={canvasState.yAxis}
+                onChange={onChangeCanvasSize}
+              />
+              <TGInputText
+                name="angle"
+                label="Font Angle"
+                value={canvasState.angle}
+                maxLength={4}
+                onChange={onChangeCanvasSize}
+              />
+            </S.TGControllerWrapper>
 
-          <Divider color="#f3f3f3" height={10} margin={[20, 0, 10, 0]} />
+            <S.TGControllerWrapper>
+              <TGSelect
+                name="fontFamily"
+                label="Font Family"
+                value={canvasState.fontFamily}
+                onChange={onChangeSelectValue}>
+                {fontFamilyOptions.map((item) => (
+                  <TGSelectItem value={item} key={item}>
+                    {item}
+                  </TGSelectItem>
+                ))}
+              </TGSelect>
+              <TGSelect
+                name="fontSize"
+                label="Font Size"
+                value={canvasState.fontSize}
+                onChange={onChangeSelectValue}>
+                {fontSizes.map((item) => (
+                  <TGSelectItem value={item} key={item}>
+                    {item}
+                  </TGSelectItem>
+                ))}
+              </TGSelect>
+              <TGSelect
+                name="fontStrokeType"
+                label="Font Stroke"
+                value={canvasState.fontStrokeType}
+                onChange={onChangeSelectValue}>
+                {strokeTypes.map((item) => (
+                  <TGSelectItem value={item} key={item}>
+                    {item}
+                  </TGSelectItem>
+                ))}
+              </TGSelect>
+            </S.TGControllerWrapper>
+          </Accordion>
+
+          <Divider color="#f3f3f3" height={10} margin={[10, 0, 10, 0]} />
+
+          <Accordion title="Canvas Options">
+            <S.TGControllerWrapper>
+              <TGInputText
+                name="canvasWidth"
+                label="Canvas Width"
+                value={canvasState.canvasWidth}
+                onChange={onChangeCanvasSize}
+                disabled={!!canvasState.selectedImage}
+                width={155}
+              />
+              <TGInputText
+                name="canvasHeight"
+                label="Canvas Height"
+                value={canvasState.canvasHeight}
+                onChange={onChangeCanvasSize}
+                disabled={!!canvasState.selectedImage}
+                width={155}
+              />
+            </S.TGControllerWrapper>
+          </Accordion>
+
+          <Divider color="#f3f3f3" height={10} margin={[10, 0, 0, 0]} />
 
           <S.TGControllerWrapper>
             <TGSelect
               name="imageType"
-              label="Image Type"
+              label="Download Image Type"
               value={canvasState.imageType}
               onChange={onChangeSelectValue}>
               {imageTypes.map((item) => (
