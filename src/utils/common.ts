@@ -3,11 +3,12 @@ import { ImageTypes } from '../types/canvas';
 
 export const getValidMessage = (
   condition: boolean,
-  type: 'imageSize' | 'canvasSize'
+  type: 'imageSize' | 'canvasSize' | 'fontAngle'
 ) => {
   const message = {
     imageSize: `Please register a picture smaller than "Limit Width"`,
     canvasSize: `Please set the canvas width smaller than "Limit Width"`,
+    fontAngle: 'Please set a value in the range of -360 to 360',
   } as { [key: string]: string };
 
   if (condition) return message[type];

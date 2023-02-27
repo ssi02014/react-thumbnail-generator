@@ -2,7 +2,7 @@ import React from 'react';
 import { Story } from '@storybook/react/types-6-0';
 import ThumbnailGenerator from '../../lib/ThumbnailGenerator';
 import { Size } from '../../utils/style';
-import { toggleButton, fill } from '../../assets/icons';
+import { toggleButton } from '../../assets/icons';
 
 export default {
   title: 'components/ThumbnailGenerator',
@@ -34,7 +34,7 @@ const Template: Story = ({
   return (
     <ThumbnailGenerator
       id="thumbnail-generator"
-      buttonIcon={buttonIcon}
+      // buttonIcon={buttonIcon}
       modalPosition={modalPosition}
       iconPosition={iconPosition}
       iconSize={iconSize}

@@ -1,3 +1,4 @@
+import useDragAndDropText from '../../components/hooks/useDragAndDropText';
 import React, { useEffect } from 'react';
 import { Color } from 'react-color-palette';
 import { CanvasState } from '../../types/canvas';
@@ -20,11 +21,18 @@ const Canvas = React.forwardRef(
       fontStrokeType,
       selectedImage,
       fontFamily,
-      xAxis,
-      yAxis,
       angle,
       isBlur,
+      isBlockEvent,
     } = canvasState;
+    const {
+      dragAndDropTextData,
+      handleCanvasMouseDown,
+      handleCanvasMouseMove,
+      handleCanvasMouseUp,
+      handleCanvasMouseLeave,
+      handleCanvasOffsetReset,
+    } = useDragAndDropText(+canvasWidth, +canvasHeight);
 
     const getLineWidthByStrokeType = () => {
       const strokeObj = {
@@ -37,40 +45,59 @@ const Canvas = React.forwardRef(
       return strokeObj[fontStrokeType];
     };
 
-    const setCanvasText = (
-      canvas: HTMLCanvasElement,
-      ctx: CanvasRenderingContext2D
+    const calculateDirection = (
+      linesLength: number,
+      lineHeight: number,
+      idx: number
     ) => {
+      const { offsetX, offsetY } = dragAndDropTextData;
+
+      const x = offsetX ? offsetX : +canvasWidth / 2;
+      const y = offsetY
+        ? offsetY - ((linesLength - 1) * lineHeight) / 2 + idx * lineHeight
+        : +canvasHeight / 2 -
+          ((linesLength - 1) * lineHeight) / 2 +
+          idx * lineHeight;
+
+      return { x, y };
+    };
+
+    const setCanvasText = (ctx: CanvasRenderingContext2D) => {
+      const { offsetX, offsetY } = dragAndDropTextData;
       const lines = value.split('\n');
       const size = +fontSize.replace('px', '');
-      const lineHeight = size * 1.2;
+      const lineHeight = size * 1.15;
+      const centerX = +canvasWidth / 2;
+      const centerY = +canvasHeight / 2;
 
       ctx.font = `${size}px ${fontFamily}`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
 
+      ctx.save(); // 현재 상태 저장
+      ctx.translate(offsetX ? offsetX : centerX, offsetY ? offsetY : centerY); // 중심으로 이동
+      ctx.rotate((+angle * Math.PI) / 180); // 회전
+      ctx.translate(
+        offsetX ? -offsetX : -centerX,
+        offsetY ? -offsetY : -centerY
+      ); // 이전 위치로 이동
+
       lines.forEach((line, idx) => {
-        const x = canvas.width / 2 + +(xAxis || '0');
-        const y =
-          canvas.height / 2 -
-          ((lines.length - 1) * lineHeight) / 2 +
-          idx * lineHeight +
-          +(yAxis || '0');
+        const { x, y } = calculateDirection(lines.length, lineHeight, idx);
 
         ctx.save();
         ctx.translate(x, y);
-        ctx.rotate((+angle * Math.PI) / 180);
 
         if (fontStrokeType !== 'None') {
           ctx.lineWidth = getLineWidthByStrokeType();
           ctx.strokeStyle = `${strokeColor.hex}`;
           ctx.strokeText(line, 0, 0);
         }
-
         ctx.fillStyle = fontColor.hex;
         ctx.fillText(line, 0, 0);
         ctx.restore();
       });
+      ctx.restore();
     };
 
     useEffect(() => {
@@ -90,13 +117,25 @@ const Canvas = React.forwardRef(
         }
 
         ctx.restore();
-        setCanvasText(canvas, ctx);
+        setCanvasText(ctx);
       }
-    }, [bgColor, fontColor, strokeColor, canvasState]);
+    }, [bgColor, fontColor, strokeColor, canvasState, dragAndDropTextData]);
+
+    useEffect(() => {
+      handleCanvasOffsetReset();
+    }, [selectedImage]);
 
     return (
       <S.CanvasWrapper>
-        <canvas ref={ref} width={+canvasWidth} height={+canvasHeight} />
+        <canvas
+          ref={ref}
+          width={+canvasWidth}
+          height={+canvasHeight}
+          onMouseDown={(e) => !isBlockEvent && handleCanvasMouseDown(e)}
+          onMouseMove={handleCanvasMouseMove}
+          onMouseUp={handleCanvasMouseUp}
+          onMouseLeave={handleCanvasMouseLeave}
+        />
       </S.CanvasWrapper>
     );
   }

@@ -10,9 +10,8 @@ export interface CanvasState {
   canvasWidth: string;
   canvasHeight: string;
   imageType: ImageTypes;
-  xAxis: string;
-  yAxis: string;
-  angle: string;
+  angle: number;
   isBlur: boolean;
   selectedImage: HTMLImageElement | null;
+  isBlockEvent: boolean;
 }
