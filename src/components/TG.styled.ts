@@ -34,6 +34,7 @@ export const TGBodyWrapper = styled.section<{
   background-color: #ffffff;
   flex-direction: column;
   overflow: hidden;
+  font-family: Arial;
 
   ${({ modalPosition }) => getModalPosition(modalPosition)}
 `;
@@ -151,16 +152,10 @@ export const TGControllerWrapper = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 10px;
+  gap: 10px;
 
-  & > textarea + div {
-    margin-left: 10px;
-  }
-  & > div + div {
-    margin-left: 10px;
-  }
-
-  & > div + button {
-    margin-left: 10px;
+  & > input[type='range'] {
+    margin-top: 20px;
   }
 `;
 

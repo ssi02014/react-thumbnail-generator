@@ -21,6 +21,7 @@ import Accordion from './Accordion';
 import Canvas from './Canvas';
 import ColorPicker from './ColorPicker';
 import { IconButton } from './Icon/styled';
+import InputRange from './Inputs/Range';
 
 interface TGProps {
   additionalFontFamily?: string[];
@@ -35,16 +36,14 @@ const TG = ({
 }: TGProps) => {
   const LIMIT_WIDTH = window.innerWidth - 70;
   const [canvasState, setCanvasState] = useState<CanvasState>({
-    value: 'Simple Thumbnail Generator 😁',
+    value: 'Simple Thumbnail\nGenerator 😁',
     fontSize: '30px',
     fontStrokeType: 'None',
     fontFamily: 'Arial',
     canvasWidth: '600',
     canvasHeight: '400',
     imageType: 'png',
-    xAxis: '0',
-    yAxis: '0',
-    angle: '0',
+    angle: 0,
     isBlur: false,
     selectedImage: null,
   });
@@ -141,6 +140,26 @@ const TG = ({
     downloadCanvas(canvasRef, canvasState.imageType);
   };
 
+  const handleChangeAngle = (e: ChangeEvent<HTMLInputElement>) => {
+    const regex = /[^0-9]/g;
+    const { name, value } = e.target;
+
+    const replacedCallback = getReplaceCallback(name);
+    const replacedValue = value.replace(regex, replacedCallback);
+
+    const validMessage = getValidMessage(
+      +value < -360 || +value > 360,
+      'fontAngle'
+    );
+
+    if (validMessage) return alert(validMessage);
+
+    setCanvasState({
+      ...canvasState,
+      angle: +replacedValue,
+    });
+  };
+
   const fontFamilyOptions = useMemo(() => {
     return [...additionalFontFamily, ...fontFamilies];
   }, [additionalFontFamily]);
@@ -189,23 +208,18 @@ const TG = ({
           <Accordion title="Font Options">
             <S.TGControllerWrapper>
               <TGInputText
-                name="xAxis"
-                label="Font x-axis"
-                value={canvasState.xAxis}
-                onChange={onChangeCanvasSize}
-              />
-              <TGInputText
-                name="yAxis"
-                label="Font y-axis"
-                value={canvasState.yAxis}
-                onChange={onChangeCanvasSize}
-              />
-              <TGInputText
                 name="angle"
                 label="Font Angle"
                 value={canvasState.angle}
                 maxLength={4}
-                onChange={onChangeCanvasSize}
+                onChange={handleChangeAngle}
+              />
+              <InputRange
+                name="angle"
+                min={-360}
+                max={360}
+                value={canvasState.angle}
+                onChange={handleChangeAngle}
               />
             </S.TGControllerWrapper>
 
