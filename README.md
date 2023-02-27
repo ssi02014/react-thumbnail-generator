@@ -237,6 +237,7 @@ const App = () => {
 <br />
 
 ### Result Screen 🖥️
+- The current UI is different from the image below 🙏
 
 <img src="https://user-images.githubusercontent.com/64779472/220677341-7b6c062f-f0f6-49dd-8bcd-b402b61660ea.png" width="450">
 
