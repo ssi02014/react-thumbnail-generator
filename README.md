@@ -68,16 +68,16 @@
 
 ## Features 😁
 
-- Download Thumbnail Image
-- Resize Canvas
-- Fill Background Colors or Picture
-- Choose Blur Effect
-- Choose Font Family & Size & Stroke & Color & Angle
-- Drag & Drop Canvas Text
-- Add Custom Web Font Family
-- Select the Modal button and the location of the Modal.
-- Choose Image Type (`png`, `jpg`, `webp`)
-- Supports TypeScript & Next
+- Downloading thumbnail images
+- Resizing the canvas
+- Filling the background with colors or pictures
+- Choosing a blur effect
+- Selecting font family, size, stroke, color, and angle
+- Dragging and dropping text on the canvas
+- Adding custom web font families
+- Selecting the modal button and its location
+- Choosing the image type (png, jpg, webp)
+- Supporting TypeScript and Next
 
 
 <br />
@@ -105,8 +105,8 @@ npm install react-thumbnail-generator
 <br />
 
 ### STEP 2️⃣
-- Add the div box with the desired ID to `public/index.html`
-- `<ThumbnailGenerator>` is applied with a `Portal` to avoid being affected by CSS inheritance.
+- Enter the desired ID of the div that you want to add to `public/index.html`.
+- To avoid being affected by CSS inheritance, `<ThumbnailGenerator>` is applied with a Portal.
 
 ```html
 <!DOCTYPE html>
@@ -126,7 +126,7 @@ npm install react-thumbnail-generator
 <br />
 
 ### STEP 3️⃣
-- Add \<ThumbnailGenerator> component.
+- Add `<ThumbnailGenerator>` component.
 
 ```jsx
 import ThumbnailGenerator from 'react-thumbnail-generator';
@@ -137,29 +137,28 @@ const App = () => {
     <div>
       <ThumbnailGenerator
         id="thumbnail-generator"
-        // Enter the ID of the div you added in public/index.html.
-        // If you do not enter this option, it will be rendered in the "root" div
-        // However, there is a possibility that the UI will change due to CSS inheritance
+        // Please enter the ID of the div you added in public/index.html. 
+        // If you do not specify an ID, it will be rendered in the "root" div. 
+        // However, this may cause the UI to change due to CSS inheritance.
 
-        buttonIcon={<img src={iconImage} width={30} height={30} />}
-        // Insert the inner icon of the button that opens the thumbnail modal using the "<img>" tag
-        // I recommend the 1:1 ratio icon.
-        // If you do not insert this option, the default icon takes effect.
+        buttonIcon={<img src={iconImage} width={30} height={30} alt="iconImage" />}
+        // To insert the inner icon of the button that opens the thumbnail modal, use the ReactNode. 
+        // If you do not include this option, the default icon will be used.
 
         iconSize="medium"
-        // Select the size of the default buttonIcon.
-        // If you do not enter this option, the default size(medium) applies
-        // But if you insert the button icon yourself, the option is meaningless.
+        // Please select the size of the default button icon. 
+        // If no size is specified, the default size (medium) will be applied. 
+        // However, if you are inserting a custom button icon, this option is meaningless.
   
         iconPosition={[0, 20, 20, 0]}
-        // Select the location of the button to open the Thumbnail Model.
+        // Please select the location of the button to open the Thumbnail Model.
         // Sequence: [top, right, bottom, left]
 
         modalPosition='right'
-        // Select the location to open ThumbnailModal.
+        // Please select the location to open the ThumbnailModal.
         
         additionalFontFamily={['Noto Sans', ...]}
-        // You can add the font you want. But those fonts should already be applied to your project.
+        // You can add the font of your choice to your project, but that font must already applied to your project.
       />
     </div>
   )
@@ -169,7 +168,7 @@ const App = () => {
 
 ## How to use Next 😊
 ### STEP 1️⃣
-- Add the div box with the desired ID to `_document`
+- Enter the desired ID of the div that you want to add to `_document`.
 ```jsx
 import { Html, Head, Main, NextScript } from "next/document";
 
@@ -190,7 +189,7 @@ export default function Document() {
 <br />
 
 ### STEP 2️⃣
-- Add \<ThumbnailGenerator> to dynamic import.
+- Add `<ThumbnailGenerator>` to dynamic import.
 
 ```jsx
 import dynamic from "next/dynamic";
