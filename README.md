@@ -39,7 +39,6 @@
     <img src="https://contrib.rocks/image?repo=ssi02014/react-thumbnail-generator">
   </a>
 </p>
- 
 
 <br />
 
@@ -50,10 +49,28 @@
   </a>
 </p>
 
+
+## Video 📷
+
+<h3 align='center'>Default</h5>
+<p align='center'>
+  <img width="450" src="https://user-images.githubusercontent.com/64779472/221564006-0739ba47-c03a-498b-a9b7-24b87e878878.gif">
+</p>
+
+<br />
+
+<h3 align='center'>Picture</h5>
+<p align='center'>
+  <img width="450" src="https://user-images.githubusercontent.com/64779472/221565682-6eefb15c-92bd-4a3e-83ec-953b9b0acb5b.gif">
+</p>
+
+<br />
+
 ## Features 😁
+
 - Download Thumbnail Image
 - Resize Canvas
-- Choose Background Color & Picture
+- Fill Background Colors or Picture
 - Choose Blur Effect
 - Choose Font Family & Size & Stroke & Color & Angle
 - Drag & Drop Canvas Text
@@ -62,6 +79,17 @@
 - Choose Image Type (`png`, `jpg`, `webp`)
 - Supports TypeScript & Next
 
+
+<br />
+
+## Top Icons Feature 
+<img width="450-" alt="스크린샷 2023-02-27 오후 9 53 09" src="https://user-images.githubusercontent.com/64779472/221569330-cf13379a-b21e-43a1-a766-b22d874da60d.png">
+
+- 1: Picture
+- 2: Background Color
+- 3: Font Color
+- 4: Font Stroke Color
+- 5: Blur Effect
 
 <br />
 
@@ -242,17 +270,6 @@ const App = () => {
 <img src="https://user-images.githubusercontent.com/64779472/220677341-7b6c062f-f0f6-49dd-8bcd-b402b61660ea.png" width="450">
 
 <br />
-<br />
-
-## Video 📷
-### Default
-![ezgif com-video-to-gif (4)](https://user-images.githubusercontent.com/64779472/221564006-0739ba47-c03a-498b-a9b7-24b87e878878.gif)
-
-### Picture
-![ezgif com-video-to-gif](https://user-images.githubusercontent.com/64779472/221565682-6eefb15c-92bd-4a3e-83ec-953b9b0acb5b.gif)
-
-
-<br />
 
 ## API 📄
 - id
@@ -261,7 +278,7 @@ const App = () => {
 - buttonIcon
   - **Optional**
   - Default: <img width="43" alt="스크린샷 2023-02-20 오후 10 48 05" src="https://user-images.githubusercontent.com/64779472/220125380-77aaaa79-9baf-4252-aa46-a44e6e91dd3d.png">
-  - Type: `Node`
+  - Type: `ReactNode`
 - iconPosition
   - **Optional**
   - Sequence: [top, right, bottom, left]

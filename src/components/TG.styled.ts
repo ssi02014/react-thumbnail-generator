@@ -260,13 +260,18 @@ export const TGInputFileWrapper = styled.div`
   justify-content: center;
   cursor: pointer;
   border: 1px solid #cccccc;
+  padding: 4px 5px;
 
   label {
     cursor: pointer;
+    margin: 0;
     width: 20px;
     height: 20px;
-    padding: 4px 5px;
-    margin: 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
 
   input {
