@@ -50,12 +50,11 @@
   </a>
 </p>
 
-
 ## Features 😁
 - Download Thumbnail Image
 - Resize Canvas
 - Choose Background Color & Picture
-- Choose Blur
+- Choose Blur Effect
 - Choose Font Family & Size & Stroke & Color & Angle
 - Drag & Drop Canvas Text
 - Add Custom Web Font Family
@@ -189,7 +188,7 @@ export default function Home() {
 
 <br />
 
-## How to add a Web font 😊
+## How to add Web fonts 😊
 ### STEP 1️⃣
 - Add a web font. `public/index.html`
 - or CSS fontFamily
@@ -246,13 +245,11 @@ const App = () => {
 
 ## Video 📷
 ### Default
-![ezgif com-video-to-gif (1)](https://user-images.githubusercontent.com/64779472/220687212-d60e66fb-f8e6-450d-b33e-ca161a1b04d8.gif)
+![ezgif com-video-to-gif (4)](https://user-images.githubusercontent.com/64779472/221564006-0739ba47-c03a-498b-a9b7-24b87e878878.gif)
 
 ### Picture
-![ezgif com-video-to-gif](https://user-images.githubusercontent.com/64779472/220687159-375c736a-b9cc-4646-8e82-8cbca983b34c.gif)
+![ezgif com-video-to-gif](https://user-images.githubusercontent.com/64779472/221565682-6eefb15c-92bd-4a3e-83ec-953b9b0acb5b.gif)
 
-### Blur
-![ezgif com-video-to-gif (2)](https://user-images.githubusercontent.com/64779472/220988711-d1399c3a-ee4a-4827-9d20-6adf7a437bd4.gif)
 
 <br />
 
