@@ -23,6 +23,7 @@ const Canvas = React.forwardRef(
       fontFamily,
       angle,
       isBlur,
+      isBlockEvent,
     } = canvasState;
     const {
       dragAndDropTextData,
@@ -130,7 +131,7 @@ const Canvas = React.forwardRef(
           ref={ref}
           width={+canvasWidth}
           height={+canvasHeight}
-          onMouseDown={handleCanvasMouseDown}
+          onMouseDown={(e) => !isBlockEvent && handleCanvasMouseDown(e)}
           onMouseMove={handleCanvasMouseMove}
           onMouseUp={handleCanvasMouseUp}
           onMouseLeave={handleCanvasMouseLeave}

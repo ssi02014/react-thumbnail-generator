@@ -46,6 +46,7 @@ const TG = ({
     angle: 0,
     isBlur: false,
     selectedImage: null,
+    isBlockEvent: false,
   });
 
   const [bgColor, setBgColor] = useColor('hex', '#192841');
@@ -53,6 +54,13 @@ const TG = ({
   const [strokeColor, setStrokeColor] = useColor('hex', '#121212');
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  const toggleIsBlockEvent = () => {
+    setCanvasState({
+      ...canvasState,
+      isBlockEvent: !canvasState.isBlockEvent,
+    });
+  };
 
   const getReplaceCallback = (name: string) => {
     const canvas = ['canvasWidth', 'canvasHeight'];
@@ -179,13 +187,22 @@ const TG = ({
 
           <S.TGControllerWrapper>
             <TGInputFile width={20} height={20} onChangeImage={onChangeImage} />
-            <ColorPicker color={bgColor} setColor={onChangeBgColor}>
+            <ColorPicker
+              color={bgColor}
+              setColor={onChangeBgColor}
+              toggleIsBlockEvent={toggleIsBlockEvent}>
               <Icon src={fill} width={20} height={20} />
             </ColorPicker>
-            <ColorPicker color={fontColor} setColor={setFontColor}>
+            <ColorPicker
+              color={fontColor}
+              setColor={setFontColor}
+              toggleIsBlockEvent={toggleIsBlockEvent}>
               <Icon src={font} width={20} height={20} />
             </ColorPicker>
-            <ColorPicker color={strokeColor} setColor={setStrokeColor}>
+            <ColorPicker
+              color={strokeColor}
+              setColor={setStrokeColor}
+              toggleIsBlockEvent={toggleIsBlockEvent}>
               <Icon src={stroke} width={20} height={20} />
             </ColorPicker>
             <IconButton isBorder onClick={toggleCanvasBlur}>

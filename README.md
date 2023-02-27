@@ -56,7 +56,8 @@
 - Resize Canvas
 - Choose Background Color & Picture
 - Choose Blur
-- Choose Font Family & Size & Stroke & Color & Position & Angle
+- Choose Font Family & Size & Stroke & Color & Angle
+- Drag & Drop Canvas Text
 - Add Custom Web Font Family
 - Select the Modal button and the location of the Modal.
 - Choose Image Type (`png`, `jpg`, `webp`)

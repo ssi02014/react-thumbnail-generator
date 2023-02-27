@@ -7,10 +7,12 @@ interface ColorPickerPickerProps {
   children: React.ReactNode;
   color: Color;
   setColor: (color: Color) => void;
+  toggleIsBlockEvent: () => void;
 }
 const ColorPickerPicker = ({
   children,
   color,
+  toggleIsBlockEvent,
   setColor,
 }: ColorPickerPickerProps) => {
   const [isOpenColorPicker, setIsOpenColorPicker] = useState(false);
@@ -21,6 +23,7 @@ const ColorPickerPicker = ({
       if (colorRef && colorRef.current) {
         if (!colorRef.current.contains(e.target)) {
           setIsOpenColorPicker(false);
+          toggleIsBlockEvent();
         }
       }
     }
@@ -28,6 +31,7 @@ const ColorPickerPicker = ({
 
   const handleOpenColorPicker = () => {
     setIsOpenColorPicker(!isOpenColorPicker);
+    toggleIsBlockEvent();
   };
 
   useEffect(() => {

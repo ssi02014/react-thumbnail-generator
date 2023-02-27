@@ -13,4 +13,5 @@ export interface CanvasState {
   angle: number;
   isBlur: boolean;
   selectedImage: HTMLImageElement | null;
+  isBlockEvent: boolean;
 }
