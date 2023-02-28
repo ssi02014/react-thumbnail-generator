@@ -6,6 +6,10 @@ import TGInputText from './TGInputText';
 import Icon from './Icon';
 import TGInputFile from './TGInputFile';
 import Divider from './Divider';
+import Accordion from './Accordion';
+import Canvas from './Canvas';
+import ColorPicker from './ColorPicker';
+import InputRange from './Inputs/InputRange';
 import {
   fontFamilies,
   fontSizes,
@@ -17,11 +21,7 @@ import { fill, font, stroke, blur } from '../assets/icons';
 import { Color, useColor } from 'react-color-palette';
 import * as S from './TG.styled';
 import { downloadCanvas, getValidMessage } from '../utils/common';
-import Accordion from './Accordion';
-import Canvas from './Canvas';
-import ColorPicker from './ColorPicker';
 import { IconButton } from './Icon/styled';
-import InputRange from './Inputs/Range';
 
 interface TGProps {
   additionalFontFamily?: string[];
@@ -168,6 +168,15 @@ const TG = ({
     });
   };
 
+  const canvasStateWithColors = useMemo(() => {
+    return {
+      ...canvasState,
+      bgColor,
+      fontColor,
+      strokeColor,
+    };
+  }, [canvasState, bgColor, fontColor, strokeColor]);
+
   const fontFamilyOptions = useMemo(() => {
     return [...additionalFontFamily, ...fontFamilies];
   }, [additionalFontFamily]);
@@ -177,13 +186,7 @@ const TG = ({
       <TGHeader onToggle={onToggle} />
       <S.TGInnerWrapper>
         <S.TGContentWrapper>
-          <Canvas
-            ref={canvasRef}
-            bgColor={bgColor}
-            fontColor={fontColor}
-            strokeColor={strokeColor}
-            canvasState={canvasState}
-          />
+          <Canvas ref={canvasRef} canvasState={canvasStateWithColors} />
 
           <S.TGControllerWrapper>
             <TGInputFile width={20} height={20} onChangeImage={onChangeImage} />
@@ -224,14 +227,8 @@ const TG = ({
 
           <Accordion title="Font Options">
             <S.TGControllerWrapper>
-              <TGInputText
-                name="angle"
-                label="Font Angle"
-                value={canvasState.angle}
-                maxLength={4}
-                onChange={handleChangeAngle}
-              />
               <InputRange
+                label={'Font Angle'}
                 name="angle"
                 min={-360}
                 max={360}
