@@ -12,7 +12,7 @@ export interface CanvasState {
   canvasWidth: string;
   canvasHeight: string;
   imageType: ImageTypes;
-  angle: number;
+  angle: string;
   isBlur: boolean;
   selectedImage: HTMLImageElement | null;
   isBlockEvent: boolean;

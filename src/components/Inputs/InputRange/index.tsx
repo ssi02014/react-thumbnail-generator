@@ -3,7 +3,7 @@ import React, { ComponentProps, useMemo } from 'react';
 import * as S from './styled';
 
 interface InputRangeProps extends ComponentProps<'input'> {
-  value: number;
+  value: string;
   min: number;
   max: number;
   label: string;
@@ -18,7 +18,8 @@ const InputRange = ({
   onChange,
 }: InputRangeProps) => {
   const backgroundSize = useMemo(() => {
-    return ((value - min) * 100) / (max - min) + '% 100%';
+    if (value === '-') return '50% 100%';
+    return ((+value - min) * 100) / (max - min) + '% 100%';
   }, [min, max, value]);
 
   return (
@@ -34,7 +35,7 @@ const InputRange = ({
           backgroundSize={backgroundSize}
         />
       </S.InputLabelRangeContainer>
-      <TGInputText width={40} name={name} value={value} onChange={onChange} />
+      <TGInputText width={60} name={name} value={value} onChange={onChange} />
     </S.InputRangeWrapper>
   );
 };

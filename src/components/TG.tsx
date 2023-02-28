@@ -43,7 +43,7 @@ const TG = ({
     canvasWidth: '600',
     canvasHeight: '400',
     imageType: 'png',
-    angle: 0,
+    angle: '0',
     isBlur: false,
     selectedImage: null,
     isBlockEvent: false,
@@ -164,7 +164,7 @@ const TG = ({
 
     setCanvasState({
       ...canvasState,
-      angle: +replacedValue,
+      angle: replacedValue,
     });
   };
 
@@ -284,7 +284,7 @@ const TG = ({
                 value={canvasState.canvasWidth}
                 onChange={onChangeCanvasSize}
                 disabled={!!canvasState.selectedImage}
-                width={155}
+                width={180}
               />
               <TGInputText
                 name="canvasHeight"
@@ -292,7 +292,7 @@ const TG = ({
                 value={canvasState.canvasHeight}
                 onChange={onChangeCanvasSize}
                 disabled={!!canvasState.selectedImage}
-                width={155}
+                width={180}
               />
             </S.TGControllerWrapper>
           </Accordion>
