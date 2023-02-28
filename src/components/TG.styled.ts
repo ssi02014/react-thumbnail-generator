@@ -36,6 +36,10 @@ export const TGBodyWrapper = styled.section<{
   overflow: hidden;
   font-family: Arial;
 
+  * {
+    box-sizing: border-box;
+  }
+
   ${({ modalPosition }) => getModalPosition(modalPosition)}
 `;
 
