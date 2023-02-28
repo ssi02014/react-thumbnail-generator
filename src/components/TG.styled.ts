@@ -35,6 +35,7 @@ export const TGBodyWrapper = styled.section<{
   flex-direction: column;
   overflow: hidden;
   font-family: Arial;
+  box-sizing: border-box;
 
   ${({ modalPosition }) => getModalPosition(modalPosition)}
 `;

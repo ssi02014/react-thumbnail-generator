@@ -2,7 +2,7 @@ import React, { ComponentProps } from 'react';
 import { TGInputTextContainer } from './TG.styled';
 
 interface TGInputTextProps extends ComponentProps<'input'> {
-  label: string;
+  label?: string;
 }
 
 const TGInputText = ({
