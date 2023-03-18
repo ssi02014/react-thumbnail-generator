@@ -299,6 +299,7 @@ const App = () => {
   - Type: `string[]`
 - isFullWidth
   - **Optional**
+  - Default: `false`
   - Type: `boolean`
 
 <br />
