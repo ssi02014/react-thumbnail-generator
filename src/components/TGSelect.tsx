@@ -1,4 +1,4 @@
-import { arrowBottom, arrowTop } from '../assets/icons';
+import { arrowBottom, arrowTop } from '@assets/icons';
 import React, {
   useCallback,
   useState,

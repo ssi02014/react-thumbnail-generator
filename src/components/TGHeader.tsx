@@ -1,6 +1,6 @@
 import React from 'react';
 import { TGHeaderWrapper, TGLimitSizeText } from './TG.styled';
-import { close } from '../assets/icons';
+import { close } from '@assets/icons';
 import { IconButton } from './Icon/styled';
 import Icon from './Icon';
 
@@ -9,7 +9,8 @@ interface TGHeaderProps {
 }
 
 const TGHeader = ({ onToggle }: TGHeaderProps) => {
-  const LimitWidthSize = window.innerWidth - 70;
+  const LimitWidthSize = window.innerWidth;
+
   return (
     <TGHeaderWrapper>
       <div>

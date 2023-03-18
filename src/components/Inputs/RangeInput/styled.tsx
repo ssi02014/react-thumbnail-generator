@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const InputRangeWrapper = styled.div`
+export const RangeInputWrapper = styled.div`
   display: flex;
   height: 50px;
   align-items: center;
@@ -18,7 +18,7 @@ export const InputLabelRangeContainer = styled.div`
   }
 `;
 
-export const StyledInputRange = styled.input<{ backgroundSize: string }>`
+export const StyledRangeInput = styled.input<{ backgroundSize: string }>`
   -webkit-appearance: none;
   appearance: none;
   width: 150px;

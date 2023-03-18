@@ -1,32 +1,32 @@
-import TGInputText from '../../TGInputText';
 import React, { ComponentProps, useMemo } from 'react';
+import TextInput from '../TextInput';
 import * as S from './styled';
 
-interface InputRangeProps extends ComponentProps<'input'> {
+interface RangeInputProps extends ComponentProps<'input'> {
   value: string;
   min: number;
   max: number;
   label: string;
 }
 
-const InputRange = ({
+const RangeInput = ({
   label,
   name,
   min,
   max,
   value,
   onChange,
-}: InputRangeProps) => {
+}: RangeInputProps) => {
   const backgroundSize = useMemo(() => {
     if (value === '-') return '50% 100%';
     return ((+value - min) * 100) / (max - min) + '% 100%';
   }, [min, max, value]);
 
   return (
-    <S.InputRangeWrapper>
+    <S.RangeInputWrapper>
       <S.InputLabelRangeContainer>
         <label htmlFor={name}>{label}</label>
-        <S.StyledInputRange
+        <S.StyledRangeInput
           type="range"
           min={min}
           max={max}
@@ -35,9 +35,9 @@ const InputRange = ({
           backgroundSize={backgroundSize}
         />
       </S.InputLabelRangeContainer>
-      <TGInputText width={60} name={name} value={value} onChange={onChange} />
-    </S.InputRangeWrapper>
+      <TextInput width={60} name={name} value={value} onChange={onChange} />
+    </S.RangeInputWrapper>
   );
 };
 
-export default InputRange;
+export default RangeInput;

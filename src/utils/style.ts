@@ -21,19 +21,19 @@ export const getModalPosition = (position: 'left' | 'right' | 'center') => {
   switch (position) {
     case 'left':
       return `
-        bottom: 20px;
-        left: 20px;
+        bottom: 0;
+        left: 0;
       `;
     case 'right':
       return `
-        bottom: 20px;
-        right: 20px;
+        bottom: 0;
+        right: 0;
       `;
     default:
       return `
         left: 50%;
         transform: translateX(-50%);
-        bottom: 20px;
+        bottom: 0;
       `;
   }
 };

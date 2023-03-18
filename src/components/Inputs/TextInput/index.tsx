@@ -1,11 +1,11 @@
 import React, { ComponentProps } from 'react';
-import { TGInputTextContainer } from './TG.styled';
+import * as S from './styled';
 
-interface TGInputTextProps extends ComponentProps<'input'> {
+interface TextInputProps extends ComponentProps<'input'> {
   label?: string;
 }
 
-const TGInputText = ({
+const TextInput = ({
   name,
   label,
   value,
@@ -13,9 +13,9 @@ const TGInputText = ({
   maxLength = 5,
   disabled = false,
   onChange,
-}: TGInputTextProps) => {
+}: TextInputProps) => {
   return (
-    <TGInputTextContainer width={width}>
+    <S.TextInputWrapper width={width}>
       <label htmlFor={name}>{label}</label>
       <input
         type="text"
@@ -26,8 +26,8 @@ const TGInputText = ({
         onChange={onChange}
         disabled={disabled}
       />
-    </TGInputTextContainer>
+    </S.TextInputWrapper>
   );
 };
 
-export default TGInputText;
+export default TextInput;
