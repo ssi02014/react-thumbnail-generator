@@ -1,6 +1,6 @@
 {
   "name": "react-thumbnail-generator",
-  "version": "2.7.0",
+  "version": "2.7.1",
   "description": "react-thumbnail-generator",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -82,6 +82,10 @@
         }
       }
     ]
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
   },
   "keywords": [
     "react",

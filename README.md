@@ -159,6 +159,9 @@ const App = () => {
         
         additionalFontFamily={['Noto Sans', ...]}
         // You can add the font of your choice to your project, but that font must already applied to your project.
+
+        isFullWidth={true}
+        // Setting this property to true will make the thumbnail generator modal full width.
       />
     </div>
   )
@@ -294,6 +297,9 @@ const App = () => {
 - additionalFontFamily
   - **Optional**
   - Type: `string[]`
+- isFullWidth
+  - **Optional**
+  - Type: `boolean`
 
 <br />
 
