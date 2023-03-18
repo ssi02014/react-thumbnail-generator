@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import * as S from './styled';
-import { arrowBottom, arrowTop } from '../../assets/icons';
+import { arrowBottom, arrowTop } from '@assets/icons';
 import Icon from '../../components/Icon';
 
 interface AccordionProps {

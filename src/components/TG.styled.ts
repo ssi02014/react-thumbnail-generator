@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { getIconPosition, getModalPosition } from 'utils/style';
+import { getIconPosition, getModalPosition } from '@utils/style';
 
 export const TGOpenButton = styled.button<{
   iconPosition: [number, number, number, number];
@@ -23,11 +23,13 @@ export const TGOpenButton = styled.button<{
 
 export const TGBodyWrapper = styled.section<{
   modalPosition: 'left' | 'right' | 'center';
+  isFullWidth: boolean;
 }>`
   position: fixed;
   display: flex;
   justify-content: center;
-  min-width: 600px;
+  min-width: ${({ isFullWidth }) => (isFullWidth ? '100%' : '600px')};
+  min-height: 100vh;
   border-radius: 7px;
   box-shadow: 1px 1px 10px #cccccc;
   z-index: 9999;
@@ -217,72 +219,5 @@ export const SelectListItem = styled.li`
 
   &:hover {
     background-color: #ededed;
-  }
-`;
-
-// TG Input
-export const TGInputTextContainer = styled.div<{ width: number | string }>`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 50px;
-
-  label {
-    font-size: 0.7rem;
-    color: #969696;
-    height: 16px;
-    line-height: 17px;
-  }
-
-  input {
-    border: 1px solid #cccccc;
-    border-radius: 5px;
-    padding: 6px 12px;
-    font-size: 0.9rem;
-    outline: none;
-    margin-top: 1px;
-    width: ${({ width }) => `${width}px`};
-
-    &:focus,
-    &:hover {
-      border: 1px solid #0e1b30;
-    }
-
-    &:disabled {
-      color: #cccccc;
-      border: 1px solid #cccccc;
-    }
-  }
-`;
-
-// TG InputFile
-export const TGInputFileWrapper = styled.div`
-  background: #fff;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  border: 1px solid #cccccc;
-  padding: 4px 5px;
-
-  label {
-    cursor: pointer;
-    margin: 0;
-    width: 20px;
-    height: 20px;
-
-    img {
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-  input {
-    display: none;
-  }
-
-  &:hover {
-    border: 1px solid #0e1b30;
   }
 `;

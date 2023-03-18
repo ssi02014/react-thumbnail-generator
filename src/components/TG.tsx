@@ -2,29 +2,30 @@ import React, { ChangeEvent, useMemo, useRef, useState } from 'react';
 import TGHeader from './TGHeader';
 import TGSelect from './TGSelect';
 import TGSelectItem from './TGSelectItem';
-import TGInputText from './TGInputText';
+import TextInput from './Inputs/TextInput';
 import Icon from './Icon';
-import TGInputFile from './TGInputFile';
+import FileInput from './Inputs/FileInput';
 import Divider from './Divider';
 import Accordion from './Accordion';
 import Canvas from './Canvas';
 import ColorPicker from './ColorPicker';
-import InputRange from './Inputs/InputRange';
+import InputRange from './Inputs/RangeInput';
 import {
   fontFamilies,
   fontSizes,
   imageTypes,
   strokeTypes,
-} from 'constants/select';
+} from '@constants/select';
 import { CanvasState } from '../types/canvas';
-import { fill, font, stroke, blur } from '../assets/icons';
+import { fill, font, stroke, blur } from '@assets/icons';
 import { Color, useColor } from 'react-color-palette';
 import * as S from './TG.styled';
-import { downloadCanvas, getValidMessage } from '../utils/common';
+import { downloadCanvas, getValidMessage } from '@utils/common';
 import { IconButton } from './Icon/styled';
 
 interface TGProps {
   additionalFontFamily?: string[];
+  isFullWidth: boolean;
   modalPosition: 'left' | 'right' | 'center';
   onToggle: () => void;
 }
@@ -32,9 +33,10 @@ interface TGProps {
 const TG = ({
   additionalFontFamily = [],
   modalPosition,
+  isFullWidth,
   onToggle,
 }: TGProps) => {
-  const LIMIT_WIDTH = window.innerWidth - 70;
+  const LIMIT_WIDTH = window.innerWidth;
   const [canvasState, setCanvasState] = useState<CanvasState>({
     value: 'Simple Thumbnail\nGenerator 😁',
     fontSize: '30px',
@@ -182,14 +184,14 @@ const TG = ({
   }, [additionalFontFamily]);
 
   return (
-    <S.TGBodyWrapper modalPosition={modalPosition}>
+    <S.TGBodyWrapper modalPosition={modalPosition} isFullWidth={isFullWidth}>
       <TGHeader onToggle={onToggle} />
       <S.TGInnerWrapper>
         <S.TGContentWrapper>
           <Canvas ref={canvasRef} canvasState={canvasStateWithColors} />
 
           <S.TGControllerWrapper>
-            <TGInputFile width={20} height={20} onChangeImage={onChangeImage} />
+            <FileInput width={20} height={20} onChangeImage={onChangeImage} />
             <ColorPicker
               color={bgColor}
               setColor={onChangeBgColor}
@@ -278,7 +280,7 @@ const TG = ({
 
           <Accordion title="Canvas Options">
             <S.TGControllerWrapper>
-              <TGInputText
+              <TextInput
                 name="canvasWidth"
                 label="Canvas Width"
                 value={canvasState.canvasWidth}
@@ -286,7 +288,7 @@ const TG = ({
                 disabled={!!canvasState.selectedImage}
                 width={180}
               />
-              <TGInputText
+              <TextInput
                 name="canvasHeight"
                 label="Canvas Height"
                 value={canvasState.canvasHeight}
