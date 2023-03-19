@@ -54,5 +54,5 @@ Default.args = {
   buttonIcon: <img src={toggleButton} width={40} height={40} />,
   modalPosition: 'right',
   iconPosition: [0, 20, 20, 0],
-  isFullWidth: true,
+  isFullWidth: false,
 };
