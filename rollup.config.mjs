@@ -6,8 +6,12 @@ import commonjs from '@rollup/plugin-commonjs';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import alias from '@rollup/plugin-alias';
 import pkg from './package.json' assert { type: 'json' };
+import path from 'path';
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx'];
+const __dirname = path.resolve();
+
+process.env.BABEL_ENV = 'production';
 
 export default {
   input: './src/index.tsx', // 진입 경로
@@ -21,10 +25,10 @@ export default {
   external: ['react', 'react-dom'],
   plugins: [
     peerDepsExternal(),
-    commonjs({ include: 'node_modules/**' }),
     nodeResolve({
       extensions,
     }),
+    commonjs({ include: 'node_modules/**' }),
     babel({
       exclude: /node_modules/,
       extensions,
@@ -32,7 +36,7 @@ export default {
     }),
     typescript({ tsconfig: './tsconfig.json' }),
     alias({
-      entries: [{ find: '@', replacement: './src' }],
+      entries: [{ find: '@', replacement: path.resolve(__dirname, './src') }],
     }),
     terser(),
   ],

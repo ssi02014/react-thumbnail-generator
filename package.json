@@ -16,7 +16,7 @@
     "url": "git+https://github.com/ssi02014/react-thumbnail-generator.git"
   },
   "author": "Gromit",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ssi02014/react-thumbnail-generator.git/issues"
   },
@@ -69,18 +69,6 @@
     "styled-components": "^5.3.6",
     "tsconfig-paths-webpack-plugin": "^4.0.0",
     "typescript": "^4.9.5"
-  },
-  "eslintConfig": {
-    "overrides": [
-      {
-        "files": [
-          "**/*.stories.*"
-        ],
-        "rules": {
-          "import/no-anonymous-default-export": "off"
-        }
-      }
-    ]
   },
   "peerDependencies": {
     "react": ">=16.8.0",

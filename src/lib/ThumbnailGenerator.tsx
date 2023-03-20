@@ -1,10 +1,10 @@
-import TG from '../components/TG';
-import { TGOpenButton } from '../components/TG.styled';
 import React, { useState } from 'react';
+import TG from '@components/TG';
+import { TGOpenButton } from '@components/TG.styled';
 import { toggleButton } from '@assets/icons';
-import { Position, getIconSize } from '../utils/style';
-import TGPortal from '../components/TGPortal';
-import Icon from '../components/Icon';
+import { Position, getIconSize } from '@utils/style';
+import TGPortal from '@components/TGPortal';
+import Icon from '@components/Icon';
 
 interface ThumbnailGeneratorProps {
   id?: string;
