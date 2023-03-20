@@ -1,7 +1,7 @@
 import React from 'react';
 import { Story } from '@storybook/react/types-6-0';
-import ThumbnailGenerator from '../../lib/ThumbnailGenerator';
-import { Size } from '../../utils/style';
+import ThumbnailGenerator from '@lib/ThumbnailGenerator';
+import { Size } from '@utils/style';
 import { toggleButton } from '@assets/icons';
 
 export default {
