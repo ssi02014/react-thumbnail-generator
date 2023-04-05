@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
-interface TGPortalProps {
+interface PortalProps {
   id?: string;
   children: React.ReactNode;
 }
 
-const TGPortal = ({ id, children }: TGPortalProps) => {
+const Portal = ({ id, children }: PortalProps) => {
   const [portalElement, setPortalElement] = useState<Element | null>(null);
 
   useEffect(() => {
@@ -17,4 +17,4 @@ const TGPortal = ({ id, children }: TGPortalProps) => {
   return ReactDOM.createPortal(children, portalElement);
 };
 
-export default TGPortal;
+export default Portal;

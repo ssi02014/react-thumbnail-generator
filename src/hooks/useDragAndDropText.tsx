@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const useDragAndDropText = (canvasWidth: number, canvasHeight: number) => {
   const [dragAndDropTextData, setDragAndDropTextData] = useState({

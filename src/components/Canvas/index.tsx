@@ -10,6 +10,7 @@ interface CanvasProps {
 const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
   const {
     value,
+    lineHeight,
     canvasWidth,
     canvasHeight,
     fontSize,
@@ -85,10 +86,10 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
     lines: string[]
   ) => {
     const size = +fontSize.replace('px', '');
-    const lineHeight = size * 1.15;
+    const fontLineHeight = size + +lineHeight;
 
     lines.forEach((line, idx) => {
-      const { x, y } = getMultiLinePosition(lines.length, lineHeight, idx);
+      const { x, y } = getMultiLinePosition(lines.length, fontLineHeight, idx);
 
       ctx.save();
       ctx.translate(x, y);

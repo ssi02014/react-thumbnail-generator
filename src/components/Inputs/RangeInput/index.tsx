@@ -28,6 +28,7 @@ const RangeInput = ({
         <label htmlFor={name}>{label}</label>
         <S.StyledRangeInput
           type="range"
+          name={name}
           min={min}
           max={max}
           value={value}
