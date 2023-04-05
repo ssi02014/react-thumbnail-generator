@@ -1,6 +1,6 @@
 {
   "name": "react-thumbnail-generator",
-  "version": "2.7.1",
+  "version": "2.8.0",
   "description": "react-thumbnail-generator",
   "main": "dist/index.js",
   "module": "dist/index.js",

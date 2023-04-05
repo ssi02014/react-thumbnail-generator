@@ -29,7 +29,6 @@ export const TGBodyWrapper = styled.section<{
   display: flex;
   justify-content: center;
   min-width: ${({ isFullWidth }) => (isFullWidth ? '100%' : '600px')};
-  min-height: 100vh;
   border-radius: 7px;
   box-shadow: 1px 1px 10px #cccccc;
   z-index: 9999;
