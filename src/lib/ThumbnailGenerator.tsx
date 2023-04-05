@@ -3,7 +3,7 @@ import TG from '@components/TG';
 import { TGOpenButton } from '@components/TG.styled';
 import { toggleButton } from '@assets/icons';
 import { Position, getIconSize } from '@utils/style';
-import TGPortal from '@components/TGPortal';
+import Portal from '@components/Portal';
 import Icon from '@components/Icon';
 
 interface ThumbnailGeneratorProps {
@@ -35,7 +35,7 @@ const ThumbnailGenerator = ({
 
   return (
     <>
-      <TGPortal id={id}>
+      <Portal id={id}>
         {isOpen ? (
           <TG
             isFullWidth={isFullWidth}
@@ -52,7 +52,7 @@ const ThumbnailGenerator = ({
             )}
           </TGOpenButton>
         )}
-      </TGPortal>
+      </Portal>
     </>
   );
 };

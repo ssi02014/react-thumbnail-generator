@@ -6,8 +6,8 @@ import React, {
   useEffect,
   ComponentProps,
 } from 'react';
-import { SelectWrapper, SelectInput, SelectItemContainer } from './TG.styled';
-import Icon from './Icon';
+import * as S from './styled';
+import Icon from '../Icon';
 
 interface SelectContextProps {
   color?: string;
@@ -28,7 +28,7 @@ export const SelectContext = React.createContext<SelectContextProps | null>(
   null
 );
 
-const TGSelect = ({
+const Select = ({
   children,
   name,
   color,
@@ -70,9 +70,9 @@ const TGSelect = ({
   return (
     <SelectContext.Provider
       value={{ color, selectValue: value, onChange: handleChange }}>
-      <SelectWrapper>
+      <S.SelectWrapper>
         <label>{label}</label>
-        <SelectInput
+        <S.SelectInput
           ref={inputRef}
           onClick={handleToggleSelect}
           isOpenSelect={isOpenSelect}>
@@ -84,11 +84,13 @@ const TGSelect = ({
               <Icon src={arrowBottom} width={12} height={12} />
             )}
           </p>
-        </SelectInput>
-        {isOpenSelect && <SelectItemContainer>{children}</SelectItemContainer>}
-      </SelectWrapper>
+        </S.SelectInput>
+        {isOpenSelect && (
+          <S.SelectItemContainer>{children}</S.SelectItemContainer>
+        )}
+      </S.SelectWrapper>
     </SelectContext.Provider>
   );
 };
 
-export default TGSelect;
+export default Select;

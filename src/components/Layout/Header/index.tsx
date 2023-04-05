@@ -1,18 +1,18 @@
 import React from 'react';
-import { TGHeaderWrapper, TGLimitSizeText } from './TG.styled';
+import * as S from '../styled';
 import { close } from '@assets/icons';
-import { IconButton } from './Icon/styled';
-import Icon from './Icon';
+import { IconButton } from '@components/Icon/styled';
+import Icon from '@components/Icon';
 
-interface TGHeaderProps {
+interface HeaderProps {
   onToggle: () => void;
 }
 
-const TGHeader = ({ onToggle }: TGHeaderProps) => {
+const Header = ({ onToggle }: HeaderProps) => {
   const LimitWidthSize = window.innerWidth;
 
   return (
-    <TGHeaderWrapper>
+    <S.HeaderWrapper>
       <div>
         <a
           href="https://github.com/ssi02014/react-thumbnail-generator"
@@ -24,11 +24,11 @@ const TGHeader = ({ onToggle }: TGHeaderProps) => {
           <Icon src={close} width={20} height={20} />
         </IconButton>
       </div>
-      <TGLimitSizeText>
+      <S.LimitSizeText>
         Limit Width: <span>{`${LimitWidthSize}px`}</span>
-      </TGLimitSizeText>
-    </TGHeaderWrapper>
+      </S.LimitSizeText>
+    </S.HeaderWrapper>
   );
 };
 
-export default TGHeader;
+export default Header;

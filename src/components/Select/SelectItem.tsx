@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import { SelectListItem } from './TG.styled';
-import { SelectContext } from './TGSelect';
+import * as S from './styled';
+import { SelectContext } from './index';
 
-interface TGSelectItemProps {
+interface SelectItemProps {
   children: string;
   value: string | number;
 }
@@ -12,18 +12,18 @@ interface SelectContextProps {
   onChange: (value: string | number) => void;
 }
 
-const TGSelectItem = ({ children, value }: TGSelectItemProps) => {
+const SelectItem = ({ children, value }: SelectItemProps) => {
   const { selectValue, onChange } = useContext(
     SelectContext
   ) as SelectContextProps;
 
   return (
-    <SelectListItem
+    <S.SelectListItem
       className={selectValue === value ? 'active' : ''}
       onClick={() => onChange(value)}>
       {children}
-    </SelectListItem>
+    </S.SelectListItem>
   );
 };
 
-export default TGSelectItem;
+export default SelectItem;

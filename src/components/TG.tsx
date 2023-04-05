@@ -1,7 +1,6 @@
 import React, { ChangeEvent, useMemo, useRef, useState } from 'react';
-import TGHeader from './TGHeader';
-import TGSelect from './TGSelect';
-import TGSelectItem from './TGSelectItem';
+import Select from './Select';
+import SelectItem from './Select/SelectItem';
 import TextInput from './Inputs/TextInput';
 import Icon from './Icon';
 import FileInput from './Inputs/FileInput';
@@ -10,6 +9,7 @@ import Accordion from './Accordion';
 import Canvas from './Canvas';
 import ColorPicker from './ColorPicker';
 import InputRange from './Inputs/RangeInput';
+import Header from './Layout/Header';
 import {
   fontFamilies,
   fontSizes,
@@ -19,8 +19,9 @@ import {
 import { CanvasState } from '../types/canvas';
 import { fill, font, stroke, blur } from '@assets/icons';
 import { Color, useColor } from 'react-color-palette';
+import { BodyWrapper, ContentWrapper, InnerWrapper } from './Layout/styled';
 import * as S from './TG.styled';
-import { downloadCanvas, getValidMessage } from '@utils/common';
+import { downloadCanvas, getValidMessage, ValidType } from '@utils/common';
 import { IconButton } from './Icon/styled';
 
 interface TGProps {
@@ -46,6 +47,7 @@ const TG = ({
     canvasHeight: '400',
     imageType: 'png',
     angle: '0',
+    lineHeight: '0',
     isBlur: false,
     selectedImage: null,
     isBlockEvent: false,
@@ -56,6 +58,24 @@ const TG = ({
   const [strokeColor, setStrokeColor] = useColor('hex', '#121212');
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  const canvasStateWithColors = useMemo(() => {
+    return {
+      ...canvasState,
+      bgColor,
+      fontColor,
+      strokeColor,
+    };
+  }, [canvasState, bgColor, fontColor, strokeColor]);
+
+  const fontFamilyOptions = useMemo(() => {
+    return [...additionalFontFamily, ...fontFamilies];
+  }, [additionalFontFamily]);
+
+  const defaultLineHeight = useMemo(
+    () => +canvasState.fontSize.replace('px', ''),
+    [canvasState.fontSize]
+  );
 
   const toggleIsBlockEvent = () => {
     setCanvasState({
@@ -150,44 +170,32 @@ const TG = ({
     downloadCanvas(canvasRef, canvasState.imageType);
   };
 
-  const handleChangeAngle = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRange = (e: ChangeEvent<HTMLInputElement>) => {
     const regex = /[^0-9]/g;
     const { name, value } = e.target;
-
+    const min = name === 'angle' ? -360 : defaultLineHeight * -5;
+    const max = name === 'angle' ? 360 : defaultLineHeight * 3;
     const replacedCallback = getReplaceCallback(name);
     const replacedValue = value.replace(regex, replacedCallback);
 
     const validMessage = getValidMessage(
-      +value < -360 || +value > 360,
-      'fontAngle'
+      +value < min || +value > max,
+      name as ValidType
     );
 
     if (validMessage) return alert(validMessage);
 
     setCanvasState({
       ...canvasState,
-      angle: replacedValue,
+      [name]: replacedValue,
     });
   };
 
-  const canvasStateWithColors = useMemo(() => {
-    return {
-      ...canvasState,
-      bgColor,
-      fontColor,
-      strokeColor,
-    };
-  }, [canvasState, bgColor, fontColor, strokeColor]);
-
-  const fontFamilyOptions = useMemo(() => {
-    return [...additionalFontFamily, ...fontFamilies];
-  }, [additionalFontFamily]);
-
   return (
-    <S.TGBodyWrapper modalPosition={modalPosition} isFullWidth={isFullWidth}>
-      <TGHeader onToggle={onToggle} />
-      <S.TGInnerWrapper>
-        <S.TGContentWrapper>
+    <BodyWrapper modalPosition={modalPosition} isFullWidth={isFullWidth}>
+      <Header onToggle={onToggle} />
+      <InnerWrapper>
+        <ContentWrapper>
           <Canvas ref={canvasRef} canvasState={canvasStateWithColors} />
 
           <S.TGControllerWrapper>
@@ -235,44 +243,52 @@ const TG = ({
                 min={-360}
                 max={360}
                 value={canvasState.angle}
-                onChange={handleChangeAngle}
+                onChange={handleChangeRange}
+              />
+              <InputRange
+                label={'Line Height'}
+                name="lineHeight"
+                min={defaultLineHeight * -5}
+                max={defaultLineHeight * 3}
+                value={canvasState.lineHeight}
+                onChange={handleChangeRange}
               />
             </S.TGControllerWrapper>
 
             <S.TGControllerWrapper>
-              <TGSelect
+              <Select
                 name="fontFamily"
                 label="Font Family"
                 value={canvasState.fontFamily}
                 onChange={onChangeSelectValue}>
                 {fontFamilyOptions.map((item) => (
-                  <TGSelectItem value={item} key={item}>
+                  <SelectItem value={item} key={item}>
                     {item}
-                  </TGSelectItem>
+                  </SelectItem>
                 ))}
-              </TGSelect>
-              <TGSelect
+              </Select>
+              <Select
                 name="fontSize"
                 label="Font Size"
                 value={canvasState.fontSize}
                 onChange={onChangeSelectValue}>
                 {fontSizes.map((item) => (
-                  <TGSelectItem value={item} key={item}>
+                  <SelectItem value={item} key={item}>
                     {item}
-                  </TGSelectItem>
+                  </SelectItem>
                 ))}
-              </TGSelect>
-              <TGSelect
+              </Select>
+              <Select
                 name="fontStrokeType"
                 label="Font Stroke"
                 value={canvasState.fontStrokeType}
                 onChange={onChangeSelectValue}>
                 {strokeTypes.map((item) => (
-                  <TGSelectItem value={item} key={item}>
+                  <SelectItem value={item} key={item}>
                     {item}
-                  </TGSelectItem>
+                  </SelectItem>
                 ))}
-              </TGSelect>
+              </Select>
             </S.TGControllerWrapper>
           </Accordion>
 
@@ -302,25 +318,25 @@ const TG = ({
           <Divider color="#f3f3f3" height={10} margin={[10, 0, 0, 0]} />
 
           <S.TGControllerWrapper>
-            <TGSelect
+            <Select
               name="imageType"
               label="Download Image Type"
               value={canvasState.imageType}
               onChange={onChangeSelectValue}>
               {imageTypes.map((item) => (
-                <TGSelectItem value={item} key={item}>
+                <SelectItem value={item} key={item}>
                   {item}
-                </TGSelectItem>
+                </SelectItem>
               ))}
-            </TGSelect>
+            </Select>
           </S.TGControllerWrapper>
 
           <S.TGButtonWrapper>
             <button onClick={handleDownloadImage}>DOWNLOAD</button>
           </S.TGButtonWrapper>
-        </S.TGContentWrapper>
-      </S.TGInnerWrapper>
-    </S.TGBodyWrapper>
+        </ContentWrapper>
+      </InnerWrapper>
+    </BodyWrapper>
   );
 };
 
