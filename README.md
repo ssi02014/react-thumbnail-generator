@@ -72,7 +72,7 @@
 - Resizing the canvas
 - Filling the background with colors or pictures
 - Choosing a blur effect
-- Selecting font family, size, stroke, color, and angle
+- Selecting font family, size, stroke, color, angle, lineHeight
 - Dragging and dropping text on the canvas
 - Adding custom web font families
 - Selecting the modal button and its location
