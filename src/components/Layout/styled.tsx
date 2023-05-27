@@ -3,31 +3,12 @@ import styled from 'styled-components';
 
 export const HeaderWrapper = styled.div`
   display: flex;
+  justify-content: end;
+  width: 100%;
   position: sticky;
   top: 0;
-  flex-direction: column;
-  padding: 10px;
-  padding-bottom: 0;
-  background-color: #fff;
-
-  & > div:first-child {
-    justify-content: space-between;
-    align-items: center;
-    display: flex;
-  }
-
-  a {
-    color: #111111;
-    padding: 0;
-    margin: 0;
-    font-size: 0.875rem;
-    font-weight: bold;
-    text-decoration: none;
-
-    &:hover {
-      color: #3264b5;
-    }
-  }
+  padding: 8px;
+  border-bottom: 1px solid rgb(243, 243, 243);
 
   button {
     cursor: pointer;
@@ -35,16 +16,6 @@ export const HeaderWrapper = styled.div`
     &:hover {
       transform: rotate(90deg);
     }
-  }
-`;
-
-export const LimitSizeText = styled.div`
-  font-size: 0.85rem;
-  margin-top: 5px;
-  text-align: center;
-
-  span {
-    font-weight: bold;
   }
 `;
 
@@ -62,6 +33,7 @@ export const BodyWrapper = styled.section<{
   background-color: #ffffff;
   flex-direction: column;
   overflow: hidden;
+
   font-family: Arial;
 
   * {

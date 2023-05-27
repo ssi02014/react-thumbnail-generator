@@ -122,11 +122,13 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
     const ctx = canvas.getContext('2d');
 
     if (!ctx) return;
+
     if (selectedImage) {
       if (isBlur) ctx.filter = 'blur(5px)';
       ctx.drawImage(selectedImage, 0, 0);
       return;
     }
+
     ctx.fillStyle = bgColor.hex;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   };

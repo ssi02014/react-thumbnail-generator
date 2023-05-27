@@ -8,6 +8,7 @@ import Icon from '@components/Icon';
 
 interface ThumbnailGeneratorProps {
   id?: string;
+  isDefaultOpen?: boolean;
   buttonIcon?: React.ReactNode;
   iconSize?: 'small' | 'medium' | 'large';
   position?: Position;
@@ -20,13 +21,14 @@ interface ThumbnailGeneratorProps {
 const ThumbnailGenerator = ({
   id,
   buttonIcon,
+  isDefaultOpen = false,
   iconSize = 'medium',
   iconPosition = [0, 20, 20, 0],
   modalPosition = 'right',
   isFullWidth = false,
   additionalFontFamily = [],
 }: ThumbnailGeneratorProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(isDefaultOpen);
   const tgIconSize = getIconSize(iconSize);
 
   const onToggleGenerator = () => {
