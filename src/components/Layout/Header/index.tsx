@@ -9,24 +9,11 @@ interface HeaderProps {
 }
 
 const Header = ({ onToggle }: HeaderProps) => {
-  const LimitWidthSize = window.innerWidth;
-
   return (
     <S.HeaderWrapper>
-      <div>
-        <a
-          href="https://github.com/ssi02014/react-thumbnail-generator"
-          target="_blank"
-          rel="noreferrer">
-          Thumbnail Generator
-        </a>
-        <IconButton onClick={onToggle} isBorder={false}>
-          <Icon src={close} width={20} height={20} />
-        </IconButton>
-      </div>
-      <S.LimitSizeText>
-        Limit Width: <span>{`${LimitWidthSize}px`}</span>
-      </S.LimitSizeText>
+      <IconButton onClick={onToggle} isBorder={false}>
+        <Icon src={close} width={20} height={20} />
+      </IconButton>
     </S.HeaderWrapper>
   );
 };

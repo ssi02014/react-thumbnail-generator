@@ -8,7 +8,7 @@ export const fontFamilies = [
 ];
 export const strokeTypes = ['None', 'Thin', 'Normal', 'Thick'];
 
-export const imageTypes = ['png', 'jpg', 'webp'];
+export const imageTypes = ['png', 'jpg', 'svg', 'webp'];
 
 export const fontSizes = [
   '10px',

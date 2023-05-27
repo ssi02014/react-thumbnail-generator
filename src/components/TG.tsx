@@ -37,7 +37,6 @@ const TG = ({
   isFullWidth,
   onToggle,
 }: TGProps) => {
-  const LIMIT_WIDTH = window.innerWidth;
   const [canvasState, setCanvasState] = useState<CanvasState>({
     value: 'Simple Thumbnail\nGenerator 😁',
     fontSize: '30px',
@@ -98,13 +97,6 @@ const TG = ({
     const replacedCallback = getReplaceCallback(name);
     const replacedValue = value.replace(regex, replacedCallback);
 
-    const validMessage = getValidMessage(
-      name === 'canvasWidth' && +replacedValue > LIMIT_WIDTH,
-      'canvasSize'
-    );
-
-    if (validMessage) return alert(validMessage);
-
     setCanvasState({
       ...canvasState,
       [name]: replacedValue,
@@ -143,12 +135,6 @@ const TG = ({
 
       img.src = files[0] && URL.createObjectURL(files[0]);
       img.onload = async () => {
-        const validMessage = getValidMessage(
-          img.width > LIMIT_WIDTH,
-          'imageSize'
-        );
-        if (validMessage) return alert(validMessage);
-
         setCanvasState({
           ...canvasState,
           selectedImage: img,
