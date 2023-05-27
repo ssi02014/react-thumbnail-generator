@@ -33,7 +33,7 @@
  
 <br/>
 
-<h3 align="center">🌟 CONTRIBUTORS 🌟</h3>
+<h3 align="center">🌟 CONTRIBUTORS 🌟=</h3>
 <p align="center">
   <a href="https://github.com/ssi02014/react-thumbnail-generator/graphs/contributors">
     <img src="https://contrib.rocks/image?repo=ssi02014/react-thumbnail-generator">
@@ -42,7 +42,7 @@
 
 <br />
 
-<h3 align="center">Storybook Github Page</h3>
+<h3 align="center">Storybook: Demo Page</h3>
 <p align="center">
   <a href="https://ssi02014.github.io/react-thumbnail-generator/?path=/story/components-thumbnailgenerator--default">
     <img src="https://user-images.githubusercontent.com/64779472/220122236-c90ae4a5-8271-41df-b150-230b97991d41.png" width="120">
@@ -76,7 +76,7 @@
 - Dragging and dropping text on the canvas
 - Adding custom web font families
 - Selecting the modal button and its location
-- Choosing the image type (png, jpg, webp)
+- Choosing the image type (png, jpg, webp, svg)
 - Supporting TypeScript and Next
 
 
@@ -146,22 +146,24 @@ const App = () => {
         // If you do not include this option, the default icon will be used.
 
         iconSize="medium"
-        // Please select the size of the default button icon. 
-        // If no size is specified, the default size (medium) will be applied. 
+        // Through this property, you can specify the size of the button icon.
         // However, if you are inserting a custom button icon, this option is meaningless.
   
         iconPosition={[0, 20, 20, 0]}
-        // Please select the location of the button to open the Thumbnail Model.
-        // Sequence: [top, right, bottom, left]
+        // Through this property, you can specify the position of the button icon.
+        // [top, right, bottom, left]
 
         modalPosition='right'
-        // Please select the location to open the ThumbnailModal.
+        // Through this property, you can specify the position of the thumbnail generator.
         
         additionalFontFamily={['Noto Sans', ...]}
         // You can add the font of your choice to your project, but that font must already applied to your project.
 
         isFullWidth={true}
-        // Setting this property to true will make the thumbnail generator modal full width.
+        // Setting this property to true will make the thumbnail generator full-width.
+
+        isDefaultOpen={false}
+        // Setting this property to true will open the thumbnail generator by default.
       />
     </div>
   )
@@ -301,9 +303,15 @@ const App = () => {
   - **Optional**
   - Default: `false`
   - Type: `boolean`
+- isDefaultOpen
+  - **Optional**
+  - Default: `false`
+  - Type: `boolean`
 
 <br />
 
 ## Reference
 - https://github.com/wormwlrm/kwakcheolyong
 - https://github.com/banner-maker/banner-makers
+
+<br />

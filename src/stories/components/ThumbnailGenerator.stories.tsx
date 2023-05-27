@@ -43,6 +43,7 @@ const Template: Story = ({
       iconPosition={iconPosition}
       iconSize={iconSize}
       isFullWidth={isFullWidth}
+      isDefaultOpen
     />
   );
 };

@@ -16,7 +16,7 @@ const TextInput = ({
 }: TextInputProps) => {
   return (
     <S.TextInputWrapper width={width}>
-      <label htmlFor={name}>{label}</label>
+      {label && <label htmlFor={name}>{label}</label>}
       <input
         type="text"
         name={name}
