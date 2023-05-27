@@ -46,7 +46,7 @@ export const BodyWrapper = styled.section<{
 export const InnerWrapper = styled.div`
   flex-direction: column;
   width: 100%;
-  max-height: calc(100vh - 78px);
+  max-height: calc(100vh - 45px);
   overflow-y: scroll;
   overflow-x: auto;
 `;
