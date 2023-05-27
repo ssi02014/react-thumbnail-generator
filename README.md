@@ -33,7 +33,7 @@
  
 <br/>
 
-<h3 align="center">🌟 CONTRIBUTORS 🌟=</h3>
+<h3 align="center">🌟 CONTRIBUTORS 🌟</h3>
 <p align="center">
   <a href="https://github.com/ssi02014/react-thumbnail-generator/graphs/contributors">
     <img src="https://contrib.rocks/image?repo=ssi02014/react-thumbnail-generator">
@@ -42,7 +42,8 @@
 
 <br />
 
-<h3 align="center">Storybook: Demo Page</h3>
+<h3 align="center">Storybook Demo Page</h3>
+<h5 align="center">Click on the icon.</h5>
 <p align="center">
   <a href="https://ssi02014.github.io/react-thumbnail-generator/?path=/story/components-thumbnailgenerator--default">
     <img src="https://user-images.githubusercontent.com/64779472/220122236-c90ae4a5-8271-41df-b150-230b97991d41.png" width="120">
