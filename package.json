@@ -60,6 +60,7 @@
     "react": "^18.2.0",
     "react-color-palette": "^6.2.0",
     "react-dom": "^18.2.0",
+    "react-error-overlay": "^6.0.11",
     "react-scripts": "^5.0.1",
     "rollup": "^3.23.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
