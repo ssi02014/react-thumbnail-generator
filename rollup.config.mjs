@@ -11,8 +11,6 @@ import path from 'path';
 const extensions = ['.js', '.jsx', '.ts', '.tsx'];
 const __dirname = path.resolve();
 
-process.env.BABEL_ENV = 'production';
-
 export default {
   input: './src/index.tsx', // 진입 경로
   output: [
