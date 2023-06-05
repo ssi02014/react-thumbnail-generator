@@ -1,5 +1,5 @@
 import React from 'react';
-import { Story } from '@storybook/react/types-6-0';
+import { StoryFn } from '@storybook/react';
 import ThumbnailGenerator from '@lib/ThumbnailGenerator';
 import { Size } from '@utils/style';
 import { toggleButton } from '@assets/icons';
@@ -30,7 +30,7 @@ interface Props {
   isFullWidth?: boolean;
 }
 
-const Template: Story = ({
+const Template: StoryFn = ({
   modalPosition,
   iconPosition,
   iconSize,
@@ -48,12 +48,14 @@ const Template: Story = ({
   );
 };
 
-export const Default = Template.bind({});
+export const Default = {
+  render: Template,
 
-Default.args = {
-  iconSize: 'medium',
-  buttonIcon: <img src={toggleButton} width={40} height={40} />,
-  modalPosition: 'right',
-  iconPosition: [0, 20, 20, 0],
-  isFullWidth: false,
+  args: {
+    iconSize: 'medium',
+    buttonIcon: <img src={toggleButton} width={40} height={40} />,
+    modalPosition: 'right',
+    iconPosition: [0, 20, 20, 0],
+    isFullWidth: false,
+  },
 };
