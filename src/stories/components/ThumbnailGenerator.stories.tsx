@@ -38,7 +38,6 @@ const Template: StoryFn = ({
 }: Props) => {
   return (
     <ThumbnailGenerator
-      id="thumbnail-generator"
       modalPosition={modalPosition}
       iconPosition={iconPosition}
       iconSize={iconSize}

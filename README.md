@@ -84,19 +84,20 @@
 <br />
 
 ## Top Icons Feature 
-<img width="450-" alt="스크린샷 2023-02-27 오후 9 53 09" src="https://user-images.githubusercontent.com/64779472/221569330-cf13379a-b21e-43a1-a766-b22d874da60d.png">
+<img width="450" alt="스크린샷 2023-02-27 오후 9 53 09" src="https://github.com/ssi02014/react-thumbnail-generator/assets/64779472/d23a255e-3dc3-4140-b016-26f77e7afe1e">
 
-- 1: Picture
+- 1: Background Picture 
+- 2: Text Align (start, center, end)
 - 2: Background Color
 - 3: Font Color
 - 4: Font Stroke Color
 - 5: Blur Effect
 
-<br />
+<hr />
 
 ## How to use React 😊
 ### STEP 1️⃣
-- Install library
+- Install Package
 ```
 yarn add react-thumbnail-generator
 or
@@ -106,28 +107,8 @@ npm install react-thumbnail-generator
 <br />
 
 ### STEP 2️⃣
-- Enter the desired ID of the div that you want to add to `public/index.html`.
-- To avoid being affected by CSS inheritance, `<ThumbnailGenerator>` is applied with a Portal.
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-  <!-- ... -->
-  </head>
-  <body>
-    <div id="root"></div>
-    <!-- Enter the ID you want. -->
-    <div id="thumbnail-generator"></div>
-  </body>
-</html>
-
-```
-
-<br />
-
-### STEP 3️⃣
 - Add `<ThumbnailGenerator>` component.
+- ThumbnailGenerator is automatically rendered as a `document.body` child by default using `Portal`.
 
 ```jsx
 import ThumbnailGenerator from 'react-thumbnail-generator';
@@ -137,11 +118,6 @@ const App = () => {
   return (
     <div>
       <ThumbnailGenerator
-        id="thumbnail-generator"
-        // Please enter the ID of the div you added in public/index.html. 
-        // If you do not specify an ID, it will be rendered in the "root" div. 
-        // However, this may cause the UI to change due to CSS inheritance.
-
         buttonIcon={<img src={iconImage} width={30} height={30} alt="iconImage" />}
         // To insert the inner icon of the button that opens the thumbnail modal, use the ReactNode. 
         // If you do not include this option, the default icon will be used.
@@ -170,47 +146,46 @@ const App = () => {
   )
 }
 ```
+
 <br />
 
 ## How to use Next 😊
 ### STEP 1️⃣
-- Enter the desired ID of the div that you want to add to `_document`.
-```jsx
-import { Html, Head, Main, NextScript } from "next/document";
-
-export default function Document() {
-  return (
-    <Html lang="en">
-      <Head />
-      <body>
-        <Main />
-        <div id="thumbnail-generator"></div>
-        <NextScript />
-      </body>
-    </Html>
-  );
-}
+- Install Package
+```
+yarn add react-thumbnail-generator next-transpile-modules
+or
+npm install react-thumbnail-generator next-transpile-modules
 ```
 
 <br />
 
 ### STEP 2️⃣
+- Modify next.config
+```js
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  transpilePackages: ["react-step-parallax"],
+};
+
+module.exports = nextConfig;
+```
+
+<br />
+
+### STEP 3️⃣
 - Add `<ThumbnailGenerator>` to dynamic import.
 
 ```jsx
 import dynamic from "next/dynamic";
 import Image from "next/image";
 
-const ThumbnailGenerator = dynamic(() => import("react-thumbnail-generator"), {
-  ssr: false,
-});
-
 export default function Home() {
   return (
     <>
       <ThumbnailGenerator 
-        id="thumbnail-generator" 
-        buttonIcon={<Image src={profilePic} width={30} height={30} alt="buttonIcon" />} 
+        buttonIcon={<Image src={buttonIcon} width={30} height={30} alt="buttonIcon" />} 
       />
     </>
   );
@@ -241,7 +216,6 @@ export default function Home() {
   </head>
   <body>
     <div id="root"></div>
-    <div id="thumbnail-generator"></div>
   </body>
 </html>
 ```
@@ -259,7 +233,6 @@ const App = () => {
   return (
     <div>
       <ThumbnailGenerator 
-        id="thumbnail-generator" 
         additionalFontFamily={["Zeyada"]} // (*)
       />
     </div>
@@ -275,11 +248,10 @@ const App = () => {
 <img src="https://user-images.githubusercontent.com/64779472/220677341-7b6c062f-f0f6-49dd-8bcd-b402b61660ea.png" width="450">
 
 <br />
+<br />
+<hr />
 
 ## API 📄
-- id
-  - **Optional**
-  - Type: `string`
 - buttonIcon
   - **Optional**
   - Default: <img width="43" alt="스크린샷 2023-02-20 오후 10 48 05" src="https://user-images.githubusercontent.com/64779472/220125380-77aaaa79-9baf-4252-aa46-a44e6e91dd3d.png">
