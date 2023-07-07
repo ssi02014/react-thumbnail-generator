@@ -71,7 +71,7 @@ const ColorPickerPicker = ({
   return (
     <div style={wrapperStyle}>
       <IconButton
-        isOpenColorPicker={isOpenColorPicker}
+        isOpen={isOpenColorPicker}
         onClick={handleOpenColorPicker}
         isBorder={true}>
         {children}

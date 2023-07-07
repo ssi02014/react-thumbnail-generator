@@ -23,7 +23,15 @@ import {
   strokeTypes,
 } from '@constants/select';
 import { CanvasState } from '../types/canvas';
-import { fill, font, stroke, blur } from '@assets/icons';
+import {
+  fill,
+  font,
+  stroke,
+  blur,
+  alignStart,
+  alignCenter,
+  alignEnd,
+} from '@assets/icons';
 import { Color, useColor } from 'react-color-palette';
 import { BodyWrapper, ContentWrapper, InnerWrapper } from './Layout/styled';
 import * as S from './TG.styled';
@@ -47,13 +55,13 @@ const TG = ({
     value: 'Simple Thumbnail\nGenerator 😁',
     fontSize: '30px',
     fontStrokeType: 'None',
+    textAlign: 'center',
     fontFamily: 'Arial',
     canvasWidth: '600',
     canvasHeight: '400',
     imageType: 'png',
     angle: '0',
     lineHeight: '0',
-    textAlign: 'center',
     isBlur: false,
     selectedImage: null,
     isBlockEvent: false,
@@ -81,6 +89,40 @@ const TG = ({
   const defaultLineHeight = useMemo(
     () => +canvasState.fontSize.replace('px', ''),
     [canvasState.fontSize]
+  );
+
+  const textAlignIcon = useMemo(() => {
+    const { textAlign } = canvasState;
+
+    if (textAlign === 'center') return alignCenter;
+    if (textAlign === 'end') return alignEnd;
+    return alignStart;
+  }, [canvasState.textAlign]);
+
+  const onChangeTextAlign = useCallback(() => {
+    const getNextTextAlign = () => {
+      const { textAlign } = canvasState;
+
+      if (textAlign === 'center') return 'end';
+      if (textAlign === 'end') return 'start';
+      return 'center';
+    };
+
+    setCanvasState({
+      ...canvasState,
+      textAlign: getNextTextAlign(),
+    });
+  }, [canvasState]);
+
+  const onChangeStrokeColor = useCallback(
+    (color: Color) => {
+      setStrokeColor(color);
+
+      if (canvasState.fontStrokeType === 'None') {
+        setCanvasState({ ...canvasState, fontStrokeType: 'Normal' });
+      }
+    },
+    [canvasState, setStrokeColor]
   );
 
   const toggleIsBlockEvent = useCallback(() => {
@@ -208,6 +250,10 @@ const TG = ({
 
           <S.TGControllerWrapper>
             <FileInput width={20} height={20} onChangeImage={onChangeImage} />
+            <IconButton isBorder onClick={onChangeTextAlign}>
+              <Icon src={textAlignIcon} width={20} height={20} />
+            </IconButton>
+
             <ColorPicker
               color={bgColor}
               setColor={onChangeBgColor}
@@ -222,7 +268,7 @@ const TG = ({
             </ColorPicker>
             <ColorPicker
               color={strokeColor}
-              setColor={setStrokeColor}
+              setColor={onChangeStrokeColor}
               toggleIsBlockEvent={toggleIsBlockEvent}>
               <Icon src={stroke} width={20} height={20} />
             </ColorPicker>
