@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 export const IconButton = styled.button<{
-  isOpenColorPicker?: boolean;
+  isOpen?: boolean;
   isBorder?: boolean;
 }>`
   padding: 4px 5px;
@@ -11,12 +11,10 @@ export const IconButton = styled.button<{
   align-items: center;
   cursor: pointer;
 
-  ${({ isBorder, isOpenColorPicker }) => {
+  ${({ isBorder, isOpen }) => {
     if (!isBorder) return `border: none;`;
     return `
-      border: ${
-        isOpenColorPicker ? '1px solid #0e1b30;' : '1px solid #cccccc;'
-      };
+      border: ${isOpen ? '1px solid #0e1b30;' : '1px solid #cccccc;'};
     `;
   }}
 

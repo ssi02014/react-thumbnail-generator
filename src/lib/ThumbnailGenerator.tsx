@@ -7,7 +7,6 @@ import Portal from '@components/Portal';
 import Icon from '@components/Icon';
 
 interface ThumbnailGeneratorProps {
-  id?: string;
   isDefaultOpen?: boolean;
   buttonIcon?: React.ReactNode;
   iconSize?: 'small' | 'medium' | 'large';
@@ -19,7 +18,6 @@ interface ThumbnailGeneratorProps {
 }
 
 const ThumbnailGenerator = ({
-  id,
   buttonIcon,
   isDefaultOpen = false,
   iconSize = 'medium',
@@ -36,26 +34,24 @@ const ThumbnailGenerator = ({
   };
 
   return (
-    <>
-      <Portal id={id}>
-        {isOpen ? (
-          <TG
-            isFullWidth={isFullWidth}
-            modalPosition={modalPosition}
-            additionalFontFamily={additionalFontFamily}
-            onToggle={onToggleGenerator}
-          />
-        ) : (
-          <TGOpenButton iconPosition={iconPosition} onClick={onToggleGenerator}>
-            {buttonIcon ? (
-              buttonIcon
-            ) : (
-              <Icon src={toggleButton} width={tgIconSize} height={tgIconSize} />
-            )}
-          </TGOpenButton>
-        )}
-      </Portal>
-    </>
+    <Portal>
+      {isOpen ? (
+        <TG
+          isFullWidth={isFullWidth}
+          modalPosition={modalPosition}
+          additionalFontFamily={additionalFontFamily}
+          onToggle={onToggleGenerator}
+        />
+      ) : (
+        <TGOpenButton iconPosition={iconPosition} onClick={onToggleGenerator}>
+          {buttonIcon ? (
+            buttonIcon
+          ) : (
+            <Icon src={toggleButton} width={tgIconSize} height={tgIconSize} />
+          )}
+        </TGOpenButton>
+      )}
+    </Portal>
   );
 };
 

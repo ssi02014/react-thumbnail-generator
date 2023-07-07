@@ -1,4 +1,10 @@
-import React, { ChangeEvent, useMemo, useRef, useState } from 'react';
+import React, {
+  ChangeEvent,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import Select from './Select';
 import SelectItem from './Select/SelectItem';
 import TextInput from './Inputs/TextInput';
@@ -17,7 +23,15 @@ import {
   strokeTypes,
 } from '@constants/select';
 import { CanvasState } from '../types/canvas';
-import { fill, font, stroke, blur } from '@assets/icons';
+import {
+  fill,
+  font,
+  stroke,
+  blur,
+  alignStart,
+  alignCenter,
+  alignEnd,
+} from '@assets/icons';
 import { Color, useColor } from 'react-color-palette';
 import { BodyWrapper, ContentWrapper, InnerWrapper } from './Layout/styled';
 import * as S from './TG.styled';
@@ -41,6 +55,7 @@ const TG = ({
     value: 'Simple Thumbnail\nGenerator 😁',
     fontSize: '30px',
     fontStrokeType: 'None',
+    textAlign: 'center',
     fontFamily: 'Arial',
     canvasWidth: '600',
     canvasHeight: '400',
@@ -76,58 +91,104 @@ const TG = ({
     [canvasState.fontSize]
   );
 
-  const toggleIsBlockEvent = () => {
+  const textAlignIcon = useMemo(() => {
+    const { textAlign } = canvasState;
+
+    if (textAlign === 'center') return alignCenter;
+    if (textAlign === 'end') return alignEnd;
+    return alignStart;
+  }, [canvasState.textAlign]);
+
+  const onChangeTextAlign = useCallback(() => {
+    const getNextTextAlign = () => {
+      const { textAlign } = canvasState;
+
+      if (textAlign === 'center') return 'end';
+      if (textAlign === 'end') return 'start';
+      return 'center';
+    };
+
+    setCanvasState({
+      ...canvasState,
+      textAlign: getNextTextAlign(),
+    });
+  }, [canvasState]);
+
+  const onChangeStrokeColor = useCallback(
+    (color: Color) => {
+      setStrokeColor(color);
+
+      if (canvasState.fontStrokeType === 'None') {
+        setCanvasState({ ...canvasState, fontStrokeType: 'Normal' });
+      }
+    },
+    [canvasState, setStrokeColor]
+  );
+
+  const toggleIsBlockEvent = useCallback(() => {
     setCanvasState({
       ...canvasState,
       isBlockEvent: !canvasState.isBlockEvent,
     });
-  };
+  }, [canvasState]);
 
-  const getReplaceCallback = (name: string) => {
+  const getReplaceCallback = useCallback((name: string) => {
     const canvas = ['canvasWidth', 'canvasHeight'];
 
     if (canvas.includes(name)) return () => '';
     return (match: string, idx: number) => (!idx && match === '-' ? '-' : '');
-  };
+  }, []);
 
-  const onChangeCanvasSize = (e: ChangeEvent<HTMLInputElement>) => {
-    const regex = /[^0-9]/g;
-    const { name, value } = e.target;
+  const onChangeCanvasSize = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const regex = /[^0-9]/g;
+      const { name, value } = e.target;
 
-    const replacedCallback = getReplaceCallback(name);
-    const replacedValue = value.replace(regex, replacedCallback);
+      const replacedCallback = getReplaceCallback(name);
+      const replacedValue = value.replace(regex, replacedCallback);
 
-    setCanvasState({
-      ...canvasState,
-      [name]: replacedValue,
-    });
-  };
+      setCanvasState({
+        ...canvasState,
+        [name]: replacedValue,
+      });
+    },
+    [canvasState, getReplaceCallback]
+  );
 
-  const onChangeTextValue = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
+  const onChangeTextValue = useCallback(
+    (e: ChangeEvent<HTMLTextAreaElement>) => {
+      const { name, value } = e.target;
 
-    setCanvasState({
-      ...canvasState,
-      [name]: value,
-    });
-  };
+      setCanvasState({
+        ...canvasState,
+        [name]: value,
+      });
+    },
+    [canvasState]
+  );
 
-  const onChangeSelectValue = (name: string, value: string | number) => {
-    setCanvasState({
-      ...canvasState,
-      [name]: value,
-    });
-  };
+  const onChangeSelectValue = useCallback(
+    (name: string, value: string | number) => {
+      setCanvasState({
+        ...canvasState,
+        [name]: value,
+      });
+    },
+    [canvasState]
+  );
 
-  const onChangeBgColor = (color: Color) => {
-    setCanvasState({
-      ...canvasState,
-      selectedImage: null,
-    });
-    setBgColor(color);
-  };
+  const onChangeBgColor = useCallback(
+    (color: Color) => {
+      setCanvasState({
+        ...canvasState,
+        selectedImage: null,
+      });
+      setBgColor(color);
+    },
+    [canvasState, setBgColor]
+  );
 
-  const onChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeImage = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
 
     if (files) {
@@ -143,39 +204,42 @@ const TG = ({
         });
       };
     }
-  };
+  }, []);
 
-  const toggleCanvasBlur = () => {
+  const toggleCanvasBlur = useCallback(() => {
     setCanvasState({
       ...canvasState,
       isBlur: !canvasState.isBlur,
     });
-  };
+  }, [canvasState]);
 
-  const handleDownloadImage = () => {
+  const handleDownloadImage = useCallback(() => {
     downloadCanvas(canvasRef, canvasState.imageType);
-  };
+  }, [canvasState]);
 
-  const handleChangeRange = (e: ChangeEvent<HTMLInputElement>) => {
-    const regex = /[^0-9]/g;
-    const { name, value } = e.target;
-    const min = name === 'angle' ? -360 : defaultLineHeight * -5;
-    const max = name === 'angle' ? 360 : defaultLineHeight * 3;
-    const replacedCallback = getReplaceCallback(name);
-    const replacedValue = value.replace(regex, replacedCallback);
+  const handleChangeRange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const regex = /[^0-9]/g;
+      const { name, value } = e.target;
+      const min = name === 'angle' ? -360 : defaultLineHeight * -12;
+      const max = name === 'angle' ? 360 : defaultLineHeight * 10;
+      const replacedCallback = getReplaceCallback(name);
+      const replacedValue = value.replace(regex, replacedCallback);
 
-    const validMessage = getValidMessage(
-      +value < min || +value > max,
-      name as ValidType
-    );
+      const validMessage = getValidMessage(
+        +value < min || +value > max,
+        name as ValidType
+      );
 
-    if (validMessage) return alert(validMessage);
+      if (validMessage) return alert(validMessage);
 
-    setCanvasState({
-      ...canvasState,
-      [name]: replacedValue,
-    });
-  };
+      setCanvasState({
+        ...canvasState,
+        [name]: replacedValue,
+      });
+    },
+    [getReplaceCallback, canvasState]
+  );
 
   return (
     <BodyWrapper modalPosition={modalPosition} isFullWidth={isFullWidth}>
@@ -186,6 +250,10 @@ const TG = ({
 
           <S.TGControllerWrapper>
             <FileInput width={20} height={20} onChangeImage={onChangeImage} />
+            <IconButton isBorder onClick={onChangeTextAlign}>
+              <Icon src={textAlignIcon} width={20} height={20} />
+            </IconButton>
+
             <ColorPicker
               color={bgColor}
               setColor={onChangeBgColor}
@@ -200,7 +268,7 @@ const TG = ({
             </ColorPicker>
             <ColorPicker
               color={strokeColor}
-              setColor={setStrokeColor}
+              setColor={onChangeStrokeColor}
               toggleIsBlockEvent={toggleIsBlockEvent}>
               <Icon src={stroke} width={20} height={20} />
             </ColorPicker>
@@ -234,8 +302,8 @@ const TG = ({
               <InputRange
                 label={'Line Height'}
                 name="lineHeight"
-                min={defaultLineHeight * -5}
-                max={defaultLineHeight * 3}
+                min={defaultLineHeight * -12}
+                max={defaultLineHeight * 10}
                 value={canvasState.lineHeight}
                 onChange={handleChangeRange}
               />

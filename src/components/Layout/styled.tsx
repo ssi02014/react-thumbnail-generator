@@ -1,5 +1,5 @@
 import { getModalPosition } from '@utils/style';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 export const HeaderWrapper = styled.div`
   display: flex;

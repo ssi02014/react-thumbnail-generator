@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 // TG Input
 export const TextInputWrapper = styled.div<{ width: number | string }>`

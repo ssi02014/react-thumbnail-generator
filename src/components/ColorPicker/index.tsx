@@ -1,7 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { ColorPickerWrapper } from './styled';
+import React, {
+  CSSProperties,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Color, ColorPicker as PaletteColorPicker } from 'react-color-palette';
 import { IconButton } from '../Icon/styled';
+import './style.css';
 
 interface ColorPickerPickerProps {
   children: React.ReactNode;
@@ -9,6 +16,7 @@ interface ColorPickerPickerProps {
   setColor: (color: Color) => void;
   toggleIsBlockEvent: () => void;
 }
+
 const ColorPickerPicker = ({
   children,
   color,
@@ -18,21 +26,24 @@ const ColorPickerPicker = ({
   const [isOpenColorPicker, setIsOpenColorPicker] = useState(false);
   const colorRef = useRef<HTMLDivElement>(null);
 
-  const handleCloseColorPicker = (e: any) => {
-    if (isOpenColorPicker) {
-      if (colorRef && colorRef.current) {
-        if (!colorRef.current.contains(e.target)) {
-          setIsOpenColorPicker(false);
-          toggleIsBlockEvent();
+  const handleCloseColorPicker = useCallback(
+    (e: any) => {
+      if (isOpenColorPicker) {
+        if (colorRef.current) {
+          if (!colorRef.current.contains(e.target)) {
+            setIsOpenColorPicker(false);
+            toggleIsBlockEvent();
+          }
         }
       }
-    }
-  };
+    },
+    [isOpenColorPicker, toggleIsBlockEvent]
+  );
 
-  const handleOpenColorPicker = () => {
-    setIsOpenColorPicker(!isOpenColorPicker);
+  const handleOpenColorPicker = useCallback(() => {
+    setIsOpenColorPicker((prev) => !prev);
     toggleIsBlockEvent();
-  };
+  }, [toggleIsBlockEvent]);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleCloseColorPicker);
@@ -42,16 +53,31 @@ const ColorPickerPicker = ({
     };
   }, [handleCloseColorPicker]);
 
+  const wrapperStyle: CSSProperties = useMemo(() => {
+    return {
+      position: 'relative',
+    };
+  }, []);
+
+  const colorPickerWrapperStyle: CSSProperties = useMemo(() => {
+    return {
+      position: 'absolute',
+      left: '50%',
+      bottom: '40px',
+      transform: 'translateX(-50%)',
+    };
+  }, []);
+
   return (
-    <ColorPickerWrapper>
+    <div style={wrapperStyle}>
       <IconButton
-        isOpenColorPicker={isOpenColorPicker}
+        isOpen={isOpenColorPicker}
         onClick={handleOpenColorPicker}
         isBorder={true}>
         {children}
       </IconButton>
       {isOpenColorPicker && (
-        <div ref={colorRef}>
+        <div ref={colorRef} style={colorPickerWrapperStyle}>
           <PaletteColorPicker
             width={250}
             height={150}
@@ -63,7 +89,7 @@ const ColorPickerPicker = ({
           />
         </div>
       )}
-    </ColorPickerWrapper>
+    </div>
   );
 };
 

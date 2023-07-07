@@ -1,5 +1,5 @@
 import useDragAndDropText from '../../hooks/useDragAndDropText';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { CanvasStateWithColors } from '../../types/canvas';
 import * as S from './styled';
 
@@ -19,6 +19,7 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
     fontFamily,
     angle,
     isBlur,
+    textAlign,
     isBlockEvent,
     bgColor,
     fontColor,
@@ -33,7 +34,7 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
     handleCanvasOffsetReset,
   } = useDragAndDropText(+canvasWidth, +canvasHeight);
 
-  const getLineWidthByStrokeType = () => {
+  const getLineWidthByStrokeType = useCallback(() => {
     const strokeObj = {
       None: 0,
       Thin: 3,
@@ -42,96 +43,143 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
     } as { [key: string]: number };
 
     return strokeObj[fontStrokeType];
-  };
+  }, [fontStrokeType]);
 
-  const getMultiLinePosition = (
-    linesLength: number,
-    lineHeight: number,
-    idx: number
-  ) => {
-    const { offsetX, offsetY } = dragAndDropTextData;
-    const centerX = +canvasWidth / 2;
-    const centerY = +canvasHeight / 2;
+  const getCenterX = useCallback(
+    (lineMaxWidth: number) => {
+      switch (textAlign) {
+        case 'center':
+          return +canvasWidth / 2;
+        case 'end':
+          return +canvasWidth / 2 + lineMaxWidth / 2;
+        default:
+          return +canvasWidth / 2 + (lineMaxWidth / 2) * -1;
+      }
+    },
+    [textAlign, canvasWidth]
+  );
 
-    const x = offsetX ? offsetX : centerX;
-    const y = offsetY
-      ? offsetY - ((linesLength - 1) * lineHeight) / 2 + idx * lineHeight
-      : centerY - ((linesLength - 1) * lineHeight) / 2 + idx * lineHeight;
+  const getMultiLinePosition = useCallback(
+    (
+      linesLength: number,
+      lineHeight: number,
+      lineMaxWidth: number,
+      idx: number
+    ) => {
+      const { offsetX, offsetY } = dragAndDropTextData;
+      const centerY = +canvasHeight / 2;
+      const centerX = getCenterX(lineMaxWidth);
 
-    return { x, y };
-  };
+      const x = offsetX ? offsetX : centerX;
+      const y = offsetY
+        ? offsetY - ((linesLength - 1) * lineHeight) / 2 + idx * lineHeight
+        : centerY - ((linesLength - 1) * lineHeight) / 2 + idx * lineHeight;
 
-  const setFontStroke = (ctx: CanvasRenderingContext2D, line: string) => {
-    if (fontStrokeType === 'None') return;
+      return { x, y };
+    },
+    [dragAndDropTextData, canvasHeight, getCenterX]
+  );
 
-    ctx.lineWidth = getLineWidthByStrokeType();
-    ctx.strokeStyle = `${strokeColor.hex}`;
-    ctx.strokeText(line, 0, 0);
-  };
+  const setFontStroke = useCallback(
+    (ctx: CanvasRenderingContext2D, line: string) => {
+      if (fontStrokeType === 'None') return;
 
-  const rotateCanvas = (ctx: CanvasRenderingContext2D) => {
-    const { offsetX, offsetY } = dragAndDropTextData;
-    const centerX = +canvasWidth / 2;
-    const centerY = +canvasHeight / 2;
-    const moveX = offsetX ? offsetX : centerX;
-    const moveY = offsetY ? offsetY : centerY;
+      ctx.lineWidth = getLineWidthByStrokeType();
+      ctx.strokeStyle = `${strokeColor.hex}`;
+      ctx.strokeText(line, 0, 0);
+    },
+    [fontStrokeType, strokeColor]
+  );
 
-    ctx.translate(moveX, moveY);
-    ctx.rotate((+angle * Math.PI) / 180);
-    ctx.translate(-moveX, -moveY);
-  };
+  const rotateCanvas = useCallback(
+    (ctx: CanvasRenderingContext2D) => {
+      const { offsetX, offsetY } = dragAndDropTextData;
+      const centerX = +canvasWidth / 2;
+      const centerY = +canvasHeight / 2;
+      const moveX = offsetX ? offsetX : centerX;
+      const moveY = offsetY ? offsetY : centerY;
 
-  const fillCanvasMultiLineText = (
-    ctx: CanvasRenderingContext2D,
-    lines: string[]
-  ) => {
-    const size = +fontSize.replace('px', '');
-    const fontLineHeight = size + +lineHeight;
+      ctx.translate(moveX, moveY);
+      ctx.rotate((+angle * Math.PI) / 180);
+      ctx.translate(-moveX, -moveY);
+    },
+    [dragAndDropTextData, canvasWidth, canvasHeight, angle]
+  );
 
-    lines.forEach((line, idx) => {
-      const { x, y } = getMultiLinePosition(lines.length, fontLineHeight, idx);
+  const fillCanvasMultiLineText = useCallback(
+    (ctx: CanvasRenderingContext2D, lines: string[]) => {
+      const size = +fontSize.replace('px', '');
+      const fontLineHeight = size + +lineHeight;
+      let lineMaxWidth = 0;
+
+      lines.forEach((line) => {
+        lineMaxWidth = Math.max(lineMaxWidth, ctx.measureText(line).width);
+      });
+
+      lines.forEach((line, idx) => {
+        const { x, y } = getMultiLinePosition(
+          lines.length,
+          fontLineHeight,
+          lineMaxWidth,
+          idx
+        );
+
+        ctx.save();
+        ctx.translate(x, y);
+
+        setFontStroke(ctx, line);
+
+        ctx.fillStyle = fontColor.hex;
+        ctx.fillText(line, 0, 0);
+        ctx.restore();
+      });
+    },
+    [fontColor, fontSize, lineHeight, getMultiLinePosition, setFontStroke]
+  );
+
+  const setCanvasText = useCallback(
+    (ctx: CanvasRenderingContext2D) => {
+      const lines = value.split('\n');
+      const size = +fontSize.replace('px', '');
+
+      ctx.font = `${size}px ${fontFamily}`;
+      ctx.textAlign = textAlign;
+      ctx.textBaseline = 'middle';
 
       ctx.save();
-      ctx.translate(x, y);
 
-      setFontStroke(ctx, line);
+      rotateCanvas(ctx);
+      fillCanvasMultiLineText(ctx, lines);
 
-      ctx.fillStyle = fontColor.hex;
-      ctx.fillText(line, 0, 0);
       ctx.restore();
-    });
-  };
+    },
+    [
+      value,
+      fontSize,
+      fontFamily,
+      textAlign,
+      rotateCanvas,
+      fillCanvasMultiLineText,
+    ]
+  );
 
-  const setCanvasText = (ctx: CanvasRenderingContext2D) => {
-    const lines = value.split('\n');
-    const size = +fontSize.replace('px', '');
+  const fillBackground = useCallback(
+    (canvas: HTMLCanvasElement) => {
+      const ctx = canvas.getContext('2d');
 
-    ctx.font = `${size}px ${fontFamily}`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
+      if (!ctx) return;
 
-    ctx.save();
+      if (selectedImage) {
+        if (isBlur) ctx.filter = 'blur(5px)';
+        ctx.drawImage(selectedImage, 0, 0);
+        return;
+      }
 
-    rotateCanvas(ctx);
-    fillCanvasMultiLineText(ctx, lines);
-
-    ctx.restore();
-  };
-
-  const fillBackground = (canvas: HTMLCanvasElement) => {
-    const ctx = canvas.getContext('2d');
-
-    if (!ctx) return;
-
-    if (selectedImage) {
-      if (isBlur) ctx.filter = 'blur(5px)';
-      ctx.drawImage(selectedImage, 0, 0);
-      return;
-    }
-
-    ctx.fillStyle = bgColor.hex;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-  };
+      ctx.fillStyle = bgColor.hex;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    },
+    [selectedImage, bgColor, isBlur]
+  );
 
   useEffect(() => {
     if (!ref.current) return;
