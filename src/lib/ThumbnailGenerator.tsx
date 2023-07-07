@@ -7,7 +7,6 @@ import Portal from '@components/Portal';
 import Icon from '@components/Icon';
 
 interface ThumbnailGeneratorProps {
-  id?: string;
   isDefaultOpen?: boolean;
   buttonIcon?: React.ReactNode;
   iconSize?: 'small' | 'medium' | 'large';
@@ -19,7 +18,6 @@ interface ThumbnailGeneratorProps {
 }
 
 const ThumbnailGenerator = ({
-  id,
   buttonIcon,
   isDefaultOpen = false,
   iconSize = 'medium',
@@ -37,7 +35,7 @@ const ThumbnailGenerator = ({
 
   return (
     <>
-      <Portal id={id}>
+      <Portal>
         {isOpen ? (
           <TG
             isFullWidth={isFullWidth}
