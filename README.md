@@ -164,7 +164,7 @@ npm install react-thumbnail-generator next-transpile-modules
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  transpilePackages: ["react-step-parallax"],
+  transpilePackages: ["react-thumbnail-generator"], // (*)
 };
 
 module.exports = nextConfig;
