@@ -8,21 +8,20 @@ import React, {
 } from 'react';
 import { Color, ColorPicker as PaletteColorPicker } from 'react-color-palette';
 import { IconButton } from '../Icon/styled';
-import './style.css';
 
-interface ColorPickerPickerProps {
+interface ColorPickerProps {
   children: React.ReactNode;
   color: Color;
   setColor: (color: Color) => void;
   toggleIsBlockEvent: () => void;
 }
 
-const ColorPickerPicker = ({
+const ColorPicker = ({
   children,
   color,
   toggleIsBlockEvent,
   setColor,
-}: ColorPickerPickerProps) => {
+}: ColorPickerProps) => {
   const [isOpenColorPicker, setIsOpenColorPicker] = useState(false);
   const colorRef = useRef<HTMLDivElement>(null);
 
@@ -93,4 +92,4 @@ const ColorPickerPicker = ({
   );
 };
 
-export default ColorPickerPicker;
+export default ColorPicker;

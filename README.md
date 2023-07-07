@@ -69,16 +69,16 @@
 
 ## Features 😁
 
-- Downloading thumbnail images
-- Resizing the canvas
-- Filling the background with colors or pictures
-- Choosing a blur effect
-- Selecting font family, size, stroke, color, angle, lineHeight
-- Dragging and dropping text on the canvas
-- Adding custom web font families
-- Selecting the modal button and its location
-- Choosing the image type (png, jpg, webp, svg)
-- Supporting TypeScript and Next
+- Download thumbnail images
+- Resize the canvas
+- Fill the background with colors or pictures
+- Select a blur effect
+- Select font family, textAlign, size, stroke, color, angle, lineHeight
+- Drag and Drop text on the canvas
+- Add custom web font families
+- Select the modal button and its location
+- Choose the image type (png, jpg, webp, svg)
+- Support TypeScript and Next(v13)
 
 
 <br />
@@ -116,40 +116,38 @@ import iconImage from '../assets/colorImage.png';
 
 const App = () => {
   return (
-    <div>
-      <ThumbnailGenerator
-        buttonIcon={<img src={iconImage} width={30} height={30} alt="iconImage" />}
-        // To insert the inner icon of the button that opens the thumbnail modal, use the ReactNode. 
-        // If you do not include this option, the default icon will be used.
+    <ThumbnailGenerator
+      buttonIcon={<img src={iconImage} width={30} height={30} alt="iconImage" />}
+      // To insert the inner icon of the button that opens the thumbnail modal, use the ReactNode. 
+      // If you do not include this option, the default icon will be used.
 
-        iconSize="medium"
-        // Through this property, you can specify the size of the button icon.
-        // However, if you are inserting a custom button icon, this option is meaningless.
-  
-        iconPosition={[0, 20, 20, 0]}
-        // Through this property, you can specify the position of the button icon.
-        // [top, right, bottom, left]
+      iconSize="medium"
+      // Through this property, you can specify the size of the button icon.
+      // However, if you are inserting a custom button icon, this option is meaningless.
 
-        modalPosition='right'
-        // Through this property, you can specify the position of the thumbnail generator.
-        
-        additionalFontFamily={['Noto Sans', ...]}
-        // You can add the font of your choice to your project, but that font must already applied to your project.
+      iconPosition={[0, 20, 20, 0]}
+      // Through this property, you can specify the position of the button icon.
+      // [top, right, bottom, left]
 
-        isFullWidth={true}
-        // Setting this property to true will make the thumbnail generator full-width.
+      modalPosition='right'
+      // Through this property, you can specify the position of the thumbnail generator.
+      
+      additionalFontFamily={['Noto Sans', ...]}
+      // You can add the font of your choice to your project, but that font must already applied to your project.
 
-        isDefaultOpen={false}
-        // Setting this property to true will open the thumbnail generator by default.
-      />
-    </div>
+      isFullWidth={true}
+      // Setting this property to true will make the thumbnail generator full-width.
+
+      isDefaultOpen={false}
+      // Setting this property to true will open the thumbnail generator by default.
+    />
   )
 }
 ```
 
 <br />
 
-## How to use Next 😊
+## How to use Next(v13) 😊
 ### STEP 1️⃣
 - Install Package
 ```
@@ -183,11 +181,9 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <>
-      <ThumbnailGenerator 
-        buttonIcon={<Image src={buttonIcon} width={30} height={30} alt="buttonIcon" />} 
-      />
-    </>
+    <ThumbnailGenerator 
+      buttonIcon={<Image src={buttonIcon} width={30} height={30} alt="buttonIcon" />} 
+    />
   );
 }
 
@@ -231,11 +227,9 @@ import iconImage from '../assets/colorImage.png';
 
 const App = () => {
   return (
-    <div>
-      <ThumbnailGenerator 
-        additionalFontFamily={["Zeyada"]} // (*)
-      />
-    </div>
+    <ThumbnailGenerator 
+      additionalFontFamily={["Zeyada"]} // (*)
+    />
   )
 }
 ```
@@ -249,7 +243,6 @@ const App = () => {
 
 <br />
 <br />
-<hr />
 
 ## API 📄
 - buttonIcon

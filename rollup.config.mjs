@@ -6,7 +6,6 @@ import commonjs from '@rollup/plugin-commonjs';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import alias from '@rollup/plugin-alias';
 import pkg from './package.json' assert { type: 'json' };
-import css from 'rollup-plugin-import-css';
 import path from 'path';
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx'];
@@ -39,7 +38,6 @@ export default {
     alias({
       entries: [{ find: '@', replacement: path.resolve(__dirname, './src') }],
     }),
-    css(),
     terser(),
   ],
 };
