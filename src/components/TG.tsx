@@ -159,8 +159,8 @@ const TG = ({
   const handleChangeRange = (e: ChangeEvent<HTMLInputElement>) => {
     const regex = /[^0-9]/g;
     const { name, value } = e.target;
-    const min = name === 'angle' ? -360 : defaultLineHeight * -5;
-    const max = name === 'angle' ? 360 : defaultLineHeight * 3;
+    const min = name === 'angle' ? -360 : defaultLineHeight * -12;
+    const max = name === 'angle' ? 360 : defaultLineHeight * 10;
     const replacedCallback = getReplaceCallback(name);
     const replacedValue = value.replace(regex, replacedCallback);
 
@@ -234,8 +234,8 @@ const TG = ({
               <InputRange
                 label={'Line Height'}
                 name="lineHeight"
-                min={defaultLineHeight * -5}
-                max={defaultLineHeight * 3}
+                min={defaultLineHeight * -12}
+                max={defaultLineHeight * 10}
                 value={canvasState.lineHeight}
                 onChange={handleChangeRange}
               />

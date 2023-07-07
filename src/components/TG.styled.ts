@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { getIconPosition } from '@utils/style';
 
 export const TGOpenButton = styled.button<{

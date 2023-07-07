@@ -21,7 +21,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/typescript-blue">
   <img src="https://img.shields.io/badge/react-blue">
-  <img src="https://img.shields.io/badge/styled--components-green">
+  <img src="https://img.shields.io/badge/@emotion-green">
   <img src="https://img.shields.io/badge/react--color--palette-important">
   <img src="https://img.shields.io/badge/storybook-ff69b4">
 </p>

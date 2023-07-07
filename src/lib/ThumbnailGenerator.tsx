@@ -34,26 +34,24 @@ const ThumbnailGenerator = ({
   };
 
   return (
-    <>
-      <Portal>
-        {isOpen ? (
-          <TG
-            isFullWidth={isFullWidth}
-            modalPosition={modalPosition}
-            additionalFontFamily={additionalFontFamily}
-            onToggle={onToggleGenerator}
-          />
-        ) : (
-          <TGOpenButton iconPosition={iconPosition} onClick={onToggleGenerator}>
-            {buttonIcon ? (
-              buttonIcon
-            ) : (
-              <Icon src={toggleButton} width={tgIconSize} height={tgIconSize} />
-            )}
-          </TGOpenButton>
-        )}
-      </Portal>
-    </>
+    <Portal>
+      {isOpen ? (
+        <TG
+          isFullWidth={isFullWidth}
+          modalPosition={modalPosition}
+          additionalFontFamily={additionalFontFamily}
+          onToggle={onToggleGenerator}
+        />
+      ) : (
+        <TGOpenButton iconPosition={iconPosition} onClick={onToggleGenerator}>
+          {buttonIcon ? (
+            buttonIcon
+          ) : (
+            <Icon src={toggleButton} width={tgIconSize} height={tgIconSize} />
+          )}
+        </TGOpenButton>
+      )}
+    </Portal>
   );
 };
 
