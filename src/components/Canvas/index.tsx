@@ -1,5 +1,5 @@
 import useDragAndDropText from '../../hooks/useDragAndDropText';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { CanvasStateWithColors } from '../../types/canvas';
 import * as S from './styled';
 
@@ -19,6 +19,7 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
     fontFamily,
     angle,
     isBlur,
+    textAlign,
     isBlockEvent,
     bgColor,
     fontColor,
@@ -44,30 +45,51 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
     return strokeObj[fontStrokeType];
   };
 
-  const getMultiLinePosition = (
-    linesLength: number,
-    lineHeight: number,
-    idx: number
-  ) => {
-    const { offsetX, offsetY } = dragAndDropTextData;
-    const centerX = +canvasWidth / 2;
-    const centerY = +canvasHeight / 2;
+  const getCenterX = useCallback(
+    (lineMaxWidth: number) => {
+      switch (textAlign) {
+        case 'center':
+          return +canvasWidth / 2;
+        case 'end':
+          return +canvasWidth / 2 + lineMaxWidth / 2;
+        default:
+          return +canvasWidth / 2 + (lineMaxWidth / 2) * -1;
+      }
+    },
+    [textAlign, canvasWidth]
+  );
 
-    const x = offsetX ? offsetX : centerX;
-    const y = offsetY
-      ? offsetY - ((linesLength - 1) * lineHeight) / 2 + idx * lineHeight
-      : centerY - ((linesLength - 1) * lineHeight) / 2 + idx * lineHeight;
+  const getMultiLinePosition = useCallback(
+    (
+      linesLength: number,
+      lineHeight: number,
+      lineMaxWidth: number,
+      idx: number
+    ) => {
+      const { offsetX, offsetY } = dragAndDropTextData;
+      const centerY = +canvasHeight / 2;
+      const centerX = getCenterX(lineMaxWidth);
 
-    return { x, y };
-  };
+      const x = offsetX ? offsetX : centerX;
+      const y = offsetY
+        ? offsetY - ((linesLength - 1) * lineHeight) / 2 + idx * lineHeight
+        : centerY - ((linesLength - 1) * lineHeight) / 2 + idx * lineHeight;
 
-  const setFontStroke = (ctx: CanvasRenderingContext2D, line: string) => {
-    if (fontStrokeType === 'None') return;
+      return { x, y };
+    },
+    [dragAndDropTextData, canvasHeight]
+  );
 
-    ctx.lineWidth = getLineWidthByStrokeType();
-    ctx.strokeStyle = `${strokeColor.hex}`;
-    ctx.strokeText(line, 0, 0);
-  };
+  const setFontStroke = useCallback(
+    (ctx: CanvasRenderingContext2D, line: string) => {
+      if (fontStrokeType === 'None') return;
+
+      ctx.lineWidth = getLineWidthByStrokeType();
+      ctx.strokeStyle = `${strokeColor.hex}`;
+      ctx.strokeText(line, 0, 0);
+    },
+    [fontStrokeType, strokeColor]
+  );
 
   const rotateCanvas = (ctx: CanvasRenderingContext2D) => {
     const { offsetX, offsetY } = dragAndDropTextData;
@@ -87,9 +109,19 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
   ) => {
     const size = +fontSize.replace('px', '');
     const fontLineHeight = size + +lineHeight;
+    let lineMaxWidth = 0;
+
+    lines.forEach((line) => {
+      lineMaxWidth = Math.max(lineMaxWidth, ctx.measureText(line).width);
+    });
 
     lines.forEach((line, idx) => {
-      const { x, y } = getMultiLinePosition(lines.length, fontLineHeight, idx);
+      const { x, y } = getMultiLinePosition(
+        lines.length,
+        fontLineHeight,
+        lineMaxWidth,
+        idx
+      );
 
       ctx.save();
       ctx.translate(x, y);
@@ -107,7 +139,7 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
     const size = +fontSize.replace('px', '');
 
     ctx.font = `${size}px ${fontFamily}`;
-    ctx.textAlign = 'center';
+    ctx.textAlign = textAlign;
     ctx.textBaseline = 'middle';
 
     ctx.save();

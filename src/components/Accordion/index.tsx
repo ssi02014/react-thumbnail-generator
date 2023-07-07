@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import * as S from './styled';
 import { arrowBottom, arrowTop } from '@assets/icons';
 import Icon from '../../components/Icon';
@@ -13,7 +13,7 @@ const Accordion = ({ title, children, maxHeight = 200 }: AccordionProps) => {
   const panelRef = useRef<HTMLDivElement>(null);
   const [isOpenPanel, setIsOpenPanel] = useState(false);
 
-  const handleToggle = () => {
+  const handleToggle = useCallback(() => {
     setIsOpenPanel(!isOpenPanel);
 
     if (!panelRef.current) return;
@@ -26,7 +26,7 @@ const Accordion = ({ title, children, maxHeight = 200 }: AccordionProps) => {
       if (!panelRef.current) return;
       panelRef.current.style.overflow = 'visible';
     }, 300);
-  };
+  }, [isOpenPanel]);
 
   return (
     <S.AccordionWrapper>

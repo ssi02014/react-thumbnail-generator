@@ -36,7 +36,7 @@ const RangeInput = ({
           backgroundSize={backgroundSize}
         />
       </S.InputLabelRangeContainer>
-      <TextInput width={50} name={name} value={value} onChange={onChange} />
+      <TextInput width={60} name={name} value={value} onChange={onChange} />
     </S.RangeInputWrapper>
   );
 };
