@@ -63,6 +63,7 @@
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
     "rollup": "^3.23.1",
+    "rollup-plugin-import-css": "^3.3.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "storybook": "^7.0.18",
     "tsconfig-paths-webpack-plugin": "^4.0.0",
