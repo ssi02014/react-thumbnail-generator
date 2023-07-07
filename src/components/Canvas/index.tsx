@@ -25,6 +25,7 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
     fontColor,
     strokeColor,
   } = canvasState;
+
   const {
     dragAndDropTextData,
     handleCanvasMouseDown,
@@ -45,15 +46,15 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
     return strokeObj[fontStrokeType];
   }, [fontStrokeType]);
 
-  const getCenterX = useCallback(
-    (lineMaxWidth: number) => {
+  const getCalculatedX = useCallback(
+    (originWidth: number, lineMaxWidth: number) => {
       switch (textAlign) {
         case 'center':
-          return +canvasWidth / 2;
+          return originWidth;
         case 'end':
-          return +canvasWidth / 2 + lineMaxWidth / 2;
+          return originWidth + lineMaxWidth / 2;
         default:
-          return +canvasWidth / 2 + (lineMaxWidth / 2) * -1;
+          return originWidth + (lineMaxWidth / 2) * -1;
       }
     },
     [textAlign, canvasWidth]
@@ -68,16 +69,16 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
     ) => {
       const { offsetX, offsetY } = dragAndDropTextData;
       const centerY = +canvasHeight / 2;
-      const centerX = getCenterX(lineMaxWidth);
+      const centerX = getCalculatedX(+canvasWidth / 2, lineMaxWidth);
 
-      const x = offsetX ? offsetX : centerX;
+      const x = offsetX ? getCalculatedX(offsetX, lineMaxWidth) : centerX;
       const y = offsetY
         ? offsetY - ((linesLength - 1) * lineHeight) / 2 + idx * lineHeight
         : centerY - ((linesLength - 1) * lineHeight) / 2 + idx * lineHeight;
 
       return { x, y };
     },
-    [dragAndDropTextData, canvasHeight, getCenterX]
+    [dragAndDropTextData, canvasHeight, getCalculatedX]
   );
 
   const setFontStroke = useCallback(
