@@ -69,6 +69,7 @@
 
 ## Features 😁
 
+- **Optimized for browsers. Limited availability on mobile.**
 - Download thumbnail images
 - Resize the canvas
 - Fill the background with colors or pictures
@@ -159,7 +160,7 @@ npm install react-thumbnail-generator next-transpile-modules
 <br />
 
 ### STEP 2️⃣
-- Modify next.config
+- Modify `next.config`
 ```js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -173,17 +174,14 @@ module.exports = nextConfig;
 <br />
 
 ### STEP 3️⃣
-- Add `<ThumbnailGenerator>` to dynamic import.
+- Add `<ThumbnailGenerator>` component.
 
 ```jsx
-import dynamic from "next/dynamic";
-import Image from "next/image";
+import ThumbnailGenerator from 'react-thumbnail-generator';
 
 export default function Home() {
   return (
-    <ThumbnailGenerator 
-      buttonIcon={<Image src={buttonIcon} width={30} height={30} alt="buttonIcon" />} 
-    />
+    <ThumbnailGenerator />
   );
 }
 
