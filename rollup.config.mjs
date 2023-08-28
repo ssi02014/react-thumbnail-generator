@@ -18,8 +18,13 @@ export default {
   output: [
     {
       file: pkg.main,
-      format: 'esm',
       sourcemap: false,
+      format: 'cjs',
+    },
+    {
+      file: pkg.module,
+      sourcemap: false,
+      format: 'esm',
     },
   ],
   external: ['react', 'react-dom'],
@@ -34,7 +39,7 @@ export default {
       extensions,
       include: ['src/**/*'],
     }),
-    typescript({ tsconfig: './tsconfig.json' }),
+    typescript({ tsconfig: './tsconfig.json', exclude: ['**/*.stories.tsx'] }),
     alias({
       entries: [{ find: '@', replacement: path.resolve(__dirname, './src') }],
     }),

@@ -29,13 +29,10 @@ export const BodyWrapper = styled.section<{
   min-width: ${({ isFullWidth }) => (isFullWidth ? '100%' : '600px')};
   border-radius: 7px;
   box-shadow: 1px 1px 10px #cccccc;
-  z-index: 9999;
+  z-index: 100;
   background-color: #ffffff;
   flex-direction: column;
-  overflow: hidden;
-
   font-family: Arial;
-
   * {
     box-sizing: border-box;
   }

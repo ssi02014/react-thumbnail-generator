@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 import { Color, ColorPicker as PaletteColorPicker } from 'react-color-palette';
 import { IconButton } from '../Icon/styled';
+import { Portal } from '@devgrace/react';
 
 interface ColorPickerProps {
   children: React.ReactNode;
@@ -24,6 +25,7 @@ const ColorPicker = ({
 }: ColorPickerProps) => {
   const [isOpenColorPicker, setIsOpenColorPicker] = useState(false);
   const colorRef = useRef<HTMLDivElement>(null);
+  const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
 
   const handleCloseColorPicker = useCallback(
     (e: any) => {
@@ -39,10 +41,16 @@ const ColorPicker = ({
     [isOpenColorPicker, toggleIsBlockEvent]
   );
 
-  const handleOpenColorPicker = useCallback(() => {
-    setIsOpenColorPicker((prev) => !prev);
-    toggleIsBlockEvent();
-  }, [toggleIsBlockEvent]);
+  const handleOpenColorPicker = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      const { x, y } = e.currentTarget.getBoundingClientRect();
+
+      setCoordinates({ x, y });
+      setIsOpenColorPicker((prev) => !prev);
+      toggleIsBlockEvent();
+    },
+    [toggleIsBlockEvent]
+  );
 
   useEffect(() => {
     document.addEventListener('mousedown', handleCloseColorPicker);
@@ -61,11 +69,12 @@ const ColorPicker = ({
   const colorPickerWrapperStyle: CSSProperties = useMemo(() => {
     return {
       position: 'absolute',
-      left: '50%',
-      bottom: '40px',
+      left: `${coordinates.x}px`,
+      top: `${coordinates.y - 300}px`,
       transform: 'translateX(-50%)',
+      zIndex: '9999',
     };
-  }, []);
+  }, [coordinates]);
 
   return (
     <div style={wrapperStyle}>
@@ -75,19 +84,21 @@ const ColorPicker = ({
         isBorder={true}>
         {children}
       </IconButton>
-      {isOpenColorPicker && (
-        <div ref={colorRef} style={colorPickerWrapperStyle}>
-          <PaletteColorPicker
-            width={250}
-            height={150}
-            color={color}
-            onChange={setColor}
-            hideHSV
-            hideRGB
-            dark
-          />
-        </div>
-      )}
+      <Portal>
+        {isOpenColorPicker && (
+          <div ref={colorRef} style={colorPickerWrapperStyle}>
+            <PaletteColorPicker
+              width={250}
+              height={150}
+              color={color}
+              onChange={setColor}
+              hideHSV
+              hideRGB
+              dark
+            />
+          </div>
+        )}
+      </Portal>
     </div>
   );
 };
