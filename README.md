@@ -148,48 +148,6 @@ const App = () => {
 
 <br />
 
-## How to use Next(v13) 😊
-### STEP 1️⃣
-- Install Package
-```
-yarn add react-thumbnail-generator next-transpile-modules
-or
-npm install react-thumbnail-generator next-transpile-modules
-```
-
-<br />
-
-### STEP 2️⃣
-- Modify `next.config`
-```js
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-  transpilePackages: ["react-thumbnail-generator"], // (*)
-};
-
-module.exports = nextConfig;
-```
-
-<br />
-
-### STEP 3️⃣
-- Add `<ThumbnailGenerator>` component.
-
-```jsx
-import ThumbnailGenerator from 'react-thumbnail-generator';
-
-export default function Home() {
-  return (
-    <ThumbnailGenerator />
-  );
-}
-
-```
-
-
-<br />
-
 ## How to add Web fonts 😊
 ### STEP 1️⃣
 - Add a web font. `public/index.html`
