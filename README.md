@@ -15,6 +15,8 @@
   <img src="https://img.shields.io/npm/v/react-thumbnail-generator.svg"></a>
   <a href="https://www.npmjs.com/package/react-thumbnail-generator" target="_blank">
   <img src="https://img.shields.io/npm/dt/react-thumbnail-generator.svg"></a>
+    <a href="https://bundlephobia.com/package/react-thumbnail-generator" target="_blank">
+  <img src="https://img.shields.io/bundlephobia/minzip/react-thumbnail-generator/latest?style=flat-square"></a>
   <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fssi02014%2Freact-thumbnail-generator&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false">
 </p>
 
