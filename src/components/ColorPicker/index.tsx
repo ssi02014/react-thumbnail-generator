@@ -27,6 +27,8 @@ const ColorPicker = ({
   const colorRef = useRef<HTMLDivElement>(null);
   const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
 
+  console.log('기능 추가'); // 100줄
+
   const handleCloseColorPicker = useCallback(
     (e: any) => {
       if (isOpenColorPicker) {
