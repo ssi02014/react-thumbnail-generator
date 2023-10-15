@@ -5,24 +5,24 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import Select from './Select';
-import SelectItem from './Select/SelectItem';
-import TextInput from './Inputs/TextInput';
-import Icon from './Icon';
-import FileInput from './Inputs/FileInput';
-import Divider from './Divider';
-import Accordion from './Accordion';
-import Canvas from './Canvas';
-import ColorPicker from './ColorPicker';
-import InputRange from './Inputs/RangeInput';
-import Header from './Layout/Header';
+import Select from '../Select';
+import SelectItem from '../Select/SelectItem';
+import TextInput from '../Inputs/TextInput';
+import Icon from '../Icon';
+import FileInput from '../Inputs/FileInput';
+import Divider from '../Divider';
+import Accordion from '../Accordion';
+import Canvas from '../Canvas';
+import ColorPicker from '../ColorPicker';
+import InputRange from '../Inputs/RangeInput';
+import Header from '../Layout/Header';
 import {
   fontFamilies,
   fontSizes,
   imageTypes,
   strokeTypes,
 } from '@constants/select';
-import { CanvasState } from '../types/canvas';
+import { CanvasState } from '../../types/canvas';
 import {
   fill,
   font,
@@ -33,10 +33,10 @@ import {
   alignEnd,
 } from '@assets/icons';
 import { Color, useColor } from 'react-color-palette';
-import { BodyWrapper, ContentWrapper, InnerWrapper } from './Layout/styled';
+import { BodyWrapper, ContentWrapper, InnerWrapper } from '../Layout/styled';
 import * as S from './TG.styled';
 import { downloadCanvas, getValidMessage, ValidType } from '@utils/common';
-import { IconButton } from './Icon/styled';
+import { IconButton } from '../Icon/styled';
 
 interface TGProps {
   additionalFontFamily?: string[];

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import TG from '@components/TG';
-import { TGOpenButton } from '@components/TG.styled';
 import { toggleButton } from '@assets/icons';
 import { Position, getIconSize } from '@utils/style';
 import { Portal } from '@devgrace/react';
 import Icon from '@components/Icon';
 import { Global } from '@emotion/react';
 import reset from '@css/reset';
+import TG from '@components/TG';
+import { TGOpenButton } from '@components/TG/TG.styled';
 
 interface ThumbnailGeneratorProps {
   isDefaultOpen?: boolean;

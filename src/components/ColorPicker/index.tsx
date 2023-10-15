@@ -84,8 +84,9 @@ const ColorPicker = ({
         isBorder={true}>
         {children}
       </IconButton>
-      <Portal>
-        {isOpenColorPicker && (
+
+      {isOpenColorPicker && (
+        <Portal>
           <div ref={colorRef} style={colorPickerWrapperStyle}>
             <PaletteColorPicker
               width={250}
@@ -97,8 +98,8 @@ const ColorPicker = ({
               dark
             />
           </div>
-        )}
-      </Portal>
+        </Portal>
+      )}
     </div>
   );
 };
