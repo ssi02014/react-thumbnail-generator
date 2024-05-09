@@ -2,7 +2,6 @@ import React from 'react';
 import { StoryFn } from '@storybook/react';
 import ThumbnailGenerator from '@lib/ThumbnailGenerator';
 import { Size } from '@utils/style';
-import { toggleButton } from '@assets/icons';
 
 export default {
   title: 'components/ThumbnailGenerator',
@@ -24,7 +23,6 @@ export default {
 
 interface Props {
   iconSize?: Size;
-  buttonIcon?: React.ReactNode;
   modalPosition?: 'left' | 'right' | 'center';
   iconPosition?: [number, number, number, number];
   isFullWidth?: boolean;
@@ -52,7 +50,6 @@ export const Default = {
 
   args: {
     iconSize: 'medium',
-    buttonIcon: <img src={toggleButton} width={40} height={40} />,
     modalPosition: 'right',
     iconPosition: [0, 20, 20, 0],
     isFullWidth: false,

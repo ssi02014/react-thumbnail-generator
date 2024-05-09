@@ -120,10 +120,6 @@ import iconImage from '../assets/colorImage.png';
 const App = () => {
   return (
     <ThumbnailGenerator
-      buttonIcon={<img src={iconImage} width={30} height={30} alt="iconImage" />}
-      // To insert the inner icon of the button that opens the thumbnail modal, use the ReactNode. 
-      // If you do not include this option, the default icon will be used.
-
       iconSize="medium"
       // Through this property, you can specify the size of the button icon.
       // However, if you are inserting a custom button icon, this option is meaningless.
@@ -159,7 +155,6 @@ const App = () => {
 <html lang="en">
   <head>
     <!-- ... -->
-
     <!-- Add a web font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -193,13 +188,8 @@ const App = () => {
 ```
 
 <br />
-<br />
 
 ## API 📄
-- buttonIcon
-  - **Optional**
-  - Default: <img width="43" alt="스크린샷 2023-02-20 오후 10 48 05" src="https://user-images.githubusercontent.com/64779472/220125380-77aaaa79-9baf-4252-aa46-a44e6e91dd3d.png">
-  - Type: `ReactNode`
 - iconPosition
   - **Optional**
   - Sequence: [top, right, bottom, left]

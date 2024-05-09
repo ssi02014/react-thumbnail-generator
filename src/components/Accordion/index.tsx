@@ -2,6 +2,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import * as S from './styled';
 import { arrowBottom, arrowTop } from '@assets/icons';
 import Icon from '../../components/Icon';
+import { useToggle } from '@modern-kit/react';
 
 interface AccordionProps {
   title: string;
@@ -11,15 +12,14 @@ interface AccordionProps {
 
 const Accordion = ({ title, children, maxHeight = 200 }: AccordionProps) => {
   const panelRef = useRef<HTMLDivElement>(null);
-  const [isOpenPanel, setIsOpenPanel] = useState(false);
+  const [isOpenPanel, setIsOpenPanel] = useToggle();
 
   const handleToggle = useCallback(() => {
-    setIsOpenPanel(!isOpenPanel);
+    setIsOpenPanel();
 
     if (!panelRef.current) return;
     if (isOpenPanel) {
       panelRef.current.style.overflow = 'hidden';
-
       return;
     }
     setTimeout(() => {

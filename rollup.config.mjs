@@ -1,5 +1,4 @@
 import nodeResolve from '@rollup/plugin-node-resolve';
-import babel from '@rollup/plugin-babel';
 import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
@@ -7,6 +6,7 @@ import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import alias from '@rollup/plugin-alias';
 import pkg from './package.json' assert { type: 'json' };
 import path from 'path';
+import esbuild from 'rollup-plugin-esbuild';
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx'];
 const __dirname = path.resolve();
@@ -34,11 +34,7 @@ export default {
       extensions,
     }),
     commonjs({ include: 'node_modules/**' }),
-    babel({
-      exclude: /node_modules/,
-      extensions,
-      include: ['src/**/*'],
-    }),
+    esbuild(),
     typescript({ tsconfig: './tsconfig.json', exclude: ['**/*.stories.tsx'] }),
     alias({
       entries: [{ find: '@', replacement: path.resolve(__dirname, './src') }],

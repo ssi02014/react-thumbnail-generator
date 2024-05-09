@@ -42,12 +42,11 @@
     "@emotion/babel-preset-css-prop": "^11.11.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@rollup/plugin-alias": "^5.0.0",
-    "@rollup/plugin-babel": "^6.0.3",
-    "@rollup/plugin-commonjs": "^25.0.0",
-    "@rollup/plugin-node-resolve": "^15.1.0",
-    "@rollup/plugin-terser": "^0.4.3",
-    "@rollup/plugin-typescript": "^11.1.1",
+    "@rollup/plugin-alias": "^5.1.0",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
     "@storybook/addon-actions": "^7.0.18",
     "@storybook/addon-essentials": "^7.0.18",
     "@storybook/addon-interactions": "^7.0.18",
@@ -63,6 +62,7 @@
     "@typescript-eslint/eslint-plugin": "^5.59.9",
     "@typescript-eslint/parser": "^5.59.9",
     "core-js": "^3.29.1",
+    "esbuild": "^0.21.1",
     "eslint": "^8.34.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-react": "^7.32.2",
@@ -75,7 +75,8 @@
     "react-color-palette": "^6.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
-    "rollup": "^3.23.1",
+    "rollup": "^4.17.2",
+    "rollup-plugin-esbuild": "^6.1.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "storybook": "^7.0.18",
     "tsconfig-paths-webpack-plugin": "^4.0.0",
@@ -95,5 +96,8 @@
     "icon",
     "generator",
     "emotion"
-  ]
+  ],
+  "dependencies": {
+    "@modern-kit/react": "^1.4.0"
+  }
 }

@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 import { Color, ColorPicker as PaletteColorPicker } from 'react-color-palette';
 import { IconButton } from '../Icon/styled';
-import { Portal } from '@devgrace/react';
+import { Portal } from '@modern-kit/react';
 
 interface ColorPickerProps {
   children: React.ReactNode;

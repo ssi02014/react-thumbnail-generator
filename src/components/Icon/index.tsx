@@ -1,7 +1,7 @@
 import React, { ComponentProps } from 'react';
 
-const Icon = ({ src, width, height }: ComponentProps<'img'>) => {
-  return <img src={src} width={width} height={height} />;
+const Icon = ({ src, width, height, ...rest }: ComponentProps<'img'>) => {
+  return <img src={src} width={width} height={height} {...rest} />;
 };
 
 export default Icon;
