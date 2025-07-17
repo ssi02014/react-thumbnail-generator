@@ -1,7 +1,7 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef } from 'react';
 import * as S from './styled';
 import { arrowBottom, arrowTop } from '@assets/icons';
-import Icon from '../../components/Icon';
+import Icon from '../Icon';
 import { useToggle } from '@modern-kit/react';
 
 interface AccordionProps {

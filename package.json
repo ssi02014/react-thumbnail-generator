@@ -19,9 +19,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rm -rf dist && rollup -c",
-    "storybook": "storybook dev -p 6006 -s public",
+    "storybook": "storybook dev -p 6006",
     "build:storybook": "storybook build",
-    "deploy:storybook": "gh-pages -d storybook-static"
+    "deploy:storybook": "gh-pages -d storybook-static",
+    "build-storybook": "storybook build"
   },
   "repository": {
     "type": "git",
@@ -47,27 +48,27 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
-    "@storybook/addon-actions": "^7.0.18",
-    "@storybook/addon-essentials": "^7.0.18",
-    "@storybook/addon-interactions": "^7.0.18",
-    "@storybook/addon-links": "^7.0.18",
-    "@storybook/node-logger": "^7.0.18",
-    "@storybook/preset-create-react-app": "^7.0.18",
-    "@storybook/react": "^7.0.18",
-    "@storybook/react-webpack5": "^7.0.18",
-    "@storybook/testing-library": "^0.1.0",
+    "@storybook/addon-docs": "^9.0.17",
+    "@storybook/addon-links": "^9.0.17",
+    "@storybook/builder-vite": "^9.0.17",
+    "@storybook/preset-create-react-app": "^9.0.17",
+    "@storybook/react-vite": "^9.0.17",
+    "@storybook/react-webpack5": "^9.0.17",
+    "@storybook/testing-library": "^0.2.2",
     "@types/node": "^20.2.5",
     "@types/react": "^18.2.8",
     "@types/react-dom": "^18.2.4",
     "@typescript-eslint/eslint-plugin": "^5.59.9",
     "@typescript-eslint/parser": "^5.59.9",
+    "@vanilla-extract/rollup-plugin": "^1.3.17",
+    "@vanilla-extract/vite-plugin": "^5.1.0",
     "core-js": "^3.29.1",
-    "esbuild": "^0.21.1",
+    "esbuild": "^0.25.6",
     "eslint": "^8.34.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-storybook": "^0.6.12",
+    "eslint-plugin-storybook": "^9.0.17",
     "eslint-webpack-plugin": "^4.0.0",
     "gh-pages": "^5.0.0",
     "prettier": "^2.8.4",
@@ -76,11 +77,13 @@
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
     "rollup": "^4.17.2",
-    "rollup-plugin-esbuild": "^6.1.1",
+    "rollup-plugin-dts": "^6.2.1",
+    "rollup-plugin-esbuild": "^6.2.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
-    "storybook": "^7.0.18",
+    "storybook": "^9.0.17",
     "tsconfig-paths-webpack-plugin": "^4.0.0",
-    "typescript": "^5.1.3"
+    "typescript": "^5.1.3",
+    "vite": "^7.0.5"
   },
   "peerDependencies": {
     "react": ">=16.8.0",
@@ -98,6 +101,8 @@
     "emotion"
   ],
   "dependencies": {
-    "@modern-kit/react": "^1.4.0"
-  }
+    "@modern-kit/react": "^1.4.0",
+    "@vanilla-extract/css": "^1.17.4"
+  },
+  "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
 }

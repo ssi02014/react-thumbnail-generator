@@ -28,23 +28,6 @@ export const downloadCanvas = (
   imageType: ImageTypes
 ) => {
   if (ref.current) {
-    if (imageType === 'svg') {
-      const imgWidth = ref.current.width;
-      const imgHeight = ref.current.height;
-      const base64 = ref.current.toDataURL('image/png');
-      const svg = `
-      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  width="${imgWidth}" height="${imgHeight}">
-        <image xlink:href="${base64}" width="${imgWidth}" height="${imgHeight}" />
-      </svg>
-    `;
-
-      const svgUrl =
-        'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
-
-      download(svgUrl, 'svg');
-      return;
-    }
-
     const url = ref.current.toDataURL(`image/${imageType}`);
     download(url, imageType);
   }
