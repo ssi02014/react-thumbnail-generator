@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import { toggleButton } from '@assets/icons';
-import { Position, getIconSize } from '@utils/style';
+import { getIconSize } from '@utils/style';
 import Portal from '@components/Portal';
 import Icon from '@components/Icon';
 import { Global } from '@emotion/react';
 import reset from '@css/reset';
-import TG from '@components/TG';
-import { TGOpenButton } from '@components/TG/TG.styled';
+import ThumbnailGeneratorContent from '@components/ThumbnailGeneratorContent';
+import { TGOpenButton } from '@components/ThumbnailGeneratorContent/TG.styled';
 
 interface ThumbnailGeneratorProps {
   isDefaultOpen?: boolean;
-  buttonIcon?: React.ReactNode;
   iconSize?: 'small' | 'medium' | 'large';
-  position?: Position;
+  position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
   iconPosition?: [number, number, number, number];
   modalPosition?: 'left' | 'right' | 'center';
   additionalFontFamily?: string[];
@@ -20,7 +19,6 @@ interface ThumbnailGeneratorProps {
 }
 
 const ThumbnailGenerator = ({
-  buttonIcon,
   isDefaultOpen = false,
   iconSize = 'medium',
   iconPosition = [0, 20, 20, 0],
@@ -40,7 +38,7 @@ const ThumbnailGenerator = ({
       <Global styles={reset} />
       <Portal>
         {isOpen ? (
-          <TG
+          <ThumbnailGeneratorContent
             isFullWidth={isFullWidth}
             modalPosition={modalPosition}
             additionalFontFamily={additionalFontFamily}
@@ -48,11 +46,7 @@ const ThumbnailGenerator = ({
           />
         ) : (
           <TGOpenButton iconPosition={iconPosition} onClick={onToggleGenerator}>
-            {buttonIcon ? (
-              buttonIcon
-            ) : (
-              <Icon src={toggleButton} width={tgIconSize} height={tgIconSize} />
-            )}
+            <Icon src={toggleButton} width={tgIconSize} height={tgIconSize} />
           </TGOpenButton>
         )}
       </Portal>

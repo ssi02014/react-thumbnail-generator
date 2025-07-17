@@ -22,7 +22,7 @@ import {
   imageTypes,
   strokeTypes,
 } from '@constants/select';
-import { CanvasState } from '../../types/canvas';
+import { CanvasState, Color } from '@interfaces/common';
 import {
   fill,
   font,
@@ -38,8 +38,6 @@ import * as S from './TG.styled';
 import { downloadCanvas, getValidMessage, ValidType } from '@utils/common';
 import { IconButton } from '../Icon/styled';
 
-type Color = ReturnType<typeof useColor>[0];
-
 interface TGProps {
   additionalFontFamily?: string[];
   isFullWidth: boolean;
@@ -47,7 +45,7 @@ interface TGProps {
   onToggle: () => void;
 }
 
-const TG = ({
+const ThumbnailGeneratorContent = ({
   additionalFontFamily = [],
   modalPosition,
   isFullWidth,
@@ -90,7 +88,7 @@ const TG = ({
 
   const defaultLineHeight = useMemo(
     () => +canvasState.fontSize.replace('px', ''),
-    [canvasState.fontSize]
+    [canvasState.fontSize],
   );
 
   const textAlignIcon = useMemo(() => {
@@ -124,7 +122,7 @@ const TG = ({
         setCanvasState({ ...canvasState, fontStrokeType: 'Normal' });
       }
     },
-    [canvasState, setStrokeColor]
+    [canvasState, setStrokeColor],
   );
 
   const toggleIsBlockEvent = useCallback(() => {
@@ -154,7 +152,7 @@ const TG = ({
         [name]: replacedValue,
       });
     },
-    [canvasState, getReplaceCallback]
+    [canvasState, getReplaceCallback],
   );
 
   const onChangeTextValue = useCallback(
@@ -166,7 +164,7 @@ const TG = ({
         [name]: value,
       });
     },
-    [canvasState]
+    [canvasState],
   );
 
   const onChangeSelectValue = useCallback(
@@ -176,7 +174,7 @@ const TG = ({
         [name]: value,
       });
     },
-    [canvasState]
+    [canvasState],
   );
 
   const onChangeBgColor = useCallback(
@@ -187,7 +185,7 @@ const TG = ({
       });
       setBgColor(color);
     },
-    [canvasState, setBgColor]
+    [canvasState, setBgColor],
   );
 
   const onChangeImage = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -230,7 +228,7 @@ const TG = ({
 
       const validMessage = getValidMessage(
         +value < min || +value > max,
-        name as ValidType
+        name as ValidType,
       );
 
       if (validMessage) return alert(validMessage);
@@ -240,7 +238,7 @@ const TG = ({
         [name]: replacedValue,
       });
     },
-    [getReplaceCallback, canvasState]
+    [getReplaceCallback, canvasState],
   );
 
   return (
@@ -396,4 +394,4 @@ const TG = ({
   );
 };
 
-export default TG;
+export default ThumbnailGeneratorContent;
