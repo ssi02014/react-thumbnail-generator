@@ -93,7 +93,7 @@ const ColorPicker = ({
               height={150}
               color={color}
               onChange={setColor}
-              hideAlpha
+              hideInput={['hsv']}
             />
           </div>
         </Portal>
