@@ -1,4 +1,5 @@
 import React, {
+  ComponentProps,
   CSSProperties,
   useCallback,
   useEffect,
@@ -6,14 +7,14 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Color, ColorPicker as PaletteColorPicker } from 'react-color-palette';
+import { ColorPicker as PaletteColorPicker } from 'react-color-palette';
 import { IconButton } from '../Icon/styled';
 import { Portal } from '@modern-kit/react';
 
 interface ColorPickerProps {
   children: React.ReactNode;
-  color: Color;
-  setColor: (color: Color) => void;
+  color: ComponentProps<typeof PaletteColorPicker>['color'];
+  setColor: (color: ComponentProps<typeof PaletteColorPicker>['color']) => void;
   toggleIsBlockEvent: () => void;
 }
 
@@ -38,7 +39,7 @@ const ColorPicker = ({
         }
       }
     },
-    [isOpenColorPicker, toggleIsBlockEvent]
+    [isOpenColorPicker, toggleIsBlockEvent],
   );
 
   const handleOpenColorPicker = useCallback(
@@ -49,7 +50,7 @@ const ColorPicker = ({
       setIsOpenColorPicker((prev) => !prev);
       toggleIsBlockEvent();
     },
-    [toggleIsBlockEvent]
+    [toggleIsBlockEvent],
   );
 
   useEffect(() => {
@@ -89,13 +90,10 @@ const ColorPicker = ({
         <Portal>
           <div ref={colorRef} style={colorPickerWrapperStyle}>
             <PaletteColorPicker
-              width={250}
               height={150}
               color={color}
               onChange={setColor}
-              hideHSV
-              hideRGB
-              dark
+              hideAlpha
             />
           </div>
         </Portal>
