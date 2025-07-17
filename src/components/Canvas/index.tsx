@@ -1,7 +1,7 @@
 import useDragAndDropText from '../../hooks/useDragAndDropText';
 import React, { useCallback, useEffect } from 'react';
 import { CanvasStateWithColors } from '../../types/canvas';
-import * as S from './styled';
+import * as styles from './Canvas.css';
 
 interface CanvasProps {
   canvasState: CanvasStateWithColors;
@@ -200,7 +200,7 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
   }, [selectedImage]);
 
   return (
-    <S.CanvasWrapper>
+    <section className={styles.canvasWrapper}>
       <canvas
         ref={ref}
         width={+canvasWidth}
@@ -210,7 +210,7 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
         onMouseUp={handleCanvasMouseUp}
         onMouseLeave={handleCanvasMouseLeave}
       />
-    </S.CanvasWrapper>
+    </section>
   );
 });
 

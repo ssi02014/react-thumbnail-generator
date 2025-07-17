@@ -32,11 +32,13 @@ import {
   alignCenter,
   alignEnd,
 } from '@assets/icons';
-import { Color, useColor } from 'react-color-palette';
+import { useColor } from 'react-color-palette';
 import { BodyWrapper, ContentWrapper, InnerWrapper } from '../Layout/styled';
 import * as S from './TG.styled';
 import { downloadCanvas, getValidMessage, ValidType } from '@utils/common';
 import { IconButton } from '../Icon/styled';
+
+type Color = ReturnType<typeof useColor>[0];
 
 interface TGProps {
   additionalFontFamily?: string[];
@@ -67,9 +69,9 @@ const TG = ({
     isBlockEvent: false,
   });
 
-  const [bgColor, setBgColor] = useColor('hex', '#192841');
-  const [fontColor, setFontColor] = useColor('hex', '#fff');
-  const [strokeColor, setStrokeColor] = useColor('hex', '#121212');
+  const [bgColor, setBgColor] = useColor('#192841');
+  const [fontColor, setFontColor] = useColor('#fff');
+  const [strokeColor, setStrokeColor] = useColor('#121212');
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
