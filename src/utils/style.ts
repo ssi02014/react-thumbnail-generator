@@ -1,9 +1,3 @@
-export type Position =
-  | 'top-left'
-  | 'top-right'
-  | 'bottom-left'
-  | 'bottom-right';
-
 export type Size = 'small' | 'medium' | 'large';
 
 export const getIconPosition = (position: [number, number, number, number]) => {

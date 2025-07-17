@@ -1,8 +1,9 @@
-import { Color } from 'react-color-palette';
+import { ComponentProps } from 'react';
+import { ColorPicker } from 'react-color-palette';
+
+export type Color = ComponentProps<typeof ColorPicker>['color'];
 
 export type StrokeTypes = 'None' | 'Thin' | 'Normal' | 'Thick';
-
-export type ImageTypes = 'png' | 'jpg' | 'webp';
 
 export type TextAlign = 'center' | 'start' | 'end';
 
@@ -13,7 +14,7 @@ export interface CanvasState {
   fontFamily: string;
   canvasWidth: string;
   canvasHeight: string;
-  imageType: ImageTypes;
+  imageType: 'png' | 'jpg' | 'webp';
   lineHeight: string;
   angle: string;
   isBlur: boolean;

@@ -1,5 +1,4 @@
 import React from 'react';
-import { ImageTypes } from '../types/canvas';
 
 export type ValidType = 'imageSize' | 'canvasSize' | 'angle' | 'lineHeight';
 
@@ -25,7 +24,7 @@ const download = (url: string, imageType: string) => {
 
 export const downloadCanvas = (
   ref: React.RefObject<HTMLCanvasElement>,
-  imageType: ImageTypes
+  imageType: 'png' | 'jpg' | 'webp'
 ) => {
   if (ref.current) {
     const url = ref.current.toDataURL(`image/${imageType}`);

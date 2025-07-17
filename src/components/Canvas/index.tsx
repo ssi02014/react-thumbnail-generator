@@ -1,6 +1,6 @@
-import useDragAndDropText from '../../hooks/useDragAndDropText';
+import useDragAndDropText from '@hooks/useDragAndDropText';
 import React, { useCallback, useEffect } from 'react';
-import { CanvasStateWithColors } from '../../types/canvas';
+import { CanvasStateWithColors } from '@interfaces/common';
 import * as styles from './Canvas.css';
 
 interface CanvasProps {
