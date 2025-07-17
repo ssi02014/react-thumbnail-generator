@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meta, StoryFn } from '@storybook/react-vite';
-import ThumbnailGenerator from '../../lib/ThumbnailGenerator';
+import ThumbnailGenerator from '../../index';
 import { Size } from '@utils/style';
 
 interface Props {
