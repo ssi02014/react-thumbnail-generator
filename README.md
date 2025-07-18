@@ -114,15 +114,15 @@ import iconImage from '../assets/colorImage.png';
 const App = () => {
   return (
     <ThumbnailGenerator
-      iconSize="medium"
-      // Through this property, you can specify the size of the button icon.
-      // However, if you are inserting a custom button icon, this option is meaningless.
-
       iconPosition="bottom-right"
       // Through this property, you can specify the position of the button icon.
 
       modalPosition='right'
       // Through this property, you can specify the position of the thumbnail generator.
+
+      iconSize="medium"
+      // Through this property, you can specify the size of the button icon.
+      // However, if you are inserting a custom button icon, this option is meaningless.
 
       additionalFontFamily={['Noto Sans', ...]}
       // You can add the font of your choice to your project, but that font must already applied to your project.
@@ -169,20 +169,17 @@ const App = () => {
 
 ```jsx
 import ThumbnailGenerator from 'react-thumbnail-generator';
-import iconImage from '../assets/colorImage.png';
 
 const App = () => {
   return (
-    <ThumbnailGenerator 
-      additionalFontFamily={["Zeyada"]} // (*)
-    />
+    <ThumbnailGenerator additionalFontFamily={["Zeyada"]} {...props} />
   )
 }
 ```
 
 <br />
 
-## API 📄
+## Options 📄
 - iconPosition
   - **Optional**
   - Default: `bottom-right`
@@ -206,11 +203,5 @@ const App = () => {
   - **Optional**
   - Default: `false`
   - Type: `boolean`
-
-<br />
-
-## Reference
-- https://github.com/wormwlrm/kwakcheolyong
-- https://github.com/banner-maker/banner-makers
 
 <br />
