@@ -72,6 +72,7 @@ const Select = ({
       <S.SelectWrapper>
         <label>{label}</label>
         <S.SelectInput
+          id={name}
           ref={inputRef}
           onClick={handleToggleSelect}
           isOpenSelect={isOpenSelect}>

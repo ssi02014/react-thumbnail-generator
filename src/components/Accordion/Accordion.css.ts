@@ -35,16 +35,17 @@ export const accordionTitle = style({
 export const accordionPanelContainer = recipe({
   base: {
     backgroundColor: '#fff',
-    transition: 'max-height 0.2s linear',
-    overflow: 'hidden',
+    transition: 'all 0.2s linear',
   },
   variants: {
     isOpen: {
       true: {
         maxHeight: '200px',
+        overflow: 'visible',
       },
       false: {
-        maxHeight: '0',
+        maxHeight: '0px',
+        overflow: 'hidden',
       },
     },
   },

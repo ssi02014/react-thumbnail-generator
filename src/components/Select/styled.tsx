@@ -37,7 +37,7 @@ export const SelectInput = styled.div<{ isOpenSelect: boolean }>`
 
 export const SelectItemContainer = styled.ul`
   position: absolute;
-  bottom: 20px;
+  bottom: 35px;
   width: 100%;
   background-color: #fff;
   box-shadow: 0 0 3px 0.5px #afafaf;
@@ -45,6 +45,7 @@ export const SelectItemContainer = styled.ul`
   list-style: none;
   padding: 0;
   max-height: 200px;
+  z-index: 1000;
 `;
 
 export const SelectListItem = styled.li`

@@ -20,11 +20,11 @@ const Accordion = ({ title, children }: AccordionProps) => {
       <div className={styles.accordionTopContainer} onClick={handleToggle}>
         <p className={styles.accordionTitle}>{title}</p>
         <span>
-          {isOpenPanel ? (
-            <img src={arrowTop} width={14} height={14} />
-          ) : (
-            <img src={arrowBottom} width={14} height={14} />
-          )}
+          <img
+            src={isOpenPanel ? arrowTop : arrowBottom}
+            width={14}
+            height={14}
+          />
         </span>
       </div>
       <div className={styles.accordionPanelContainer({ isOpen: isOpenPanel })}>

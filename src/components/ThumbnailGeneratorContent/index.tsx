@@ -13,7 +13,7 @@ import Divider from '../Divider';
 import Accordion from '../Accordion';
 import Canvas from '../Canvas';
 import ColorPicker from '../ColorPicker';
-import InputRange from '../Inputs/RangeInput';
+import RangeInput from '../Inputs/RangeInput';
 import Header from '../Layout/Header';
 import {
   fontFamilies,
@@ -230,14 +230,14 @@ const ThumbnailGeneratorContent = ({
         name as ValidType,
       );
 
-      if (validMessage) return alert(validMessage);
+      if (validMessage) return;
 
       setCanvasState({
         ...canvasState,
         [name]: replacedValue,
       });
     },
-    [getReplaceCallback, canvasState],
+    [getReplaceCallback, canvasState, defaultLineHeight],
   );
 
   return (
@@ -290,7 +290,7 @@ const ThumbnailGeneratorContent = ({
 
           <Accordion title="Font Options">
             <S.TGControllerWrapper>
-              <InputRange
+              <RangeInput
                 label={'Font Angle'}
                 name="angle"
                 min={-360}
@@ -298,7 +298,7 @@ const ThumbnailGeneratorContent = ({
                 value={canvasState.angle}
                 onChange={handleChangeRange}
               />
-              <InputRange
+              <RangeInput
                 label={'Line Height'}
                 name="lineHeight"
                 min={defaultLineHeight * -12}
