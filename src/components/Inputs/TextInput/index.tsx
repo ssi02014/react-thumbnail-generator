@@ -1,5 +1,6 @@
-import React, { ComponentProps } from 'react';
-import * as S from './styled';
+import React, { ComponentProps, useMemo } from 'react';
+import * as styles from './TextInput.css';
+import { assignInlineVars } from '@vanilla-extract/dynamic';
 
 interface TextInputProps extends ComponentProps<'input'> {
   label?: string;
@@ -14,9 +15,21 @@ const TextInput = ({
   disabled = false,
   onChange,
 }: TextInputProps) => {
+  const inputStyle = useMemo(() => {
+    return {
+      ...assignInlineVars({
+        [styles.widthVar]: `${width}px`,
+      }),
+    };
+  }, [width]);
+
   return (
-    <S.TextInputWrapper width={width}>
-      {label && <label htmlFor={name}>{label}</label>}
+    <div className={styles.textInputContainer}>
+      {label && (
+        <label htmlFor={name} className={styles.textInputLabel}>
+          {label}
+        </label>
+      )}
       <input
         type="text"
         name={name}
@@ -25,8 +38,10 @@ const TextInput = ({
         maxLength={maxLength}
         onChange={onChange}
         disabled={disabled}
+        className={styles.textInput}
+        style={inputStyle}
       />
-    </S.TextInputWrapper>
+    </div>
   );
 };
 

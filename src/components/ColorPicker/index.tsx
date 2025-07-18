@@ -82,7 +82,7 @@ const ColorPicker = ({
       <IconButton
         isOpen={isOpenColorPicker}
         onClick={handleOpenColorPicker}
-        isBorderHighlight>
+        hasBorder>
         {children}
       </IconButton>
 

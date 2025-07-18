@@ -10,7 +10,7 @@ interface HeaderProps {
 const Header = ({ onToggle }: HeaderProps) => {
   return (
     <S.HeaderWrapper>
-      <IconButton onClick={onToggle} isBorderHighlight={false}>
+      <IconButton onClick={onToggle} hasBorder={false}>
         <img src={close} width={20} height={20} />
       </IconButton>
     </S.HeaderWrapper>

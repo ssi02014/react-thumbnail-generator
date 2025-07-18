@@ -7,16 +7,31 @@ const base = style({
   display: 'flex',
   alignItems: 'center',
   cursor: 'pointer',
-  border: '1px solid #cccccc',
-  selectors: {
-    '&:hover': {
-      border: '1px solid #0e1b30',
-    },
-  },
 });
 
 export const iconButton = styleVariants({
-  default: [base],
+  default: [
+    base,
+    {
+      border: 'none',
+      selectors: {
+        '&:hover': {
+          border: 'none',
+        },
+      },
+    },
+  ],
+  hasBorder: [
+    base,
+    {
+      border: '1px solid #cccccc',
+      selectors: {
+        '&:hover': {
+          border: '1px solid #0e1b30',
+        },
+      },
+    },
+  ],
   isOpen: [
     base,
     {

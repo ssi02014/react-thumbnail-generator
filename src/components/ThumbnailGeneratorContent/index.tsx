@@ -45,7 +45,7 @@ interface TGProps {
 }
 
 const ThumbnailGeneratorContent = ({
-  additionalFontFamily = [],
+  additionalFontFamily,
   modalPosition,
   isFullWidth,
   onToggle,
@@ -82,7 +82,7 @@ const ThumbnailGeneratorContent = ({
   }, [canvasState, bgColor, fontColor, strokeColor]);
 
   const fontFamilyOptions = useMemo(() => {
-    return [...additionalFontFamily, ...fontFamilies];
+    return [...(additionalFontFamily || []), ...fontFamilies];
   }, [additionalFontFamily]);
 
   const defaultLineHeight = useMemo(
@@ -249,7 +249,7 @@ const ThumbnailGeneratorContent = ({
 
           <S.TGControllerWrapper>
             <FileInput onChangeImage={onChangeImage} />
-            <IconButton isBorderHighlight onClick={onChangeTextAlign}>
+            <IconButton hasBorder onClick={onChangeTextAlign}>
               <img src={textAlignIcon} width={20} height={20} />
             </IconButton>
 
@@ -271,7 +271,7 @@ const ThumbnailGeneratorContent = ({
               toggleIsBlockEvent={toggleIsBlockEvent}>
               <img src={stroke} width={20} height={20} />
             </ColorPicker>
-            <IconButton isBorderHighlight onClick={toggleCanvasBlur}>
+            <IconButton hasBorder onClick={toggleCanvasBlur}>
               <img src={blur} width={20} height={20} />
             </IconButton>
           </S.TGControllerWrapper>
