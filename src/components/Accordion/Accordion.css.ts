@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 export const accordionWrapper = style({
@@ -25,11 +25,10 @@ export const accordionTitle = style({
   fontSize: '1rem',
   color: '#111',
   margin: 0,
-  selectors: {
-    '&:hover': {
-      color: '#3264b5',
-    },
-  },
+});
+
+globalStyle(`${accordionTopContainer}:hover > ${accordionTitle}`, {
+  color: '#3264b5',
 });
 
 export const accordionPanelContainer = recipe({

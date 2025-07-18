@@ -48,7 +48,7 @@ const RangeInput = ({
           style={rangeInputStyle}
         />
       </div>
-      <TextInput width={60} name={name} value={value} onChange={onChange} />
+      <TextInput width={80} name={name} value={value} onChange={onChange} />
     </div>
   );
 };

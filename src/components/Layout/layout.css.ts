@@ -6,7 +6,6 @@ export const bodyWrapper = recipe({
     position: 'fixed',
     display: 'flex',
     justifyContent: 'center',
-    minWidth: '600px',
     borderRadius: '7px',
     boxShadow: '1px 1px 10px #cccccc',
     zIndex: '100',
@@ -15,6 +14,14 @@ export const bodyWrapper = recipe({
     fontFamily: 'Arial',
   },
   variants: {
+    isFullWidth: {
+      true: {
+        minWidth: '100%',
+      },
+      false: {
+        minWidth: '600px',
+      },
+    },
     modalPosition: {
       left: {
         bottom: 0,
@@ -38,7 +45,6 @@ globalStyle(`${bodyWrapper} > *`, {
 });
 
 export const innerWrapper = style({
-  flexDirection: 'column',
   width: '100%',
   maxHeight: 'calc(100vh - 45px)',
   overflowY: 'scroll',

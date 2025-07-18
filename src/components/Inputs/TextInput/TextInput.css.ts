@@ -24,4 +24,9 @@ export const textInput = style({
   outline: 'none',
   marginTop: '1px',
   width: widthVar,
+  selectors: {
+    '&:disabled': {
+      backgroundColor: '#f3f3f3',
+    },
+  },
 });
