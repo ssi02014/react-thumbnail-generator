@@ -32,10 +32,10 @@ import {
   alignEnd,
 } from '@assets/icons';
 import { useColor } from 'react-color-palette';
-import { BodyWrapper, ContentWrapper, InnerWrapper } from '../Layout/styled';
 import * as S from './TG.styled';
 import { downloadCanvas, getValidMessage, ValidType } from '@utils/common';
 import IconButton from '@components/IconButton';
+import * as styles from '../Layout/layout.css';
 
 interface TGProps {
   additionalFontFamily?: string[];
@@ -241,10 +241,10 @@ const ThumbnailGeneratorContent = ({
   );
 
   return (
-    <BodyWrapper modalPosition={modalPosition} isFullWidth={isFullWidth}>
+    <section className={styles.bodyWrapper({ modalPosition })}>
       <Header onToggle={onToggle} />
-      <InnerWrapper>
-        <ContentWrapper>
+      <div className={styles.innerWrapper}>
+        <div className={styles.contentWrapper}>
           <Canvas ref={canvasRef} canvasState={canvasStateWithColors} />
 
           <S.TGControllerWrapper>
@@ -387,9 +387,9 @@ const ThumbnailGeneratorContent = ({
           <S.TGButtonWrapper>
             <button onClick={handleDownloadImage}>DOWNLOAD</button>
           </S.TGButtonWrapper>
-        </ContentWrapper>
-      </InnerWrapper>
-    </BodyWrapper>
+        </div>
+      </div>
+    </section>
   );
 };
 
