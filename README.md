@@ -17,20 +17,14 @@
   <img src="https://img.shields.io/npm/dt/react-thumbnail-generator.svg"></a>
     <a href="https://bundlephobia.com/package/react-thumbnail-generator" target="_blank">
   <img src="https://img.shields.io/bundlephobia/minzip/react-thumbnail-generator/latest?style=flat-square"></a>
-  <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fssi02014%2Freact-thumbnail-generator&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false">
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/typescript-blue">
   <img src="https://img.shields.io/badge/react-blue">
-  <img src="https://img.shields.io/badge/@emotion-green">
+  <img src="https://img.shields.io/badge/vanilla--extract-green">
   <img src="https://img.shields.io/badge/react--color--palette-important">
   <img src="https://img.shields.io/badge/storybook-ff69b4">
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/rollup-red">
-  <img src="https://img.shields.io/badge/babel-yellow">
 </p>
  
 <br/>
@@ -120,17 +114,16 @@ import iconImage from '../assets/colorImage.png';
 const App = () => {
   return (
     <ThumbnailGenerator
+      iconPosition="bottom-right"
+      // Through this property, you can specify the position of the button icon.
+
+      modalPosition='right'
+      // Through this property, you can specify the position of the thumbnail generator.
+
       iconSize="medium"
       // Through this property, you can specify the size of the button icon.
       // However, if you are inserting a custom button icon, this option is meaningless.
 
-      iconPosition={[0, 20, 20, 0]}
-      // Through this property, you can specify the position of the button icon.
-      // [top, right, bottom, left]
-
-      modalPosition='right'
-      // Through this property, you can specify the position of the thumbnail generator.
-      
       additionalFontFamily={['Noto Sans', ...]}
       // You can add the font of your choice to your project, but that font must already applied to your project.
 
@@ -176,25 +169,21 @@ const App = () => {
 
 ```jsx
 import ThumbnailGenerator from 'react-thumbnail-generator';
-import iconImage from '../assets/colorImage.png';
 
 const App = () => {
   return (
-    <ThumbnailGenerator 
-      additionalFontFamily={["Zeyada"]} // (*)
-    />
+    <ThumbnailGenerator additionalFontFamily={["Zeyada"]} {...props} />
   )
 }
 ```
 
 <br />
 
-## API 📄
+## Options 📄
 - iconPosition
   - **Optional**
-  - Sequence: [top, right, bottom, left]
-  - Default: `[0, 20, 20, 0]`
-  - Type:`[number, number, number, number]`
+  - Default: `bottom-right`
+  - Type:`top-left | top-right | bottom-left | bottom-right`
 - modalPosition
   - **Optional**
   - Default: `right`
@@ -214,11 +203,5 @@ const App = () => {
   - **Optional**
   - Default: `false`
   - Type: `boolean`
-
-<br />
-
-## Reference
-- https://github.com/wormwlrm/kwakcheolyong
-- https://github.com/banner-maker/banner-makers
 
 <br />

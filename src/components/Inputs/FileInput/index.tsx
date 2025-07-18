@@ -1,22 +1,30 @@
 import { photo } from '@assets/icons';
 import React, { ChangeEvent } from 'react';
-import * as S from './styled';
+import * as styles from './FileInput.css';
 
-interface TGInputFileProps {
+interface FileInputProps {
   onChangeImage: (e: ChangeEvent<HTMLInputElement>) => void;
-  width: number;
-  height: number;
 }
 
-const TGInputFile = ({ width, height, onChangeImage }: TGInputFileProps) => {
+const FileInput = ({ onChangeImage }: FileInputProps) => {
   return (
-    <S.FileInputWrapper>
-      <label htmlFor="file">
-        <img src={photo} width={width} height={height} />
+    <div className={styles.fileInputWrapper}>
+      <label htmlFor="file" className={styles.fileInputLabel}>
+        <img
+          src={photo}
+          width={20}
+          height={20}
+          className={styles.fileInputImg}
+        />
       </label>
-      <input id="file" type="file" onChange={onChangeImage} />
-    </S.FileInputWrapper>
+      <input
+        id="file"
+        type="file"
+        onChange={onChangeImage}
+        className={styles.fileInput}
+      />
+    </div>
   );
 };
 
-export default TGInputFile;
+export default FileInput;

@@ -8,13 +8,12 @@ import React, {
 import Select from '../Select';
 import SelectItem from '../Select/SelectItem';
 import TextInput from '../Inputs/TextInput';
-import Icon from '../Icon';
 import FileInput from '../Inputs/FileInput';
 import Divider from '../Divider';
 import Accordion from '../Accordion';
 import Canvas from '../Canvas';
 import ColorPicker from '../ColorPicker';
-import InputRange from '../Inputs/RangeInput';
+import RangeInput from '../Inputs/RangeInput';
 import Header from '../Layout/Header';
 import {
   fontFamilies,
@@ -33,39 +32,58 @@ import {
   alignEnd,
 } from '@assets/icons';
 import { useColor } from 'react-color-palette';
-import { BodyWrapper, ContentWrapper, InnerWrapper } from '../Layout/styled';
-import * as S from './TG.styled';
 import { downloadCanvas, getValidMessage, ValidType } from '@utils/common';
-import { IconButton } from '../Icon/styled';
+import IconButton from '@components/IconButton';
+import * as layoutStyles from '../Layout/layout.css';
+import * as contentStyles from './ThumbnailGeneratorContent.css';
+import { useDebounce } from '@modern-kit/react';
 
-interface TGProps {
+interface ThumbnailGeneratorContentProps {
   additionalFontFamily?: string[];
   isFullWidth: boolean;
   modalPosition: 'left' | 'right' | 'center';
   onToggle: () => void;
 }
 
+const initialCanvasState: CanvasState = {
+  value: 'Simple Thumbnail\nGenerator 😁',
+  fontSize: '30px',
+  fontStrokeType: 'None',
+  textAlign: 'center',
+  fontFamily: 'Arial',
+  canvasWidth: '600',
+  canvasHeight: '400',
+  imageType: 'png',
+  angle: '0',
+  lineHeight: '0',
+  isBlur: false,
+  selectedImage: null,
+  isBlockEvent: false,
+};
+
+const getReplaceCallback = (name: string) => {
+  const canvasOptions = ['canvasWidth', 'canvasHeight'];
+
+  if (canvasOptions.includes(name)) return () => '';
+  return (match: string, idx: number) => (!idx && match === '-' ? '-' : '');
+};
+
 const ThumbnailGeneratorContent = ({
-  additionalFontFamily = [],
+  additionalFontFamily,
   modalPosition,
   isFullWidth,
   onToggle,
-}: TGProps) => {
-  const [canvasState, setCanvasState] = useState<CanvasState>({
-    value: 'Simple Thumbnail\nGenerator 😁',
-    fontSize: '30px',
-    fontStrokeType: 'None',
-    textAlign: 'center',
-    fontFamily: 'Arial',
+}: ThumbnailGeneratorContentProps) => {
+  const [canvasState, setCanvasState] =
+    useState<CanvasState>(initialCanvasState);
+
+  const [canvasSize, setCanvasSize] = useState<
+    Pick<CanvasState, 'canvasWidth' | 'canvasHeight'>
+  >({
     canvasWidth: '600',
     canvasHeight: '400',
-    imageType: 'png',
-    angle: '0',
-    lineHeight: '0',
-    isBlur: false,
-    selectedImage: null,
-    isBlockEvent: false,
   });
+  const debouncedSetCanvasState = useDebounce(setCanvasState, 300);
 
   const [bgColor, setBgColor] = useColor('#192841');
   const [fontColor, setFontColor] = useColor('#fff');
@@ -83,7 +101,7 @@ const ThumbnailGeneratorContent = ({
   }, [canvasState, bgColor, fontColor, strokeColor]);
 
   const fontFamilyOptions = useMemo(() => {
-    return [...additionalFontFamily, ...fontFamilies];
+    return [...(additionalFontFamily || []), ...fontFamilies];
   }, [additionalFontFamily]);
 
   const defaultLineHeight = useMemo(
@@ -100,59 +118,65 @@ const ThumbnailGeneratorContent = ({
   }, [canvasState.textAlign]);
 
   const onChangeTextAlign = useCallback(() => {
-    const getNextTextAlign = () => {
-      const { textAlign } = canvasState;
+    const getNextTextAlign = (prev: CanvasState) => {
+      const { textAlign } = prev;
 
       if (textAlign === 'center') return 'end';
       if (textAlign === 'end') return 'start';
       return 'center';
     };
 
-    setCanvasState({
-      ...canvasState,
-      textAlign: getNextTextAlign(),
-    });
-  }, [canvasState]);
+    setCanvasState((prev) => ({
+      ...prev,
+      textAlign: getNextTextAlign(prev),
+    }));
+  }, []);
 
   const onChangeStrokeColor = useCallback(
     (color: Color) => {
       setStrokeColor(color);
 
       if (canvasState.fontStrokeType === 'None') {
-        setCanvasState({ ...canvasState, fontStrokeType: 'Normal' });
+        setCanvasState((prev) => ({
+          ...prev,
+          fontStrokeType: 'Normal',
+        }));
       }
     },
-    [canvasState, setStrokeColor],
+    [canvasState.fontStrokeType, setStrokeColor],
   );
 
   const toggleIsBlockEvent = useCallback(() => {
-    setCanvasState({
-      ...canvasState,
-      isBlockEvent: !canvasState.isBlockEvent,
-    });
-  }, [canvasState]);
-
-  const getReplaceCallback = useCallback((name: string) => {
-    const canvas = ['canvasWidth', 'canvasHeight'];
-
-    if (canvas.includes(name)) return () => '';
-    return (match: string, idx: number) => (!idx && match === '-' ? '-' : '');
+    setCanvasState((prev) => ({
+      ...prev,
+      isBlockEvent: !prev.isBlockEvent,
+    }));
   }, []);
 
   const onChangeCanvasSize = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const regex = /[^0-9]/g;
       const { name, value } = e.target;
+      const innerWidth = window.innerWidth;
 
       const replacedCallback = getReplaceCallback(name);
       const replacedValue = value.replace(regex, replacedCallback);
 
-      setCanvasState({
-        ...canvasState,
+      if (name === 'canvasWidth' && +replacedValue > innerWidth) {
+        return;
+      }
+
+      debouncedSetCanvasState((prev) => ({
+        ...prev,
         [name]: replacedValue,
-      });
+      }));
+
+      setCanvasSize((prev) => ({
+        ...prev,
+        [name]: replacedValue,
+      }));
     },
-    [canvasState, getReplaceCallback],
+    [debouncedSetCanvasState],
   );
 
   const onChangeTextValue = useCallback(
@@ -188,23 +212,26 @@ const ThumbnailGeneratorContent = ({
     [canvasState, setBgColor],
   );
 
-  const onChangeImage = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    const { files } = e.target;
+  const onChangeImage = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const { files } = e.target;
 
-    if (files) {
-      const img = new Image();
+      if (files) {
+        const img = new Image();
 
-      img.src = files[0] && URL.createObjectURL(files[0]);
-      img.onload = async () => {
-        setCanvasState({
-          ...canvasState,
-          selectedImage: img,
-          canvasWidth: `${img.width}`,
-          canvasHeight: `${img.height}`,
-        });
-      };
-    }
-  }, []);
+        img.src = files[0] && URL.createObjectURL(files[0]);
+        img.onload = async () => {
+          setCanvasState({
+            ...canvasState,
+            selectedImage: img,
+            canvasWidth: `${img.width}`,
+            canvasHeight: `${img.height}`,
+          });
+        };
+      }
+    },
+    [canvasState],
+  );
 
   const toggleCanvasBlur = useCallback(() => {
     setCanvasState({
@@ -215,101 +242,103 @@ const ThumbnailGeneratorContent = ({
 
   const handleDownloadImage = useCallback(() => {
     downloadCanvas(canvasRef, canvasState.imageType);
-  }, [canvasState]);
+  }, [canvasState.imageType]);
 
   const handleChangeRange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const regex = /[^0-9]/g;
       const { name, value } = e.target;
-      const min = name === 'angle' ? -360 : defaultLineHeight * -12;
-      const max = name === 'angle' ? 360 : defaultLineHeight * 10;
+      const min = name === 'angle' ? -360 : +canvasState.canvasHeight * -1;
+      const max =
+        name === 'angle'
+          ? 360
+          : +canvasState.canvasHeight - defaultLineHeight * 2;
       const replacedCallback = getReplaceCallback(name);
       const replacedValue = value.replace(regex, replacedCallback);
 
-      const validMessage = getValidMessage(
-        +value < min || +value > max,
-        name as ValidType,
-      );
+      const isValid = +value < min || +value > max;
 
-      if (validMessage) return alert(validMessage);
+      if (isValid) return;
 
-      setCanvasState({
-        ...canvasState,
+      setCanvasState((prev) => ({
+        ...prev,
         [name]: replacedValue,
-      });
+      }));
     },
-    [getReplaceCallback, canvasState],
+    [canvasState.canvasHeight, defaultLineHeight],
   );
 
   return (
-    <BodyWrapper modalPosition={modalPosition} isFullWidth={isFullWidth}>
+    <section
+      className={layoutStyles.bodyWrapper({ modalPosition, isFullWidth })}>
       <Header onToggle={onToggle} />
-      <InnerWrapper>
-        <ContentWrapper>
+      <div className={layoutStyles.innerWrapper}>
+        <div className={layoutStyles.contentWrapper}>
           <Canvas ref={canvasRef} canvasState={canvasStateWithColors} />
 
-          <S.TGControllerWrapper>
-            <FileInput width={20} height={20} onChangeImage={onChangeImage} />
-            <IconButton isBorder onClick={onChangeTextAlign}>
-              <Icon src={textAlignIcon} width={20} height={20} />
+          <div className={contentStyles.thumbnailGeneratorControllerWrapper}>
+            <FileInput onChangeImage={onChangeImage} />
+            <IconButton hasBorder onClick={onChangeTextAlign}>
+              <img src={textAlignIcon} width={20} height={20} />
             </IconButton>
 
             <ColorPicker
               color={bgColor}
               setColor={onChangeBgColor}
               toggleIsBlockEvent={toggleIsBlockEvent}>
-              <Icon src={fill} width={20} height={20} />
+              <img src={fill} width={20} height={20} />
             </ColorPicker>
             <ColorPicker
               color={fontColor}
               setColor={setFontColor}
               toggleIsBlockEvent={toggleIsBlockEvent}>
-              <Icon src={font} width={20} height={20} />
+              <img src={font} width={20} height={20} />
             </ColorPicker>
             <ColorPicker
               color={strokeColor}
               setColor={onChangeStrokeColor}
               toggleIsBlockEvent={toggleIsBlockEvent}>
-              <Icon src={stroke} width={20} height={20} />
+              <img src={stroke} width={20} height={20} />
             </ColorPicker>
-            <IconButton isBorder onClick={toggleCanvasBlur}>
-              <Icon src={blur} width={20} height={20} />
+            <IconButton hasBorder onClick={toggleCanvasBlur}>
+              <img src={blur} width={20} height={20} />
             </IconButton>
-          </S.TGControllerWrapper>
+          </div>
 
-          <S.TGControllerWrapper>
-            <S.TGTextarea
+          <div className={contentStyles.thumbnailGeneratorControllerWrapper}>
+            <textarea
+              className={contentStyles.thumbnailGeneratorTextArea}
               name="value"
               rows={5}
               value={canvasState.value}
               onChange={onChangeTextValue}
               placeholder="THUMBNAIL TEXT"
             />
-          </S.TGControllerWrapper>
+          </div>
 
           <Divider color="#f3f3f3" height={10} margin={[10, 0, 10, 0]} />
 
           <Accordion title="Font Options">
-            <S.TGControllerWrapper>
-              <InputRange
-                label={'Font Angle'}
+            <div className={contentStyles.thumbnailGeneratorControllerWrapper}>
+              <RangeInput
+                label={'Font Angle (range: 360/-360)'}
                 name="angle"
                 min={-360}
                 max={360}
                 value={canvasState.angle}
                 onChange={handleChangeRange}
               />
-              <InputRange
-                label={'Line Height'}
+              <RangeInput
+                label={`Line Height (range: ${+canvasState.canvasHeight * -1}/${+canvasState.canvasHeight - defaultLineHeight * 2})`}
                 name="lineHeight"
-                min={defaultLineHeight * -12}
-                max={defaultLineHeight * 10}
+                min={+canvasState.canvasHeight * -1}
+                max={+canvasState.canvasHeight - defaultLineHeight * 2}
                 value={canvasState.lineHeight}
                 onChange={handleChangeRange}
               />
-            </S.TGControllerWrapper>
+            </div>
 
-            <S.TGControllerWrapper>
+            <div className={contentStyles.thumbnailGeneratorControllerWrapper}>
               <Select
                 name="fontFamily"
                 label="Font Family"
@@ -343,35 +372,35 @@ const ThumbnailGeneratorContent = ({
                   </SelectItem>
                 ))}
               </Select>
-            </S.TGControllerWrapper>
+            </div>
           </Accordion>
 
           <Divider color="#f3f3f3" height={10} margin={[10, 0, 10, 0]} />
 
           <Accordion title="Canvas Options">
-            <S.TGControllerWrapper>
+            <div className={contentStyles.thumbnailGeneratorControllerWrapper}>
               <TextInput
                 name="canvasWidth"
-                label="Canvas Width"
-                value={canvasState.canvasWidth}
+                label={`Canvas Width (max: ${window.innerWidth}px)`}
+                value={canvasSize.canvasWidth}
                 onChange={onChangeCanvasSize}
                 disabled={!!canvasState.selectedImage}
-                width={180}
+                width={200}
               />
               <TextInput
                 name="canvasHeight"
                 label="Canvas Height"
-                value={canvasState.canvasHeight}
+                value={canvasSize.canvasHeight}
                 onChange={onChangeCanvasSize}
                 disabled={!!canvasState.selectedImage}
-                width={180}
+                width={200}
               />
-            </S.TGControllerWrapper>
+            </div>
           </Accordion>
 
           <Divider color="#f3f3f3" height={10} margin={[10, 0, 0, 0]} />
 
-          <S.TGControllerWrapper>
+          <div className={contentStyles.thumbnailGeneratorControllerWrapper}>
             <Select
               name="imageType"
               label="Download Image Type"
@@ -383,14 +412,18 @@ const ThumbnailGeneratorContent = ({
                 </SelectItem>
               ))}
             </Select>
-          </S.TGControllerWrapper>
+          </div>
 
-          <S.TGButtonWrapper>
-            <button onClick={handleDownloadImage}>DOWNLOAD</button>
-          </S.TGButtonWrapper>
-        </ContentWrapper>
-      </InnerWrapper>
-    </BodyWrapper>
+          <div className={contentStyles.thumbnailGeneratorButtonWrapper}>
+            <button
+              className={contentStyles.thumbnailGeneratorButton}
+              onClick={handleDownloadImage}>
+              DOWNLOAD
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };
 

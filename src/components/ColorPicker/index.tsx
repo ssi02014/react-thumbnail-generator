@@ -8,7 +8,7 @@ import React, {
   useState,
 } from 'react';
 import { ColorPicker as PaletteColorPicker } from 'react-color-palette';
-import { IconButton } from '../Icon/styled';
+import IconButton from '../IconButton';
 import { Portal } from '@modern-kit/react';
 
 interface ColorPickerProps {
@@ -82,7 +82,7 @@ const ColorPicker = ({
       <IconButton
         isOpen={isOpenColorPicker}
         onClick={handleOpenColorPicker}
-        isBorder={true}>
+        hasBorder>
         {children}
       </IconButton>
 

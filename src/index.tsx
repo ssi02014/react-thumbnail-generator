@@ -1,30 +1,37 @@
 import React, { useState } from 'react';
 import { toggleButton } from '@assets/icons';
-import { getIconSize } from '@utils/style';
 import Portal from '@components/Portal';
-import Icon from '@components/Icon';
-import { Global } from '@emotion/react';
-import reset from '@css/reset';
+import '@css/reset.css';
 import ThumbnailGeneratorContent from '@components/ThumbnailGeneratorContent';
-import { TGOpenButton } from '@components/ThumbnailGeneratorContent/TG.styled';
+import * as styles from '@components/ThumbnailGeneratorContent/ThumbnailGeneratorContent.css';
 
 interface ThumbnailGeneratorProps {
-  isDefaultOpen?: boolean;
-  iconSize?: 'small' | 'medium' | 'large';
-  position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
-  iconPosition?: [number, number, number, number];
+  iconPosition?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
   modalPosition?: 'left' | 'right' | 'center';
+  iconSize?: 'small' | 'medium' | 'large';
   additionalFontFamily?: string[];
   isFullWidth?: boolean;
+  isDefaultOpen?: boolean;
 }
+
+const getIconSize = (size: 'small' | 'medium' | 'large') => {
+  switch (size) {
+    case 'small':
+      return 24;
+    case 'medium':
+      return 32;
+    default:
+      return 40;
+  }
+};
 
 const ThumbnailGenerator = ({
   isDefaultOpen = false,
   iconSize = 'medium',
-  iconPosition = [0, 20, 20, 0],
+  iconPosition = 'bottom-right',
   modalPosition = 'right',
   isFullWidth = false,
-  additionalFontFamily = [],
+  additionalFontFamily,
 }: ThumbnailGeneratorProps) => {
   const [isOpen, setIsOpen] = useState(isDefaultOpen);
   const tgIconSize = getIconSize(iconSize);
@@ -35,7 +42,6 @@ const ThumbnailGenerator = ({
 
   return (
     <>
-      <Global styles={reset} />
       <Portal>
         {isOpen ? (
           <ThumbnailGeneratorContent
@@ -45,9 +51,13 @@ const ThumbnailGenerator = ({
             onToggle={onToggleGenerator}
           />
         ) : (
-          <TGOpenButton iconPosition={iconPosition} onClick={onToggleGenerator}>
-            <Icon src={toggleButton} width={tgIconSize} height={tgIconSize} />
-          </TGOpenButton>
+          <button
+            className={styles.thumbnailGeneratorOpenButton({
+              iconPosition,
+            })}
+            onClick={onToggleGenerator}>
+            <img src={toggleButton} width={tgIconSize} height={tgIconSize} />
+          </button>
         )}
       </Portal>
     </>
