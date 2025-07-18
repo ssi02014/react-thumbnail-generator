@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 import { arrowBottom, arrowTop } from '@assets/icons';
-import Icon from '../Icon';
 import { useToggle } from '@modern-kit/react';
 import * as styles from './Accordion.css';
 
@@ -22,9 +21,9 @@ const Accordion = ({ title, children }: AccordionProps) => {
         <p className={styles.accordionTitle}>{title}</p>
         <span>
           {isOpenPanel ? (
-            <Icon src={arrowTop} width={14} height={14} />
+            <img src={arrowTop} width={14} height={14} />
           ) : (
-            <Icon src={arrowBottom} width={14} height={14} />
+            <img src={arrowBottom} width={14} height={14} />
           )}
         </span>
       </div>

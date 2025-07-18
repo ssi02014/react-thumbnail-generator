@@ -8,7 +8,6 @@ import React, {
 import Select from '../Select';
 import SelectItem from '../Select/SelectItem';
 import TextInput from '../Inputs/TextInput';
-import Icon from '../Icon';
 import FileInput from '../Inputs/FileInput';
 import Divider from '../Divider';
 import Accordion from '../Accordion';
@@ -36,7 +35,7 @@ import { useColor } from 'react-color-palette';
 import { BodyWrapper, ContentWrapper, InnerWrapper } from '../Layout/styled';
 import * as S from './TG.styled';
 import { downloadCanvas, getValidMessage, ValidType } from '@utils/common';
-import { IconButton } from '../Icon/styled';
+import IconButton from '@components/IconButton';
 
 interface TGProps {
   additionalFontFamily?: string[];
@@ -249,31 +248,31 @@ const ThumbnailGeneratorContent = ({
           <Canvas ref={canvasRef} canvasState={canvasStateWithColors} />
 
           <S.TGControllerWrapper>
-            <FileInput width={20} height={20} onChangeImage={onChangeImage} />
-            <IconButton isBorder onClick={onChangeTextAlign}>
-              <Icon src={textAlignIcon} width={20} height={20} />
+            <FileInput onChangeImage={onChangeImage} />
+            <IconButton isBorderHighlight onClick={onChangeTextAlign}>
+              <img src={textAlignIcon} width={20} height={20} />
             </IconButton>
 
             <ColorPicker
               color={bgColor}
               setColor={onChangeBgColor}
               toggleIsBlockEvent={toggleIsBlockEvent}>
-              <Icon src={fill} width={20} height={20} />
+              <img src={fill} width={20} height={20} />
             </ColorPicker>
             <ColorPicker
               color={fontColor}
               setColor={setFontColor}
               toggleIsBlockEvent={toggleIsBlockEvent}>
-              <Icon src={font} width={20} height={20} />
+              <img src={font} width={20} height={20} />
             </ColorPicker>
             <ColorPicker
               color={strokeColor}
               setColor={onChangeStrokeColor}
               toggleIsBlockEvent={toggleIsBlockEvent}>
-              <Icon src={stroke} width={20} height={20} />
+              <img src={stroke} width={20} height={20} />
             </ColorPicker>
-            <IconButton isBorder onClick={toggleCanvasBlur}>
-              <Icon src={blur} width={20} height={20} />
+            <IconButton isBorderHighlight onClick={toggleCanvasBlur}>
+              <img src={blur} width={20} height={20} />
             </IconButton>
           </S.TGControllerWrapper>
 

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { toggleButton } from '@assets/icons';
 import { getIconSize } from '@utils/style';
 import Portal from '@components/Portal';
-import Icon from '@components/Icon';
 import { Global } from '@emotion/react';
 import reset from '@css/reset';
 import ThumbnailGeneratorContent from '@components/ThumbnailGeneratorContent';
@@ -46,7 +45,7 @@ const ThumbnailGenerator = ({
           />
         ) : (
           <TGOpenButton iconPosition={iconPosition} onClick={onToggleGenerator}>
-            <Icon src={toggleButton} width={tgIconSize} height={tgIconSize} />
+            <img src={toggleButton} width={tgIconSize} height={tgIconSize} />
           </TGOpenButton>
         )}
       </Portal>

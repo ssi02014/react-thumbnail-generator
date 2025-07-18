@@ -7,7 +7,6 @@ import React, {
   ComponentProps,
 } from 'react';
 import * as S from './styled';
-import Icon from '../Icon';
 
 interface SelectContextProps {
   color?: string;
@@ -25,7 +24,7 @@ interface SelectProps
 }
 
 export const SelectContext = React.createContext<SelectContextProps | null>(
-  null
+  null,
 );
 
 const Select = ({
@@ -51,7 +50,7 @@ const Select = ({
         setIsOpenSelect(false);
       }
     },
-    [onChange]
+    [onChange],
   );
 
   useEffect(() => {
@@ -79,9 +78,9 @@ const Select = ({
           <p>{value}</p>
           <p>
             {isOpenSelect ? (
-              <Icon src={arrowTop} width={12} height={12} />
+              <img src={arrowTop} width={12} height={12} />
             ) : (
-              <Icon src={arrowBottom} width={12} height={12} />
+              <img src={arrowBottom} width={12} height={12} />
             )}
           </p>
         </S.SelectInput>
