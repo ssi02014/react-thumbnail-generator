@@ -6,7 +6,7 @@ import React, {
   useEffect,
   ComponentProps,
 } from 'react';
-import * as S from './styled';
+import * as styles from './Select.css';
 
 interface SelectContextProps {
   color?: string;
@@ -69,26 +69,25 @@ const Select = ({
   return (
     <SelectContext.Provider
       value={{ color, selectValue: value, onChange: handleChange }}>
-      <S.SelectWrapper>
-        <label>{label}</label>
-        <S.SelectInput
-          id={name}
+      <div className={styles.selectWrapper}>
+        <span className={styles.selectLabel}>{label}</span>
+        <div
+          className={styles.selectInput[isOpenSelect ? 'isOpen' : 'default']}
           ref={inputRef}
-          onClick={handleToggleSelect}
-          isOpenSelect={isOpenSelect}>
-          <p>{value}</p>
-          <p>
-            {isOpenSelect ? (
-              <img src={arrowTop} width={12} height={12} />
-            ) : (
-              <img src={arrowBottom} width={12} height={12} />
-            )}
+          onClick={handleToggleSelect}>
+          <p className={styles.selectInputText}>{value}</p>
+          <p className={styles.selectInputText}>
+            <img
+              src={isOpenSelect ? arrowTop : arrowBottom}
+              width={12}
+              height={12}
+            />
           </p>
-        </S.SelectInput>
+        </div>
         {isOpenSelect && (
-          <S.SelectItemContainer>{children}</S.SelectItemContainer>
+          <ul className={styles.selectItemContainer}>{children}</ul>
         )}
-      </S.SelectWrapper>
+      </div>
     </SelectContext.Provider>
   );
 };
