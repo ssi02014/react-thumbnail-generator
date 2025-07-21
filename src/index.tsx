@@ -41,26 +41,24 @@ const ThumbnailGenerator = ({
   };
 
   return (
-    <>
-      <Portal>
-        {isOpen ? (
-          <ThumbnailGeneratorContent
-            isFullWidth={isFullWidth}
-            modalPosition={modalPosition}
-            additionalFontFamily={additionalFontFamily}
-            onToggle={onToggleGenerator}
-          />
-        ) : (
-          <button
-            className={styles.thumbnailGeneratorOpenButton({
-              iconPosition,
-            })}
-            onClick={onToggleGenerator}>
-            <img src={toggleButton} width={tgIconSize} height={tgIconSize} />
-          </button>
-        )}
-      </Portal>
-    </>
+    <Portal>
+      {isOpen ? (
+        <ThumbnailGeneratorContent
+          isFullWidth={isFullWidth}
+          modalPosition={modalPosition}
+          additionalFontFamily={additionalFontFamily}
+          onToggle={onToggleGenerator}
+        />
+      ) : (
+        <button
+          className={styles.thumbnailGeneratorOpenButton({
+            iconPosition,
+          })}
+          onClick={onToggleGenerator}>
+          <img src={toggleButton} width={tgIconSize} height={tgIconSize} />
+        </button>
+      )}
+    </Portal>
   );
 };
 

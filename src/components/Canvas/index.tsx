@@ -51,13 +51,13 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
       switch (textAlign) {
         case 'center':
           return originWidth;
-        case 'end':
+        case 'right':
           return originWidth + lineMaxWidth / 2;
         default:
           return originWidth + (lineMaxWidth / 2) * -1;
       }
     },
-    [textAlign, canvasWidth]
+    [textAlign, canvasWidth],
   );
 
   const getMultiLinePosition = useCallback(
@@ -65,7 +65,7 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
       linesLength: number,
       lineHeight: number,
       lineMaxWidth: number,
-      idx: number
+      idx: number,
     ) => {
       const { offsetX, offsetY } = dragAndDropTextData;
       const centerY = +canvasHeight / 2;
@@ -78,7 +78,7 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
 
       return { x, y };
     },
-    [dragAndDropTextData, canvasHeight, getCalculatedX]
+    [dragAndDropTextData, canvasHeight, getCalculatedX],
   );
 
   const setFontStroke = useCallback(
@@ -89,7 +89,7 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
       ctx.strokeStyle = `${strokeColor.hex}`;
       ctx.strokeText(line, 0, 0);
     },
-    [fontStrokeType, strokeColor]
+    [fontStrokeType, strokeColor],
   );
 
   const rotateCanvas = useCallback(
@@ -104,12 +104,12 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
       ctx.rotate((+angle * Math.PI) / 180);
       ctx.translate(-moveX, -moveY);
     },
-    [dragAndDropTextData, canvasWidth, canvasHeight, angle]
+    [dragAndDropTextData, canvasWidth, canvasHeight, angle],
   );
 
   const fillCanvasMultiLineText = useCallback(
     (ctx: CanvasRenderingContext2D, lines: string[]) => {
-      const size = +fontSize.replace('px', '');
+      const size = fontSize;
       const fontLineHeight = size + +lineHeight;
       let lineMaxWidth = 0;
 
@@ -122,7 +122,7 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
           lines.length,
           fontLineHeight,
           lineMaxWidth,
-          idx
+          idx,
         );
 
         ctx.save();
@@ -135,13 +135,13 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
         ctx.restore();
       });
     },
-    [fontColor, fontSize, lineHeight, getMultiLinePosition, setFontStroke]
+    [fontColor, fontSize, lineHeight, getMultiLinePosition, setFontStroke],
   );
 
   const setCanvasText = useCallback(
     (ctx: CanvasRenderingContext2D) => {
       const lines = value.split('\n');
-      const size = +fontSize.replace('px', '');
+      const size = +fontSize;
 
       ctx.font = `${size}px ${fontFamily}`;
       ctx.textAlign = textAlign;
@@ -161,7 +161,7 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
       textAlign,
       rotateCanvas,
       fillCanvasMultiLineText,
-    ]
+    ],
   );
 
   const fillBackground = useCallback(
@@ -179,7 +179,7 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
       ctx.fillStyle = bgColor.hex;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     },
-    [selectedImage, bgColor, isBlur]
+    [selectedImage, bgColor, isBlur],
   );
 
   useEffect(() => {

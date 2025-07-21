@@ -7,6 +7,7 @@ export const fontFamilies = [
   'Verdana',
 ];
 export const strokeTypes = ['None', 'Thin', 'Normal', 'Thick'];
+export const fontStyles = ['normal', 'bold', 'italic'];
 
 export const imageTypes = ['png', 'jpg', 'webp'];
 

@@ -4,6 +4,7 @@ import * as styles from './RangeInput.css';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 
 interface RangeInputProps extends ComponentProps<'input'> {
+  hasInput?: boolean;
   value: string;
   min: number;
   max: number;
@@ -11,6 +12,7 @@ interface RangeInputProps extends ComponentProps<'input'> {
 }
 
 const RangeInput = ({
+  hasInput = true,
   label,
   name,
   min,
@@ -39,6 +41,7 @@ const RangeInput = ({
         </label>
         <input
           type="range"
+          step={0.1}
           name={name}
           min={min}
           max={max}
@@ -48,7 +51,9 @@ const RangeInput = ({
           style={rangeInputStyle}
         />
       </div>
-      <TextInput width={80} name={name} value={value} onChange={onChange} />
+      {hasInput && (
+        <TextInput width={80} name={name} value={value} onChange={onChange} />
+      )}
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import Konva from 'konva';
 import React from 'react';
 
 export type ValidType = 'imageSize' | 'canvasSize' | 'angle' | 'lineHeight';
@@ -12,7 +13,7 @@ export const getValidMessage = (condition: boolean, type: ValidType) => {
   return '';
 };
 
-const download = (url: string, imageType: string) => {
+const download = (url: string, imageType: string = 'png') => {
   const link = document.createElement('a');
 
   link.href = url as string;
@@ -23,11 +24,11 @@ const download = (url: string, imageType: string) => {
 };
 
 export const downloadCanvas = (
-  ref: React.RefObject<HTMLCanvasElement>,
-  imageType: 'png' | 'jpg' | 'webp'
+  ref: React.RefObject<Konva.Stage>,
+  imageType: 'png' | 'jpg' | 'webp',
 ) => {
   if (ref.current) {
-    const url = ref.current.toDataURL(`image/${imageType}`);
+    const url = ref.current.toDataURL();
     download(url, imageType);
   }
 };

@@ -11,13 +11,12 @@ import TextInput from '../Inputs/TextInput';
 import FileInput from '../Inputs/FileInput';
 import Divider from '../Divider';
 import Accordion from '../Accordion';
-import Canvas from '../Canvas';
 import ColorPicker from '../ColorPicker';
 import RangeInput from '../Inputs/RangeInput';
 import Header from '../Layout/Header';
 import {
   fontFamilies,
-  fontSizes,
+  fontStyles,
   imageTypes,
   strokeTypes,
 } from '@constants/select';
@@ -32,11 +31,13 @@ import {
   alignEnd,
 } from '@assets/icons';
 import { useColor } from 'react-color-palette';
-import { downloadCanvas, getValidMessage, ValidType } from '@utils/common';
+import { downloadCanvas } from '@utils/common';
 import IconButton from '@components/IconButton';
 import * as layoutStyles from '../Layout/layout.css';
 import * as contentStyles from './ThumbnailGeneratorContent.css';
 import { useDebounce } from '@modern-kit/react';
+import CanvasV2 from '@components/Canvas/CanvasV2';
+import Konva from 'konva';
 
 interface ThumbnailGeneratorContentProps {
   additionalFontFamily?: string[];
@@ -47,17 +48,18 @@ interface ThumbnailGeneratorContentProps {
 
 const initialCanvasState: CanvasState = {
   value: 'Simple Thumbnail\nGenerator 😁',
-  fontSize: '30px',
+  fontSize: 30,
   fontStrokeType: 'None',
   textAlign: 'center',
   fontFamily: 'Arial',
-  canvasWidth: '600',
-  canvasHeight: '400',
+  canvasWidth: 600,
+  canvasHeight: 400,
   imageType: 'png',
+  fontStyle: 'normal',
   angle: '0',
-  lineHeight: '0',
+  lineHeight: 1,
   isBlur: false,
-  selectedImage: null,
+  selectedImage: undefined,
   isBlockEvent: false,
 };
 
@@ -80,8 +82,8 @@ const ThumbnailGeneratorContent = ({
   const [canvasSize, setCanvasSize] = useState<
     Pick<CanvasState, 'canvasWidth' | 'canvasHeight'>
   >({
-    canvasWidth: '600',
-    canvasHeight: '400',
+    canvasWidth: 600,
+    canvasHeight: 400,
   });
   const debouncedSetCanvasState = useDebounce(setCanvasState, 300);
 
@@ -89,7 +91,7 @@ const ThumbnailGeneratorContent = ({
   const [fontColor, setFontColor] = useColor('#fff');
   const [strokeColor, setStrokeColor] = useColor('#121212');
 
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef<Konva.Stage>(null);
 
   const canvasStateWithColors = useMemo(() => {
     return {
@@ -104,16 +106,11 @@ const ThumbnailGeneratorContent = ({
     return [...(additionalFontFamily || []), ...fontFamilies];
   }, [additionalFontFamily]);
 
-  const defaultLineHeight = useMemo(
-    () => +canvasState.fontSize.replace('px', ''),
-    [canvasState.fontSize],
-  );
-
   const textAlignIcon = useMemo(() => {
     const { textAlign } = canvasState;
 
     if (textAlign === 'center') return alignCenter;
-    if (textAlign === 'end') return alignEnd;
+    if (textAlign === 'right') return alignEnd;
     return alignStart;
   }, [canvasState.textAlign]);
 
@@ -121,8 +118,8 @@ const ThumbnailGeneratorContent = ({
     const getNextTextAlign = (prev: CanvasState) => {
       const { textAlign } = prev;
 
-      if (textAlign === 'center') return 'end';
-      if (textAlign === 'end') return 'start';
+      if (textAlign === 'center') return 'right';
+      if (textAlign === 'right') return 'left';
       return 'center';
     };
 
@@ -183,62 +180,65 @@ const ThumbnailGeneratorContent = ({
     (e: ChangeEvent<HTMLTextAreaElement>) => {
       const { name, value } = e.target;
 
-      setCanvasState({
-        ...canvasState,
+      setCanvasState((prev) => ({
+        ...prev,
         [name]: value,
-      });
+      }));
     },
-    [canvasState],
+    [],
   );
 
   const onChangeSelectValue = useCallback(
     (name: string, value: string | number) => {
-      setCanvasState({
-        ...canvasState,
+      setCanvasState((prev) => ({
+        ...prev,
         [name]: value,
-      });
+      }));
     },
-    [canvasState],
+    [],
   );
 
   const onChangeBgColor = useCallback(
     (color: Color) => {
-      setCanvasState({
-        ...canvasState,
-        selectedImage: null,
-      });
+      setCanvasState((prev) => ({
+        ...prev,
+        selectedImage: undefined,
+        isBlur: false,
+      }));
       setBgColor(color);
     },
-    [canvasState, setBgColor],
+    [setBgColor],
   );
 
-  const onChangeImage = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const { files } = e.target;
+  const onChangeImage = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
 
-      if (files) {
-        const img = new Image();
+    if (files) {
+      const img = new Image();
 
-        img.src = files[0] && URL.createObjectURL(files[0]);
-        img.onload = async () => {
-          setCanvasState({
-            ...canvasState,
-            selectedImage: img,
-            canvasWidth: `${img.width}`,
-            canvasHeight: `${img.height}`,
-          });
-        };
-      }
-    },
-    [canvasState],
-  );
+      img.src = files[0] && URL.createObjectURL(files[0]);
+      img.onload = async () => {
+        setCanvasSize({
+          canvasWidth: img.width,
+          canvasHeight: img.height,
+        });
+        setCanvasState((prev) => ({
+          ...prev,
+          isBlur: false,
+          selectedImage: img,
+          canvasWidth: img.width,
+          canvasHeight: img.height,
+        }));
+      };
+    }
+  }, []);
 
   const toggleCanvasBlur = useCallback(() => {
-    setCanvasState({
-      ...canvasState,
-      isBlur: !canvasState.isBlur,
-    });
-  }, [canvasState]);
+    setCanvasState((prev) => ({
+      ...prev,
+      isBlur: !prev.isBlur,
+    }));
+  }, []);
 
   const handleDownloadImage = useCallback(() => {
     downloadCanvas(canvasRef, canvasState.imageType);
@@ -246,26 +246,14 @@ const ThumbnailGeneratorContent = ({
 
   const handleChangeRange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      const regex = /[^0-9]/g;
       const { name, value } = e.target;
-      const min = name === 'angle' ? -360 : +canvasState.canvasHeight * -1;
-      const max =
-        name === 'angle'
-          ? 360
-          : +canvasState.canvasHeight - defaultLineHeight * 2;
-      const replacedCallback = getReplaceCallback(name);
-      const replacedValue = value.replace(regex, replacedCallback);
-
-      const isValid = +value < min || +value > max;
-
-      if (isValid) return;
 
       setCanvasState((prev) => ({
         ...prev,
-        [name]: replacedValue,
+        [name]: +value,
       }));
     },
-    [canvasState.canvasHeight, defaultLineHeight],
+    [canvasState.canvasHeight, canvasState.fontSize],
   );
 
   return (
@@ -274,7 +262,7 @@ const ThumbnailGeneratorContent = ({
       <Header onToggle={onToggle} />
       <div className={layoutStyles.innerWrapper}>
         <div className={layoutStyles.contentWrapper}>
-          <Canvas ref={canvasRef} canvasState={canvasStateWithColors} />
+          <CanvasV2 ref={canvasRef} canvasState={canvasStateWithColors} />
 
           <div className={contentStyles.thumbnailGeneratorControllerWrapper}>
             <FileInput onChangeImage={onChangeImage} />
@@ -321,19 +309,12 @@ const ThumbnailGeneratorContent = ({
           <Accordion title="Font Options">
             <div className={contentStyles.thumbnailGeneratorControllerWrapper}>
               <RangeInput
-                label={'Font Angle (range: 360/-360)'}
-                name="angle"
-                min={-360}
-                max={360}
-                value={canvasState.angle}
-                onChange={handleChangeRange}
-              />
-              <RangeInput
-                label={`Line Height (range: ${+canvasState.canvasHeight * -1}/${+canvasState.canvasHeight - defaultLineHeight * 2})`}
+                hasInput={false}
+                label={`Line Height`}
                 name="lineHeight"
-                min={+canvasState.canvasHeight * -1}
-                max={+canvasState.canvasHeight - defaultLineHeight * 2}
-                value={canvasState.lineHeight}
+                min={0.1}
+                max={5}
+                value={String(canvasState.lineHeight)}
                 onChange={handleChangeRange}
               />
             </div>
@@ -351,23 +332,24 @@ const ThumbnailGeneratorContent = ({
                 ))}
               </Select>
               <Select
-                name="fontSize"
-                label="Font Size"
-                value={canvasState.fontSize}
-                onChange={onChangeSelectValue}>
-                {fontSizes.map((item) => (
-                  <SelectItem value={item} key={item}>
-                    {item}
-                  </SelectItem>
-                ))}
-              </Select>
-              <Select
                 name="fontStrokeType"
                 label="Font Stroke"
                 value={canvasState.fontStrokeType}
                 onChange={onChangeSelectValue}>
                 {strokeTypes.map((item) => (
                   <SelectItem value={item} key={item}>
+                    {item}
+                  </SelectItem>
+                ))}
+              </Select>
+
+              <Select
+                name="fontStyle"
+                label="Font Style"
+                value={canvasState.fontStyle}
+                onChange={onChangeSelectValue}>
+                {fontStyles.map((item) => (
+                  <SelectItem value={item.toLowerCase()} key={item}>
                     {item}
                   </SelectItem>
                 ))}
