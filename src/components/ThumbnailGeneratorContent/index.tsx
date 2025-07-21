@@ -180,64 +180,65 @@ const ThumbnailGeneratorContent = ({
     (e: ChangeEvent<HTMLTextAreaElement>) => {
       const { name, value } = e.target;
 
-      setCanvasState({
-        ...canvasState,
+      setCanvasState((prev) => ({
+        ...prev,
         [name]: value,
-      });
+      }));
     },
-    [canvasState],
+    [],
   );
 
   const onChangeSelectValue = useCallback(
     (name: string, value: string | number) => {
-      setCanvasState({
-        ...canvasState,
+      setCanvasState((prev) => ({
+        ...prev,
         [name]: value,
-      });
+      }));
     },
-    [canvasState],
+    [],
   );
 
   const onChangeBgColor = useCallback(
     (color: Color) => {
-      setCanvasState({
-        ...canvasState,
+      setCanvasState((prev) => ({
+        ...prev,
         selectedImage: undefined,
         isBlur: false,
-      });
+      }));
       setBgColor(color);
     },
-    [canvasState, setBgColor],
+    [setBgColor],
   );
 
-  const onChangeImage = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const { files } = e.target;
+  const onChangeImage = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
 
-      if (files) {
-        const img = new Image();
+    if (files) {
+      const img = new Image();
 
-        img.src = files[0] && URL.createObjectURL(files[0]);
-        img.onload = async () => {
-          setCanvasState({
-            ...canvasState,
-            isBlur: false,
-            selectedImage: img,
-            canvasWidth: img.width,
-            canvasHeight: img.height,
-          });
-        };
-      }
-    },
-    [canvasState],
-  );
+      img.src = files[0] && URL.createObjectURL(files[0]);
+      img.onload = async () => {
+        setCanvasSize({
+          canvasWidth: img.width,
+          canvasHeight: img.height,
+        });
+        setCanvasState((prev) => ({
+          ...prev,
+          isBlur: false,
+          selectedImage: img,
+          canvasWidth: img.width,
+          canvasHeight: img.height,
+        }));
+      };
+    }
+  }, []);
 
   const toggleCanvasBlur = useCallback(() => {
-    setCanvasState({
-      ...canvasState,
-      isBlur: !canvasState.isBlur,
-    });
-  }, [canvasState]);
+    setCanvasState((prev) => ({
+      ...prev,
+      isBlur: !prev.isBlur,
+    }));
+  }, []);
 
   const handleDownloadImage = useCallback(() => {
     downloadCanvas(canvasRef, canvasState.imageType);
