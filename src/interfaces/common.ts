@@ -5,21 +5,21 @@ export type Color = ComponentProps<typeof ColorPicker>['color'];
 
 export type StrokeTypes = 'None' | 'Thin' | 'Normal' | 'Thick';
 
-export type TextAlign = 'center' | 'start' | 'end';
+export type TextAlign = 'center' | 'left' | 'right';
 
 export interface CanvasState {
   value: string;
-  fontSize: string;
+  fontSize: number;
   fontStrokeType: StrokeTypes;
   fontFamily: string;
-  canvasWidth: string;
-  canvasHeight: string;
+  canvasWidth: number;
+  canvasHeight: number;
   imageType: 'png' | 'jpg' | 'webp';
-  lineHeight: string;
+  lineHeight: number;
   angle: string;
   isBlur: boolean;
   textAlign: TextAlign;
-  selectedImage: HTMLImageElement | null;
+  selectedImage: HTMLImageElement | undefined;
   isBlockEvent: boolean;
 }
 
