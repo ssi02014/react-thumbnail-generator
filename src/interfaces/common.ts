@@ -15,6 +15,7 @@ export interface CanvasState {
   canvasWidth: number;
   canvasHeight: number;
   imageType: 'png' | 'jpg' | 'webp';
+  fontStyle: 'normal' | 'bold' | 'italic' | 'underline' | 'overline';
   lineHeight: number;
   angle: string;
   isBlur: boolean;

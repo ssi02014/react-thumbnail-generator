@@ -8,14 +8,6 @@ interface CanvasV2Props {
   canvasState: CanvasStateWithColors;
 }
 
-const getTextCenterPosition = (text: Konva.Text) => {
-  const textRect = text.getClientRect();
-  const centerX = text.x() + textRect.width / 2;
-  const centerY = text.y() + textRect.height / 2;
-
-  return { x: centerX, y: centerY };
-};
-
 const getStrokeWidth = (strokeType: StrokeTypes) => {
   const strokeWidth = {
     None: 0,
@@ -32,32 +24,21 @@ const CanvasV2 = forwardRef(({ canvasState }: CanvasV2Props, ref) => {
     transformerRef.current?.nodes([]);
   });
 
-  const [textCenterPosition, setTextCenterPosition] = useState<{
-    x: number;
-    y: number;
-  }>({
-    x: canvasState.canvasWidth / 2,
-    y: canvasState.canvasHeight / 2,
-  });
-
   const stageRef = useRef<Konva.Stage>(null);
   const transformerRef = useRef<Konva.Transformer>(null);
   const textRef = useRef<Konva.Text>(null);
+  const rectRef = useRef<Konva.Rect>(null);
 
-  const handleDragEnd = () => {
+  const handleDragEnd = (e: Konva.KonvaEventObject<MouseEvent>) => {
     if (!stageRef.current) return;
     if (!textRef.current) return;
 
     const rect = stageRef.current.getPointerPosition();
-    const textRect = textRef.current.getClientRect();
-    const textRotation = textRef.current.rotation();
 
     if (!rect) return;
 
     const x = rect.x;
     const y = rect.y;
-    const textWidth = textRect.width;
-    const textHeight = textRect.height;
 
     if (
       x < 0 ||
@@ -68,27 +49,15 @@ const CanvasV2 = forwardRef(({ canvasState }: CanvasV2Props, ref) => {
       const stageCenterX = canvasState.canvasWidth / 2;
       const stageCenterY = canvasState.canvasHeight / 2;
 
-      textRef.current?.setPosition({
-        x: stageCenterX,
-        y: stageCenterY,
-      });
-      textRef.current.offset({
-        x: textWidth / 2,
-        y: textHeight / 2,
-      });
-    } else {
-      if (textRef.current) {
-        const x = textRef.current.x() + textRect.width / 2;
-        const y = textRef.current.y() + textRect.height / 2;
+      textRef.current.rotation(0);
+      const originRect = textRef.current.getClientRect();
 
-        setTextCenterPosition({
-          x,
-          y,
-        });
-      }
+      textRef.current.setPosition({
+        x: stageCenterX - originRect.width / 2,
+        y: stageCenterY - originRect.height / 2,
+      });
     }
   };
-  console.log(textCenterPosition);
 
   const handleTextClick = () => {
     if (!transformerRef.current) return;
@@ -104,32 +73,9 @@ const CanvasV2 = forwardRef(({ canvasState }: CanvasV2Props, ref) => {
     }
   };
 
-  // Update the position of text when changing text line height or content
-  useEffect(() => {
-    if (!textRef.current) return;
-
-    const textRect = textRef.current.getClientRect();
-    const newWidth = textRect.width;
-    const newHeight = textRect.height;
-
-    const newX = textCenterPosition.x - newWidth / 2;
-    const newY = textCenterPosition.y - newHeight / 2;
-
-    textRef.current.setPosition({
-      x: newX,
-      y: newY,
-    });
-  }, [
-    canvasState.value,
-    canvasState.lineHeight,
-    textCenterPosition.x,
-    textCenterPosition.y,
-  ]);
-
   // Update text position when canvas width or height changes
   useEffect(() => {
     if (!textRef.current) return;
-
     const textRect = textRef.current.getClientRect();
     const newWidth = textRect.width;
     const newHeight = textRect.height;
@@ -141,8 +87,29 @@ const CanvasV2 = forwardRef(({ canvasState }: CanvasV2Props, ref) => {
       x: centerX - newWidth / 2,
       y: centerY - newHeight / 2,
     });
-    setTextCenterPosition({ x: centerX, y: centerY });
   }, [canvasState.canvasWidth, canvasState.canvasHeight]);
+
+  useEffect(() => {
+    if (!rectRef.current) return;
+    if (canvasState.selectedImage) {
+      rectRef.current.fillPatternImage(canvasState.selectedImage);
+    } else {
+      rectRef.current.fill(canvasState.bgColor.hex);
+    }
+  }, [canvasState.selectedImage, canvasState.bgColor]);
+
+  useEffect(() => {
+    if (!rectRef.current) return;
+    const withBlur = canvasState.isBlur && canvasState.selectedImage;
+
+    if (withBlur) {
+      rectRef.current.cache();
+      rectRef.current.filters([Konva.Filters.Blur]);
+      rectRef.current.blurRadius(10);
+    } else {
+      rectRef.current.clearCache();
+    }
+  }, [canvasState.selectedImage, canvasState.isBlur]);
 
   return (
     <div ref={outsideRef}>
@@ -152,37 +119,42 @@ const CanvasV2 = forwardRef(({ canvasState }: CanvasV2Props, ref) => {
         height={canvasState.canvasHeight}>
         <Layer>
           <Rect
+            ref={rectRef}
             onClick={handleStageClick}
             x={0}
             y={0}
             width={canvasState.canvasWidth}
             height={canvasState.canvasHeight}
+            fillPatternImage={
+              canvasState.selectedImage ? canvasState.selectedImage : undefined
+            }
             fill={
               canvasState.selectedImage ? undefined : canvasState.bgColor.hex
             }
-            fillPatternImage={canvasState.selectedImage}
-            shadowBlur={10}
           />
 
           <Text
             ref={textRef}
-            x={textCenterPosition.x}
-            y={textCenterPosition.y}
+            x={canvasState.canvasWidth / 2}
+            y={canvasState.canvasHeight / 2}
             fontSize={30}
+            fontFamily={canvasState.fontFamily}
             fill={canvasState.fontColor.hex}
             stroke={canvasState.strokeColor.hex}
             lineHeight={canvasState.lineHeight}
             strokeWidth={getStrokeWidth(canvasState.fontStrokeType)}
+            fontStyle={canvasState.fontStyle}
             text={canvasState.value}
             onClick={handleTextClick}
             onDragEnd={handleDragEnd}
+            verticalAlign="middle"
             onMouseEnter={() => (document.body.style.cursor = 'pointer')}
             onMouseLeave={() => (document.body.style.cursor = 'default')}
             align={canvasState.textAlign}
             draggable
           />
 
-          <Transformer ref={transformerRef} />
+          <Transformer ref={transformerRef} centeredScaling />
         </Layer>
       </Stage>
     </div>

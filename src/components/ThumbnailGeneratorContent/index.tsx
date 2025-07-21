@@ -14,7 +14,12 @@ import Accordion from '../Accordion';
 import ColorPicker from '../ColorPicker';
 import RangeInput from '../Inputs/RangeInput';
 import Header from '../Layout/Header';
-import { fontFamilies, imageTypes, strokeTypes } from '@constants/select';
+import {
+  fontFamilies,
+  fontStyles,
+  imageTypes,
+  strokeTypes,
+} from '@constants/select';
 import { CanvasState, Color } from '@interfaces/common';
 import {
   fill,
@@ -50,6 +55,7 @@ const initialCanvasState: CanvasState = {
   canvasWidth: 600,
   canvasHeight: 400,
   imageType: 'png',
+  fontStyle: 'normal',
   angle: '0',
   lineHeight: 1,
   isBlur: false,
@@ -197,6 +203,7 @@ const ThumbnailGeneratorContent = ({
       setCanvasState({
         ...canvasState,
         selectedImage: undefined,
+        isBlur: false,
       });
       setBgColor(color);
     },
@@ -214,6 +221,7 @@ const ThumbnailGeneratorContent = ({
         img.onload = async () => {
           setCanvasState({
             ...canvasState,
+            isBlur: false,
             selectedImage: img,
             canvasWidth: img.width,
             canvasHeight: img.height,
@@ -304,7 +312,7 @@ const ThumbnailGeneratorContent = ({
                 label={`Line Height`}
                 name="lineHeight"
                 min={0.1}
-                max={10}
+                max={5}
                 value={String(canvasState.lineHeight)}
                 onChange={handleChangeRange}
               />
@@ -329,6 +337,18 @@ const ThumbnailGeneratorContent = ({
                 onChange={onChangeSelectValue}>
                 {strokeTypes.map((item) => (
                   <SelectItem value={item} key={item}>
+                    {item}
+                  </SelectItem>
+                ))}
+              </Select>
+
+              <Select
+                name="fontStyle"
+                label="Font Style"
+                value={canvasState.fontStyle}
+                onChange={onChangeSelectValue}>
+                {fontStyles.map((item) => (
+                  <SelectItem value={item.toLowerCase()} key={item}>
                     {item}
                   </SelectItem>
                 ))}
