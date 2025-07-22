@@ -1,211 +1,163 @@
-import useDragAndDropText from '@hooks/useDragAndDropText';
-import React, { useCallback, useEffect } from 'react';
-import { CanvasStateWithColors } from '@interfaces/common';
+import React, { forwardRef, useEffect, useRef } from 'react';
+import { Layer, Text, Stage, Transformer, Rect } from 'react-konva';
+import { CanvasStateWithColors, StrokeTypes } from '../../interfaces/common';
+import { useMergeRefs, useOutsidePointerDown } from '@modern-kit/react';
 import * as styles from './Canvas.css';
+import Konva from 'konva';
 
-interface CanvasProps {
+interface CanvasV2Props {
   canvasState: CanvasStateWithColors;
 }
 
-const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
-  const {
-    value,
-    lineHeight,
-    canvasWidth,
-    canvasHeight,
-    fontStrokeType,
-    selectedImage,
-    fontFamily,
-    angle,
-    isBlur,
-    textAlign,
-    isBlockEvent,
-    bgColor,
-    fontColor,
-    strokeColor,
-  } = canvasState;
+const getStrokeWidth = (strokeType: StrokeTypes) => {
+  const strokeWidth = {
+    None: 0,
+    Thin: 1,
+    Normal: 1.5,
+    Thick: 2,
+  };
 
-  const {
-    dragAndDropTextData,
-    handleCanvasMouseDown,
-    handleCanvasMouseMove,
-    handleCanvasMouseUp,
-    handleCanvasMouseLeave,
-    handleCanvasOffsetReset,
-  } = useDragAndDropText(+canvasWidth, +canvasHeight);
+  return strokeWidth[strokeType];
+};
 
-  const getLineWidthByStrokeType = useCallback(() => {
-    const strokeObj = {
-      None: 0,
-      Thin: 3,
-      Normal: 5,
-      Thick: 7,
-    } as { [key: string]: number };
+const CanvasV2 = forwardRef(({ canvasState }: CanvasV2Props, ref) => {
+  const { ref: outsideRef } = useOutsidePointerDown<any>(() => {
+    transformerRef.current?.nodes([]);
+  });
 
-    return strokeObj[fontStrokeType];
-  }, [fontStrokeType]);
+  const stageRef = useRef<Konva.Stage>(null);
+  const transformerRef = useRef<Konva.Transformer>(null);
+  const textRef = useRef<Konva.Text>(null);
+  const rectRef = useRef<Konva.Rect>(null);
 
-  const getCalculatedX = useCallback(
-    (originWidth: number, lineMaxWidth: number) => {
-      switch (textAlign) {
-        case 'center':
-          return originWidth;
-        case 'right':
-          return originWidth + lineMaxWidth / 2;
-        default:
-          return originWidth + (lineMaxWidth / 2) * -1;
-      }
-    },
-    [textAlign, canvasWidth],
-  );
+  const handleDragEnd = () => {
+    if (!stageRef.current) return;
+    if (!textRef.current) return;
 
-  const getMultiLinePosition = useCallback(
-    (
-      linesLength: number,
-      lineHeight: number,
-      lineMaxWidth: number,
-      idx: number,
-    ) => {
-      const { offsetX, offsetY } = dragAndDropTextData;
-      const centerY = +canvasHeight / 2;
-      const centerX = getCalculatedX(+canvasWidth / 2, lineMaxWidth);
+    const rect = stageRef.current.getPointerPosition();
 
-      const x = offsetX ? getCalculatedX(offsetX, lineMaxWidth) : centerX;
-      const y = offsetY
-        ? offsetY - ((linesLength - 1) * lineHeight) / 2 + idx * lineHeight
-        : centerY - ((linesLength - 1) * lineHeight) / 2 + idx * lineHeight;
+    if (!rect) return;
 
-      return { x, y };
-    },
-    [dragAndDropTextData, canvasHeight, getCalculatedX],
-  );
+    const x = rect.x;
+    const y = rect.y;
 
-  const setFontStroke = useCallback(
-    (ctx: CanvasRenderingContext2D, line: string) => {
-      if (fontStrokeType === 'None') return;
+    if (
+      x < 0 ||
+      y < 0 ||
+      x > canvasState.canvasWidth ||
+      y > canvasState.canvasHeight
+    ) {
+      const stageCenterX = canvasState.canvasWidth / 2;
+      const stageCenterY = canvasState.canvasHeight / 2;
 
-      ctx.lineWidth = getLineWidthByStrokeType();
-      ctx.strokeStyle = `${strokeColor.hex}`;
-      ctx.strokeText(line, 0, 0);
-    },
-    [fontStrokeType, strokeColor],
-  );
+      textRef.current.rotation(0);
+      const originRect = textRef.current.getClientRect();
 
-  const rotateCanvas = useCallback(
-    (ctx: CanvasRenderingContext2D) => {
-      const { offsetX, offsetY } = dragAndDropTextData;
-      const centerX = +canvasWidth / 2;
-      const centerY = +canvasHeight / 2;
-      const moveX = offsetX ? offsetX : centerX;
-      const moveY = offsetY ? offsetY : centerY;
-
-      ctx.translate(moveX, moveY);
-      ctx.rotate((+angle * Math.PI) / 180);
-      ctx.translate(-moveX, -moveY);
-    },
-    [dragAndDropTextData, canvasWidth, canvasHeight, angle],
-  );
-
-  const fillCanvasMultiLineText = useCallback(
-    (ctx: CanvasRenderingContext2D, lines: string[]) => {
-      const size = 0;
-      const fontLineHeight = size + +lineHeight;
-      let lineMaxWidth = 0;
-
-      lines.forEach((line) => {
-        lineMaxWidth = Math.max(lineMaxWidth, ctx.measureText(line).width);
+      textRef.current.setPosition({
+        x: stageCenterX - originRect.width / 2,
+        y: stageCenterY - originRect.height / 2,
       });
+    }
+  };
 
-      lines.forEach((line, idx) => {
-        const { x, y } = getMultiLinePosition(
-          lines.length,
-          fontLineHeight,
-          lineMaxWidth,
-          idx,
-        );
+  const handleTextClick = () => {
+    if (!transformerRef.current) return;
+    if (!textRef.current) return;
 
-        ctx.save();
-        ctx.translate(x, y);
+    transformerRef.current.nodes([textRef.current]);
+  };
 
-        setFontStroke(ctx, line);
+  const handleStageClick = (e: Konva.KonvaEventObject<MouseEvent>) => {
+    if (!transformerRef.current) return;
+    if (e.target !== textRef.current) {
+      transformerRef.current.nodes([]);
+    }
+  };
 
-        ctx.fillStyle = fontColor.hex;
-        ctx.fillText(line, 0, 0);
-        ctx.restore();
-      });
-    },
-    [fontColor, lineHeight, getMultiLinePosition, setFontStroke],
-  );
+  // Update text position when canvas width or height changes
+  useEffect(() => {
+    if (!textRef.current) return;
+    const textRect = textRef.current.getClientRect();
+    const newWidth = textRect.width;
+    const newHeight = textRect.height;
 
-  const setCanvasText = useCallback(
-    (ctx: CanvasRenderingContext2D) => {
-      const lines = value.split('\n');
-      const size = +0;
+    const centerX = canvasState.canvasWidth / 2;
+    const centerY = canvasState.canvasHeight / 2;
 
-      ctx.font = `${size}px ${fontFamily}`;
-      ctx.textAlign = textAlign;
-      ctx.textBaseline = 'middle';
-
-      ctx.save();
-
-      rotateCanvas(ctx);
-      fillCanvasMultiLineText(ctx, lines);
-
-      ctx.restore();
-    },
-    [value, fontFamily, textAlign, rotateCanvas, fillCanvasMultiLineText],
-  );
-
-  const fillBackground = useCallback(
-    (canvas: HTMLCanvasElement) => {
-      const ctx = canvas.getContext('2d');
-
-      if (!ctx) return;
-
-      if (selectedImage) {
-        if (isBlur) ctx.filter = 'blur(5px)';
-        ctx.drawImage(selectedImage, 0, 0);
-        return;
-      }
-
-      ctx.fillStyle = bgColor.hex;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-    },
-    [selectedImage, bgColor, isBlur],
-  );
+    textRef.current.setPosition({
+      x: centerX - newWidth / 2,
+      y: centerY - newHeight / 2,
+    });
+  }, [canvasState.canvasWidth, canvasState.canvasHeight]);
 
   useEffect(() => {
-    if (!ref.current) return;
-    const canvas = ref.current as HTMLCanvasElement;
-    const ctx = canvas.getContext('2d');
+    if (!rectRef.current) return;
+    const withBlur = canvasState.isBlur && canvasState.selectedImage;
 
-    if (!ctx) return;
-
-    ctx.save();
-    fillBackground(canvas);
-    ctx.restore();
-    setCanvasText(ctx);
-  }, [canvasState, dragAndDropTextData]);
-
-  useEffect(() => {
-    handleCanvasOffsetReset();
-  }, [selectedImage]);
+    if (withBlur) {
+      rectRef.current.cache();
+      rectRef.current.filters([Konva.Filters.Blur]);
+      rectRef.current.blurRadius(10);
+    } else {
+      rectRef.current.clearCache();
+    }
+  }, [canvasState.selectedImage, canvasState.isBlur]);
 
   return (
-    <section className={styles.canvasWrapper}>
-      <canvas
-        ref={ref}
-        width={+canvasWidth}
-        height={+canvasHeight}
-        onMouseDown={(e) => !isBlockEvent && handleCanvasMouseDown(e)}
-        onMouseMove={handleCanvasMouseMove}
-        onMouseUp={handleCanvasMouseUp}
-        onMouseLeave={handleCanvasMouseLeave}
-      />
-    </section>
+    <div ref={outsideRef} className={styles.canvasWrapper}>
+      <Stage
+        ref={useMergeRefs(stageRef, ref)}
+        width={canvasState.canvasWidth}
+        height={canvasState.canvasHeight}>
+        <Layer>
+          <Rect
+            ref={rectRef}
+            onClick={handleStageClick}
+            x={0}
+            y={0}
+            width={canvasState.canvasWidth}
+            height={canvasState.canvasHeight}
+            fillPatternImage={
+              canvasState.selectedImage ? canvasState.selectedImage : undefined
+            }
+            fill={
+              canvasState.selectedImage ? undefined : canvasState.bgColor.hex
+            }
+          />
+
+          <Text
+            ref={textRef}
+            x={canvasState.canvasWidth / 2}
+            y={canvasState.canvasHeight / 2}
+            fontSize={30}
+            fontFamily={canvasState.fontFamily}
+            fill={canvasState.fontColor.hex}
+            stroke={canvasState.strokeColor.hex}
+            strokeWidth={getStrokeWidth(canvasState.fontStrokeType)}
+            fontStyle={canvasState.fontStyle}
+            lineHeight={canvasState.lineHeight}
+            text={canvasState.value}
+            onClick={handleTextClick}
+            onDragEnd={handleDragEnd}
+            verticalAlign="middle"
+            onMouseEnter={() => (document.body.style.cursor = 'pointer')}
+            onMouseLeave={() => (document.body.style.cursor = 'default')}
+            align={canvasState.textAlign}
+            draggable
+          />
+
+          <Transformer
+            ref={transformerRef}
+            anchorCornerRadius={10}
+            borderStrokeWidth={2}
+            centeredScaling
+          />
+        </Layer>
+      </Stage>
+    </div>
   );
 });
 
-Canvas.displayName = 'Search';
+CanvasV2.displayName = 'CanvasV2';
 
-export default Canvas;
+export default CanvasV2;

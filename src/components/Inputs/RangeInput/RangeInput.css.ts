@@ -4,7 +4,6 @@ export const backgroundSizeVar = createVar();
 
 export const rangeInputWrapper = style({
   display: 'flex',
-  height: '50px',
   alignItems: 'center',
   gap: '5px',
 });

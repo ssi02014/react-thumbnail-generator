@@ -16,7 +16,6 @@ export interface CanvasState {
   imageType: 'png' | 'jpg' | 'webp';
   fontStyle: 'normal' | 'bold' | 'italic' | 'underline' | 'overline';
   lineHeight: number;
-  angle: string;
   isBlur: boolean;
   textAlign: TextAlign;
   selectedImage: HTMLImageElement | undefined;

@@ -86,15 +86,15 @@ export const thumbnailGeneratorControllerWrapper = style({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  marginTop: '10px',
   gap: '10px',
 });
 
 export const thumbnailGeneratorTextareaWrapper = style({
-  padding: '10px 10px 0px 10px',
+  padding: '20px 20px 0px 20px',
 });
 
 export const thumbnailGeneratorIconControllerWrapper = style({
+  position: 'relative',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -105,6 +105,16 @@ export const thumbnailGeneratorIconControllerWrapper = style({
   borderRadius: '5px',
 });
 
-globalStyle(`${thumbnailGeneratorControllerWrapper} > input[type='range']`, {
-  marginTop: '20px',
+export const thumbnailGeneratorMoreOptionsWrapper = style({
+  position: 'absolute',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: '10px',
+  gap: '8px',
+  top: '50px',
+  right: '50%',
+  transform: 'translateX(230px)',
+  backgroundColor: '#fcfcfc',
+  border: '1px solid #ebedf2',
 });

@@ -28,11 +28,13 @@ import IconButton from '@components/IconButton';
 import * as layoutStyles from '../Layout/layout.css';
 import * as contentStyles from './ThumbnailGeneratorContent.css';
 import { useDebounce } from '@modern-kit/react';
-import CanvasV2 from '@components/Canvas/CanvasV2';
+import Canvas from '@components/Canvas';
 import Konva from 'konva';
 import FontBoldIcon from '@assets/FontBoldIcon';
 import FontItalicIcon from '@assets/FontItalicIcon';
 import FontColorIcon from '@assets/FontColorIcon';
+import MoreDotIcon from '@assets/MoreDotIcon';
+import RangeInput from '@components/Inputs/RangeInput';
 
 interface ThumbnailGeneratorContentProps {
   additionalFontFamily?: string[];
@@ -48,10 +50,9 @@ const initialCanvasState: CanvasState = {
   fontFamily: 'Arial',
   canvasWidth: 600,
   canvasHeight: 400,
+  lineHeight: 1,
   imageType: 'png',
   fontStyle: 'normal',
-  angle: '0',
-  lineHeight: 1,
   isBlur: false,
   selectedImage: undefined,
   isBlockEvent: false,
@@ -70,6 +71,8 @@ const ThumbnailGeneratorContent = ({
   isFullWidth,
   onToggle,
 }: ThumbnailGeneratorContentProps) => {
+  const [isOpenMoreOptions, setIsOpenMoreOptions] = useState(false);
+
   const [canvasState, setCanvasState] =
     useState<CanvasState>(initialCanvasState);
 
@@ -245,13 +248,21 @@ const ThumbnailGeneratorContent = ({
     }));
   }, []);
 
+  const handleChangeRange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setCanvasState((prev) => ({
+      ...prev,
+      [name]: +value,
+    }));
+  }, []);
+
   return (
     <section
       className={layoutStyles.bodyWrapper({ modalPosition, isFullWidth })}>
       <Header onToggle={onToggle} />
       <div className={layoutStyles.innerWrapper}>
         <div className={layoutStyles.contentWrapper}>
-          <CanvasV2 ref={canvasRef} canvasState={canvasStateWithColors} />
+          <Canvas ref={canvasRef} canvasState={canvasStateWithColors} />
 
           <div
             className={contentStyles.thumbnailGeneratorIconControllerWrapper}>
@@ -299,22 +310,46 @@ const ThumbnailGeneratorContent = ({
 
             <Divider color="#d3d1d1" height={20} width={1} />
 
-            <ColorPicker
-              color={strokeColor}
-              setColor={onChangeStrokeColor}
-              toggleIsBlockEvent={toggleIsBlockEvent}>
-              <img src={stroke} width={20} height={20} />
-            </ColorPicker>
-            <Select
-              name="fontStrokeType"
-              value={canvasState.fontStrokeType}
-              onChange={onChangeSelectValue}>
-              {strokeTypes.map((item) => (
-                <SelectItem value={item} key={item}>
-                  {item}
-                </SelectItem>
-              ))}
-            </Select>
+            <IconButton
+              hasBorder
+              onMouseEnter={(e) => e.preventDefault()}
+              onClick={() => setIsOpenMoreOptions((prev) => !prev)}>
+              <MoreDotIcon width={20} height={20} />
+            </IconButton>
+
+            {isOpenMoreOptions && (
+              <div
+                className={contentStyles.thumbnailGeneratorMoreOptionsWrapper}>
+                <RangeInput
+                  hasInput={false}
+                  label={`Line Height`}
+                  name="lineHeight"
+                  min={-3}
+                  max={3}
+                  value={String(canvasState.lineHeight)}
+                  onChange={handleChangeRange}
+                />
+
+                <Divider color="#d3d1d1" height={20} width={1} />
+
+                <ColorPicker
+                  color={strokeColor}
+                  setColor={onChangeStrokeColor}
+                  toggleIsBlockEvent={toggleIsBlockEvent}>
+                  <img src={stroke} width={20} height={20} />
+                </ColorPicker>
+                <Select
+                  name="fontStrokeType"
+                  value={canvasState.fontStrokeType}
+                  onChange={onChangeSelectValue}>
+                  {strokeTypes.map((item) => (
+                    <SelectItem value={item} key={item}>
+                      {item}
+                    </SelectItem>
+                  ))}
+                </Select>
+              </div>
+            )}
           </div>
 
           <div className={contentStyles.thumbnailGeneratorTextareaWrapper}>
