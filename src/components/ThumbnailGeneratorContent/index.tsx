@@ -27,7 +27,7 @@ import { downloadCanvas } from '@utils/common';
 import IconButton from '@components/IconButton';
 import * as layoutStyles from '../Layout/layout.css';
 import * as contentStyles from './ThumbnailGeneratorContent.css';
-import { useDebounce } from '@modern-kit/react';
+import { useDebounce, useOutsidePointerDown } from '@modern-kit/react';
 import Canvas from '@components/Canvas';
 import Konva from 'konva';
 import FontBoldIcon from '@assets/FontBoldIcon';
@@ -71,6 +71,12 @@ const ThumbnailGeneratorContent = ({
   isFullWidth,
   onToggle,
 }: ThumbnailGeneratorContentProps) => {
+  const { ref: moreOptionsRef } = useOutsidePointerDown<HTMLDivElement>(() => {
+    if (!canvasState.isBlockEvent) {
+      setIsOpenMoreOptions(false);
+    }
+  });
+
   const [isOpenMoreOptions, setIsOpenMoreOptions] = useState(false);
 
   const [canvasState, setCanvasState] =
@@ -312,13 +318,14 @@ const ThumbnailGeneratorContent = ({
 
             <IconButton
               hasBorder
-              onMouseEnter={(e) => e.preventDefault()}
+              isOpen={isOpenMoreOptions}
               onClick={() => setIsOpenMoreOptions((prev) => !prev)}>
               <MoreDotIcon width={20} height={20} />
             </IconButton>
 
             {isOpenMoreOptions && (
               <div
+                ref={moreOptionsRef}
                 className={contentStyles.thumbnailGeneratorMoreOptionsWrapper}>
                 <RangeInput
                   hasInput={false}
