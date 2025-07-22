@@ -1,9 +1,9 @@
 import React, { forwardRef, useEffect, useRef } from 'react';
 import { Layer, Text, Stage, Transformer, Rect } from 'react-konva';
 import { CanvasStateWithColors, StrokeTypes } from '../../interfaces/common';
-import Konva from 'konva';
 import { useMergeRefs, useOutsidePointerDown } from '@modern-kit/react';
 import * as styles from './Canvas.css';
+import Konva from 'konva';
 
 interface CanvasV2Props {
   canvasState: CanvasStateWithColors;
@@ -30,7 +30,7 @@ const CanvasV2 = forwardRef(({ canvasState }: CanvasV2Props, ref) => {
   const textRef = useRef<Konva.Text>(null);
   const rectRef = useRef<Konva.Rect>(null);
 
-  const handleDragEnd = (e: Konva.KonvaEventObject<MouseEvent>) => {
+  const handleDragEnd = () => {
     if (!stageRef.current) return;
     if (!textRef.current) return;
 

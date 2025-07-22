@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { toggleButton } from '@assets/icons';
 import Portal from '@components/Portal';
