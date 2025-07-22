@@ -1,16 +1,18 @@
-import React, { useMemo } from 'react';
+import React, { CSSProperties, useMemo } from 'react';
 
 interface DividerProps {
-  height: number;
+  width?: CSSProperties['width'];
+  height: CSSProperties['height'];
   color: string;
-  margin: [number, number, number, number];
+  margin?: [number, number, number, number];
 }
 
-const Divider = ({ height, color, margin }: DividerProps) => {
-  const [mt, mr, mb, ml] = margin;
+const Divider = ({ width = '100%', height, color, margin }: DividerProps) => {
+  const [mt, mr, mb, ml] = margin ?? [0, 0, 0, 0];
 
   const style = useMemo(
     () => ({
+      width,
       height,
       backgroundColor: color,
       marginTop: mt,
@@ -18,7 +20,7 @@ const Divider = ({ height, color, margin }: DividerProps) => {
       marginBottom: mb,
       marginLeft: ml,
     }),
-    []
+    [],
   );
 
   return <div style={style} />;

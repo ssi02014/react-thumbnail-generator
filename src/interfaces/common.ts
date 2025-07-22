@@ -9,7 +9,6 @@ export type TextAlign = 'center' | 'left' | 'right';
 
 export interface CanvasState {
   value: string;
-  fontSize: number;
   fontStrokeType: StrokeTypes;
   fontFamily: string;
   canvasWidth: number;

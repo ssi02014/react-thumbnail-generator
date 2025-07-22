@@ -3,7 +3,7 @@ import { SelectContext } from './index';
 import * as styles from './Select.css';
 
 interface SelectItemProps {
-  children: string;
+  children: React.ReactNode;
   value: string | number;
 }
 
@@ -20,7 +20,11 @@ const SelectItem = ({ children, value }: SelectItemProps) => {
   return (
     <li
       className={
-        styles.selectListItem[selectValue === value ? 'active' : 'default']
+        styles.selectListItem[
+          String(selectValue).toLowerCase() === String(value).toLowerCase()
+            ? 'active'
+            : 'default'
+        ]
       }
       onClick={() => onChange(value)}>
       {children}

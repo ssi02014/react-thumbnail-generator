@@ -1,9 +1,9 @@
-import { createVar, style, styleVariants } from '@vanilla-extract/css';
+import { style, styleVariants } from '@vanilla-extract/css';
 
 export const selectWrapper = style({
   position: 'relative',
-  minWidth: '150px',
-  maxWidth: '150px',
+  minWidth: '120px',
+  maxWidth: '120px',
 });
 
 export const selectLabel = style({
@@ -43,10 +43,10 @@ export const selectInput = styleVariants({
 
 export const selectInputText = style({
   margin: 0,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
   fontSize: '0.9rem',
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
 });
 
 export const selectItemContainer = style({

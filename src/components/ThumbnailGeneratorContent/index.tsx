@@ -10,20 +10,12 @@ import SelectItem from '../Select/SelectItem';
 import TextInput from '../Inputs/TextInput';
 import FileInput from '../Inputs/FileInput';
 import Divider from '../Divider';
-import Accordion from '../Accordion';
 import ColorPicker from '../ColorPicker';
-import RangeInput from '../Inputs/RangeInput';
 import Header from '../Layout/Header';
-import {
-  fontFamilies,
-  fontStyles,
-  imageTypes,
-  strokeTypes,
-} from '@constants/select';
+import { fontFamilies, imageTypes, strokeTypes } from '@constants/select';
 import { CanvasState, Color } from '@interfaces/common';
 import {
   fill,
-  font,
   stroke,
   blur,
   alignStart,
@@ -38,6 +30,9 @@ import * as contentStyles from './ThumbnailGeneratorContent.css';
 import { useDebounce } from '@modern-kit/react';
 import CanvasV2 from '@components/Canvas/CanvasV2';
 import Konva from 'konva';
+import FontBoldIcon from '@assets/FontBoldIcon';
+import FontItalicIcon from '@assets/FontItalicIcon';
+import FontColorIcon from '@assets/FontColorIcon';
 
 interface ThumbnailGeneratorContentProps {
   additionalFontFamily?: string[];
@@ -48,7 +43,6 @@ interface ThumbnailGeneratorContentProps {
 
 const initialCanvasState: CanvasState = {
   value: 'Simple Thumbnail\nGenerator 😁',
-  fontSize: 30,
   fontStrokeType: 'None',
   textAlign: 'center',
   fontFamily: 'Arial',
@@ -244,17 +238,12 @@ const ThumbnailGeneratorContent = ({
     downloadCanvas(canvasRef, canvasState.imageType);
   }, [canvasState.imageType]);
 
-  const handleChangeRange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = e.target;
-
-      setCanvasState((prev) => ({
-        ...prev,
-        [name]: +value,
-      }));
-    },
-    [canvasState.canvasHeight, canvasState.fontSize],
-  );
+  const handleToggleFontStyle = useCallback((style: 'bold' | 'italic') => {
+    setCanvasState((prev) => ({
+      ...prev,
+      fontStyle: prev.fontStyle === style ? 'normal' : style,
+    }));
+  }, []);
 
   return (
     <section
@@ -264,11 +253,19 @@ const ThumbnailGeneratorContent = ({
         <div className={layoutStyles.contentWrapper}>
           <CanvasV2 ref={canvasRef} canvasState={canvasStateWithColors} />
 
-          <div className={contentStyles.thumbnailGeneratorControllerWrapper}>
+          <div
+            className={contentStyles.thumbnailGeneratorIconControllerWrapper}>
+            <Select
+              name="fontFamily"
+              value={canvasState.fontFamily}
+              onChange={onChangeSelectValue}>
+              {fontFamilyOptions.map((item) => (
+                <SelectItem value={item} key={item}>
+                  {item}
+                </SelectItem>
+              ))}
+            </Select>
             <FileInput onChangeImage={onChangeImage} />
-            <IconButton hasBorder onClick={onChangeTextAlign}>
-              <img src={textAlignIcon} width={20} height={20} />
-            </IconButton>
 
             <ColorPicker
               color={bgColor}
@@ -276,24 +273,51 @@ const ThumbnailGeneratorContent = ({
               toggleIsBlockEvent={toggleIsBlockEvent}>
               <img src={fill} width={20} height={20} />
             </ColorPicker>
+            <IconButton hasBorder onClick={toggleCanvasBlur}>
+              <img src={blur} width={20} height={20} />
+            </IconButton>
+
+            <Divider color="#d3d1d1" height={20} width={1} />
+
+            <IconButton hasBorder onClick={onChangeTextAlign}>
+              <img src={textAlignIcon} width={20} height={20} />
+            </IconButton>
             <ColorPicker
               color={fontColor}
               setColor={setFontColor}
               toggleIsBlockEvent={toggleIsBlockEvent}>
-              <img src={font} width={20} height={20} />
+              <FontColorIcon width={20} height={20} viewBox="0 0 24 24" />
             </ColorPicker>
+            <IconButton hasBorder onClick={() => handleToggleFontStyle('bold')}>
+              <FontBoldIcon width={20} height={20} />
+            </IconButton>
+            <IconButton
+              hasBorder
+              onClick={() => handleToggleFontStyle('italic')}>
+              <FontItalicIcon width={20} height={20} />
+            </IconButton>
+
+            <Divider color="#d3d1d1" height={20} width={1} />
+
             <ColorPicker
               color={strokeColor}
               setColor={onChangeStrokeColor}
               toggleIsBlockEvent={toggleIsBlockEvent}>
               <img src={stroke} width={20} height={20} />
             </ColorPicker>
-            <IconButton hasBorder onClick={toggleCanvasBlur}>
-              <img src={blur} width={20} height={20} />
-            </IconButton>
+            <Select
+              name="fontStrokeType"
+              value={canvasState.fontStrokeType}
+              onChange={onChangeSelectValue}>
+              {strokeTypes.map((item) => (
+                <SelectItem value={item} key={item}>
+                  {item}
+                </SelectItem>
+              ))}
+            </Select>
           </div>
 
-          <div className={contentStyles.thumbnailGeneratorControllerWrapper}>
+          <div className={contentStyles.thumbnailGeneratorTextareaWrapper}>
             <textarea
               className={contentStyles.thumbnailGeneratorTextArea}
               name="value"
@@ -303,82 +327,24 @@ const ThumbnailGeneratorContent = ({
               placeholder="THUMBNAIL TEXT"
             />
           </div>
-
-          <Divider color="#f3f3f3" height={10} margin={[10, 0, 10, 0]} />
-
-          <Accordion title="Font Options">
-            <div className={contentStyles.thumbnailGeneratorControllerWrapper}>
-              <RangeInput
-                hasInput={false}
-                label={`Line Height`}
-                name="lineHeight"
-                min={0.1}
-                max={5}
-                value={String(canvasState.lineHeight)}
-                onChange={handleChangeRange}
-              />
-            </div>
-
-            <div className={contentStyles.thumbnailGeneratorControllerWrapper}>
-              <Select
-                name="fontFamily"
-                label="Font Family"
-                value={canvasState.fontFamily}
-                onChange={onChangeSelectValue}>
-                {fontFamilyOptions.map((item) => (
-                  <SelectItem value={item} key={item}>
-                    {item}
-                  </SelectItem>
-                ))}
-              </Select>
-              <Select
-                name="fontStrokeType"
-                label="Font Stroke"
-                value={canvasState.fontStrokeType}
-                onChange={onChangeSelectValue}>
-                {strokeTypes.map((item) => (
-                  <SelectItem value={item} key={item}>
-                    {item}
-                  </SelectItem>
-                ))}
-              </Select>
-
-              <Select
-                name="fontStyle"
-                label="Font Style"
-                value={canvasState.fontStyle}
-                onChange={onChangeSelectValue}>
-                {fontStyles.map((item) => (
-                  <SelectItem value={item.toLowerCase()} key={item}>
-                    {item}
-                  </SelectItem>
-                ))}
-              </Select>
-            </div>
-          </Accordion>
-
-          <Divider color="#f3f3f3" height={10} margin={[10, 0, 10, 0]} />
-
-          <Accordion title="Canvas Options">
-            <div className={contentStyles.thumbnailGeneratorControllerWrapper}>
-              <TextInput
-                name="canvasWidth"
-                label={`Canvas Width (max: ${window.innerWidth}px)`}
-                value={canvasSize.canvasWidth}
-                onChange={onChangeCanvasSize}
-                disabled={!!canvasState.selectedImage}
-                width={200}
-              />
-              <TextInput
-                name="canvasHeight"
-                label="Canvas Height"
-                value={canvasSize.canvasHeight}
-                onChange={onChangeCanvasSize}
-                disabled={!!canvasState.selectedImage}
-                width={200}
-              />
-            </div>
-          </Accordion>
+          <div className={contentStyles.thumbnailGeneratorControllerWrapper}>
+            <TextInput
+              name="canvasWidth"
+              label={`Canvas Width (max: ${window.innerWidth}px)`}
+              value={canvasSize.canvasWidth}
+              onChange={onChangeCanvasSize}
+              disabled={!!canvasState.selectedImage}
+              width={200}
+            />
+            <TextInput
+              name="canvasHeight"
+              label="Canvas Height"
+              value={canvasSize.canvasHeight}
+              onChange={onChangeCanvasSize}
+              disabled={!!canvasState.selectedImage}
+              width={200}
+            />
+          </div>
 
           <Divider color="#f3f3f3" height={10} margin={[10, 0, 0, 0]} />
 
@@ -395,7 +361,6 @@ const ThumbnailGeneratorContent = ({
               ))}
             </Select>
           </div>
-
           <div className={contentStyles.thumbnailGeneratorButtonWrapper}>
             <button
               className={contentStyles.thumbnailGeneratorButton}

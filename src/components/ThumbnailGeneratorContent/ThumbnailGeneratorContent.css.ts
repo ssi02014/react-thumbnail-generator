@@ -41,7 +41,7 @@ export const thumbnailGeneratorOpenButton = recipe({
 });
 
 export const thumbnailGeneratorTextArea = style({
-  width: '350px',
+  width: '100%',
   height: 'auto',
   padding: '5px 10px',
   border: '1px solid #cccccc',
@@ -88,6 +88,21 @@ export const thumbnailGeneratorControllerWrapper = style({
   alignItems: 'center',
   marginTop: '10px',
   gap: '10px',
+});
+
+export const thumbnailGeneratorTextareaWrapper = style({
+  padding: '10px 10px 0px 10px',
+});
+
+export const thumbnailGeneratorIconControllerWrapper = style({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: '8px',
+  backgroundColor: '#fcfcfc',
+  borderBottom: '1px solid #ebedf2',
+  padding: '8px 10px',
+  borderRadius: '5px',
 });
 
 globalStyle(`${thumbnailGeneratorControllerWrapper} > input[type='range']`, {

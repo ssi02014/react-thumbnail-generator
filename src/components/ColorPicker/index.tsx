@@ -71,7 +71,7 @@ const ColorPicker = ({
     return {
       position: 'absolute',
       left: `${coordinates.x}px`,
-      top: `${coordinates.y - 300}px`,
+      top: `${coordinates.y - 360}px`,
       transform: 'translateX(-50%)',
       zIndex: '9999',
     };

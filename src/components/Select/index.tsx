@@ -18,7 +18,7 @@ interface SelectProps
   extends Omit<ComponentProps<'div'>, 'ref' | 'children' | 'onChange'> {
   name: string;
   children: React.ReactNode;
-  label: string;
+  label?: string;
   value: string | number;
   onChange: (name: string, value: string | number) => void;
 }
@@ -70,7 +70,7 @@ const Select = ({
     <SelectContext.Provider
       value={{ color, selectValue: value, onChange: handleChange }}>
       <div className={styles.selectWrapper}>
-        <span className={styles.selectLabel}>{label}</span>
+        {label && <span className={styles.selectLabel}>{label}</span>}
         <div
           className={styles.selectInput[isOpenSelect ? 'isOpen' : 'default']}
           ref={inputRef}

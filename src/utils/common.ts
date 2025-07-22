@@ -13,7 +13,7 @@ export const getValidMessage = (condition: boolean, type: ValidType) => {
   return '';
 };
 
-const download = (url: string, imageType: string = 'png') => {
+const download = (url: string, imageType: 'png' | 'jpg' | 'webp' = 'png') => {
   const link = document.createElement('a');
 
   link.href = url as string;
@@ -31,4 +31,8 @@ export const downloadCanvas = (
     const url = ref.current.toDataURL();
     download(url, imageType);
   }
+};
+
+export const capitalize = (str: string) => {
+  return str[0].toUpperCase() + str.slice(1);
 };

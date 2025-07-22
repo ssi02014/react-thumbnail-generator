@@ -13,7 +13,6 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
     lineHeight,
     canvasWidth,
     canvasHeight,
-    fontSize,
     fontStrokeType,
     selectedImage,
     fontFamily,
@@ -109,7 +108,7 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
 
   const fillCanvasMultiLineText = useCallback(
     (ctx: CanvasRenderingContext2D, lines: string[]) => {
-      const size = fontSize;
+      const size = 0;
       const fontLineHeight = size + +lineHeight;
       let lineMaxWidth = 0;
 
@@ -135,13 +134,13 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
         ctx.restore();
       });
     },
-    [fontColor, fontSize, lineHeight, getMultiLinePosition, setFontStroke],
+    [fontColor, lineHeight, getMultiLinePosition, setFontStroke],
   );
 
   const setCanvasText = useCallback(
     (ctx: CanvasRenderingContext2D) => {
       const lines = value.split('\n');
-      const size = +fontSize;
+      const size = +0;
 
       ctx.font = `${size}px ${fontFamily}`;
       ctx.textAlign = textAlign;
@@ -154,14 +153,7 @@ const Canvas = React.forwardRef(({ canvasState }: CanvasProps, ref: any) => {
 
       ctx.restore();
     },
-    [
-      value,
-      fontSize,
-      fontFamily,
-      textAlign,
-      rotateCanvas,
-      fillCanvasMultiLineText,
-    ],
+    [value, fontFamily, textAlign, rotateCanvas, fillCanvasMultiLineText],
   );
 
   const fillBackground = useCallback(

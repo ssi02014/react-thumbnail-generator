@@ -1,8 +1,9 @@
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useRef } from 'react';
 import { Layer, Text, Stage, Transformer, Rect } from 'react-konva';
 import { CanvasStateWithColors, StrokeTypes } from '../../interfaces/common';
 import Konva from 'konva';
 import { useMergeRefs, useOutsidePointerDown } from '@modern-kit/react';
+import * as styles from './Canvas.css';
 
 interface CanvasV2Props {
   canvasState: CanvasStateWithColors;
@@ -91,15 +92,6 @@ const CanvasV2 = forwardRef(({ canvasState }: CanvasV2Props, ref) => {
 
   useEffect(() => {
     if (!rectRef.current) return;
-    if (canvasState.selectedImage) {
-      rectRef.current.fillPatternImage(canvasState.selectedImage);
-    } else {
-      rectRef.current.fill(canvasState.bgColor.hex);
-    }
-  }, [canvasState.selectedImage, canvasState.bgColor]);
-
-  useEffect(() => {
-    if (!rectRef.current) return;
     const withBlur = canvasState.isBlur && canvasState.selectedImage;
 
     if (withBlur) {
@@ -112,7 +104,7 @@ const CanvasV2 = forwardRef(({ canvasState }: CanvasV2Props, ref) => {
   }, [canvasState.selectedImage, canvasState.isBlur]);
 
   return (
-    <div ref={outsideRef}>
+    <div ref={outsideRef} className={styles.canvasWrapper}>
       <Stage
         ref={useMergeRefs(stageRef, ref)}
         width={canvasState.canvasWidth}
@@ -154,11 +146,18 @@ const CanvasV2 = forwardRef(({ canvasState }: CanvasV2Props, ref) => {
             draggable
           />
 
-          <Transformer ref={transformerRef} centeredScaling />
+          <Transformer
+            ref={transformerRef}
+            anchorCornerRadius={10}
+            borderStrokeWidth={2}
+            centeredScaling
+          />
         </Layer>
       </Stage>
     </div>
   );
 });
+
+CanvasV2.displayName = 'CanvasV2';
 
 export default CanvasV2;

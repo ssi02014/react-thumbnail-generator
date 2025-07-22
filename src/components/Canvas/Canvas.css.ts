@@ -3,6 +3,7 @@ import { style } from '@vanilla-extract/css';
 export const canvasWrapper = style({
   display: 'flex',
   justifyContent: 'center',
+  alignItems: 'center',
   width: '100%',
 });
 
