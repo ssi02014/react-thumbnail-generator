@@ -1,12 +1,11 @@
 import React from 'react';
 import { Meta, StoryFn } from '@storybook/react-vite';
 import ThumbnailGenerator from '../../index';
-import { Size } from '@utils/style';
 
 interface Props {
-  iconSize?: Size;
+  iconSize?: 'small' | 'medium' | 'large';
   modalPosition?: 'left' | 'right' | 'center';
-  iconPosition?: [number, number, number, number];
+  iconPosition?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
   isFullWidth?: boolean;
 }
 
@@ -40,6 +39,6 @@ const Template: ThumbnailGeneratorStory = ({
 export const Default: ThumbnailGeneratorStory = Template.bind({
   iconSize: 'medium',
   modalPosition: 'right',
-  iconPosition: [0, 20, 20, 0],
+  iconPosition: 'bottom-right',
   isFullWidth: false,
 });

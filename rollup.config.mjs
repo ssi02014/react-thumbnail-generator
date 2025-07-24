@@ -6,7 +6,6 @@ import alias from '@rollup/plugin-alias';
 import pkg from './package.json' assert { type: 'json' };
 import path from 'path';
 import esbuild from 'rollup-plugin-esbuild';
-import { vanillaExtractPlugin } from '@vanilla-extract/rollup-plugin';
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx'];
 const __dirname = path.resolve();
@@ -18,32 +17,15 @@ export default {
       file: pkg.main,
       sourcemap: true,
       format: 'cjs',
-      assetFileNames({ name }) {
-        return (
-          name?.replace(
-            /src\/(.*)(?:\/.*)*\/(.*)\.css\.ts\.vanilla\.css$/,
-            '$1/$2.css',
-          ) ?? ''
-        );
-      },
     },
     {
       file: pkg.module,
       sourcemap: true,
       format: 'esm',
-      assetFileNames({ name }) {
-        return (
-          name?.replace(
-            /src\/(.*)(?:\/.*)*\/(.*)\.css\.ts\.vanilla\.css$/,
-            '$1/$2.css',
-          ) ?? ''
-        );
-      },
     },
   ],
   external: ['react', 'react-dom'],
   plugins: [
-    vanillaExtractPlugin(),
     peerDepsExternal(),
     nodeResolve({
       extensions,

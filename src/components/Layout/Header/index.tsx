@@ -1,7 +1,7 @@
 import React from 'react';
 import { close } from '@assets/icons';
 import IconButton from '@components/IconButton';
-import * as styles from './Header.css';
+import { HeaderWrapper, HeaderButton } from './Header.styled';
 
 interface HeaderProps {
   onToggle: () => void;
@@ -9,14 +9,13 @@ interface HeaderProps {
 
 const Header = ({ onToggle }: HeaderProps) => {
   return (
-    <header className={styles.headerWrapper}>
-      <IconButton
-        className={styles.headerButton}
-        onClick={onToggle}
-        hasBorder={false}>
-        <img src={close} width={20} height={20} />
-      </IconButton>
-    </header>
+    <HeaderWrapper>
+      <HeaderButton>
+        <IconButton onClick={onToggle} hasBorder={false}>
+          <img src={close} width={20} height={20} />
+        </IconButton>
+      </HeaderButton>
+    </HeaderWrapper>
   );
 };
 
