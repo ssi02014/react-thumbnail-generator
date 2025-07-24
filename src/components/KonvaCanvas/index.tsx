@@ -2,7 +2,7 @@ import React, { forwardRef, useEffect, useRef } from 'react';
 import { Layer, Text, Stage, Transformer, Rect } from 'react-konva';
 import { CanvasStateWithColors, StrokeTypes } from '../../interfaces/common';
 import { useMergeRefs, useOutsidePointerDown } from '@modern-kit/react';
-import * as styles from './Canvas.css';
+import * as styles from './KonvaCanvas.css';
 import Konva from 'konva';
 
 interface CanvasV2Props {
@@ -20,7 +20,7 @@ const getStrokeWidth = (strokeType: StrokeTypes) => {
   return strokeWidth[strokeType];
 };
 
-const CanvasV2 = forwardRef(({ canvasState }: CanvasV2Props, ref) => {
+const KonvaCanvas = forwardRef(({ canvasState }: CanvasV2Props, ref) => {
   const { ref: outsideRef } = useOutsidePointerDown<any>(() => {
     transformerRef.current?.nodes([]);
   });
@@ -104,7 +104,7 @@ const CanvasV2 = forwardRef(({ canvasState }: CanvasV2Props, ref) => {
   }, [canvasState.selectedImage, canvasState.isBlur]);
 
   return (
-    <div ref={outsideRef} className={styles.canvasWrapper}>
+    <div ref={outsideRef} className={styles.konvaCanvasWrapper}>
       <Stage
         ref={useMergeRefs(stageRef, ref)}
         width={canvasState.canvasWidth}
@@ -158,6 +158,6 @@ const CanvasV2 = forwardRef(({ canvasState }: CanvasV2Props, ref) => {
   );
 });
 
-CanvasV2.displayName = 'CanvasV2';
+KonvaCanvas.displayName = 'KonvaCanvas';
 
-export default CanvasV2;
+export default KonvaCanvas;

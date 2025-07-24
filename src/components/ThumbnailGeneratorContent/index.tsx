@@ -28,7 +28,7 @@ import IconButton from '@components/IconButton';
 import * as layoutStyles from '../Layout/layout.css';
 import * as contentStyles from './ThumbnailGeneratorContent.css';
 import { useDebounce, useOutsidePointerDown } from '@modern-kit/react';
-import Canvas from '@components/Canvas';
+import KonvaCanvas from '@components/KonvaCanvas';
 import Konva from 'konva';
 import FontBoldIcon from '@assets/FontBoldIcon';
 import FontItalicIcon from '@assets/FontItalicIcon';
@@ -268,7 +268,7 @@ const ThumbnailGeneratorContent = ({
       <Header onToggle={onToggle} />
       <div className={layoutStyles.innerWrapper}>
         <div className={layoutStyles.contentWrapper}>
-          <Canvas ref={canvasRef} canvasState={canvasStateWithColors} />
+          <KonvaCanvas ref={canvasRef} canvasState={canvasStateWithColors} />
 
           <div
             className={contentStyles.thumbnailGeneratorIconControllerWrapper}>

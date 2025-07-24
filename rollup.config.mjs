@@ -7,6 +7,7 @@ import pkg from './package.json' assert { type: 'json' };
 import path from 'path';
 import esbuild from 'rollup-plugin-esbuild';
 import { vanillaExtractPlugin } from '@vanilla-extract/rollup-plugin';
+import json from '@rollup/plugin-json';
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx'];
 const __dirname = path.resolve();
@@ -22,7 +23,7 @@ export default {
         return (
           name?.replace(
             /src\/(.*)(?:\/.*)*\/(.*)\.css\.ts\.vanilla\.css$/,
-            '$1/$2.css'
+            '$1/$2.css',
           ) ?? ''
         );
       },
@@ -35,7 +36,7 @@ export default {
         return (
           name?.replace(
             /src\/(.*)(?:\/.*)*\/(.*)\.css\.ts\.vanilla\.css$/,
-            '$1/$2.css'
+            '$1/$2.css',
           ) ?? ''
         );
       },
@@ -47,6 +48,7 @@ export default {
     peerDepsExternal(),
     nodeResolve({
       extensions,
+      browser: true,
     }),
     commonjs({ include: 'node_modules/**' }),
     esbuild(),
@@ -54,6 +56,7 @@ export default {
     alias({
       entries: [{ find: '@', replacement: path.resolve(__dirname, './src') }],
     }),
+    json(),
   ],
   onwarn: (warning, warn) => {
     if (

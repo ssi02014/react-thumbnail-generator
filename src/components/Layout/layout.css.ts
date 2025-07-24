@@ -41,6 +41,8 @@ export const bodyWrapper = recipe({
 });
 
 globalStyle(`${bodyWrapper} > *`, {
+  margin: 0,
+  padding: 0,
   boxSizing: 'border-box',
 });
 
