@@ -1,5 +1,8 @@
 import { useState } from 'react';
 
+/**
+ * @deprecated
+ */
 const useDragAndDropText = (canvasWidth: number, canvasHeight: number) => {
   const [dragAndDropTextData, setDragAndDropTextData] = useState({
     offsetX: 0,

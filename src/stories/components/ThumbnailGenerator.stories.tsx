@@ -1,25 +1,7 @@
 import React from 'react';
-import { StoryFn } from '@storybook/react';
-import ThumbnailGenerator from '@lib/ThumbnailGenerator';
+import { Meta, StoryFn } from '@storybook/react-vite';
+import ThumbnailGenerator from '../../index';
 import { Size } from '@utils/style';
-
-export default {
-  title: 'components/ThumbnailGenerator',
-  argTypes: {
-    modalPosition: {
-      options: ['left', 'right', 'center'],
-      control: { type: 'select' },
-    },
-    iconSize: {
-      options: ['small', 'medium', 'large'],
-      control: { type: 'select' },
-    },
-    isFullWidth: {
-      options: [true, false],
-      control: { type: 'select' },
-    },
-  },
-};
 
 interface Props {
   iconSize?: Size;
@@ -28,7 +10,17 @@ interface Props {
   isFullWidth?: boolean;
 }
 
-const Template: StoryFn = ({
+type ThumbnailGeneratorMeta = Meta<typeof ThumbnailGenerator>;
+type ThumbnailGeneratorStory = StoryFn<typeof ThumbnailGenerator>;
+
+const meta: ThumbnailGeneratorMeta = {
+  title: 'components/ThumbnailGenerator',
+  component: ThumbnailGenerator,
+};
+
+export default meta;
+
+const Template: ThumbnailGeneratorStory = ({
   modalPosition,
   iconPosition,
   iconSize,
@@ -45,13 +37,9 @@ const Template: StoryFn = ({
   );
 };
 
-export const Default = {
-  render: Template,
-
-  args: {
-    iconSize: 'medium',
-    modalPosition: 'right',
-    iconPosition: [0, 20, 20, 0],
-    isFullWidth: false,
-  },
-};
+export const Default: ThumbnailGeneratorStory = Template.bind({
+  iconSize: 'medium',
+  modalPosition: 'right',
+  iconPosition: [0, 20, 20, 0],
+  isFullWidth: false,
+});

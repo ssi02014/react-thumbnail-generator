@@ -6,8 +6,7 @@ import React, {
   useEffect,
   ComponentProps,
 } from 'react';
-import * as S from './styled';
-import Icon from '../Icon';
+import * as styles from './Select.css';
 
 interface SelectContextProps {
   color?: string;
@@ -19,13 +18,13 @@ interface SelectProps
   extends Omit<ComponentProps<'div'>, 'ref' | 'children' | 'onChange'> {
   name: string;
   children: React.ReactNode;
-  label: string;
+  label?: string;
   value: string | number;
   onChange: (name: string, value: string | number) => void;
 }
 
 export const SelectContext = React.createContext<SelectContextProps | null>(
-  null
+  null,
 );
 
 const Select = ({
@@ -51,7 +50,7 @@ const Select = ({
         setIsOpenSelect(false);
       }
     },
-    [onChange]
+    [onChange],
   );
 
   useEffect(() => {
@@ -70,25 +69,25 @@ const Select = ({
   return (
     <SelectContext.Provider
       value={{ color, selectValue: value, onChange: handleChange }}>
-      <S.SelectWrapper>
-        <label>{label}</label>
-        <S.SelectInput
+      <div className={styles.selectWrapper}>
+        {label && <span className={styles.selectLabel}>{label}</span>}
+        <div
+          className={styles.selectInput[isOpenSelect ? 'isOpen' : 'default']}
           ref={inputRef}
-          onClick={handleToggleSelect}
-          isOpenSelect={isOpenSelect}>
-          <p>{value}</p>
-          <p>
-            {isOpenSelect ? (
-              <Icon src={arrowTop} width={12} height={12} />
-            ) : (
-              <Icon src={arrowBottom} width={12} height={12} />
-            )}
+          onClick={handleToggleSelect}>
+          <p className={styles.selectInputText}>{value}</p>
+          <p className={styles.selectInputText}>
+            <img
+              src={isOpenSelect ? arrowTop : arrowBottom}
+              width={12}
+              height={12}
+            />
           </p>
-        </S.SelectInput>
+        </div>
         {isOpenSelect && (
-          <S.SelectItemContainer>{children}</S.SelectItemContainer>
+          <ul className={styles.selectItemContainer}>{children}</ul>
         )}
-      </S.SelectWrapper>
+      </div>
     </SelectContext.Provider>
   );
 };

@@ -1,53 +1,39 @@
-import React, { useCallback, useRef, useState } from 'react';
-import * as S from './styled';
+import React, { useCallback } from 'react';
 import { arrowBottom, arrowTop } from '@assets/icons';
-import Icon from '../../components/Icon';
 import { useToggle } from '@modern-kit/react';
+import * as styles from './Accordion.css';
 
 interface AccordionProps {
   title: string;
   children: React.ReactNode;
-  maxHeight?: number;
 }
 
-const Accordion = ({ title, children, maxHeight = 200 }: AccordionProps) => {
-  const panelRef = useRef<HTMLDivElement>(null);
+/**
+ * @deprecated
+ */
+const Accordion = ({ title, children }: AccordionProps) => {
   const [isOpenPanel, setIsOpenPanel] = useToggle();
 
   const handleToggle = useCallback(() => {
     setIsOpenPanel();
-
-    if (!panelRef.current) return;
-    if (isOpenPanel) {
-      panelRef.current.style.overflow = 'hidden';
-      return;
-    }
-    setTimeout(() => {
-      if (!panelRef.current) return;
-      panelRef.current.style.overflow = 'visible';
-    }, 300);
   }, [isOpenPanel]);
 
   return (
-    <S.AccordionWrapper>
-      <S.AccordionTopContainer onClick={handleToggle}>
-        <p>{title}</p>
+    <div className={styles.accordionWrapper}>
+      <div className={styles.accordionTopContainer} onClick={handleToggle}>
+        <p className={styles.accordionTitle}>{title}</p>
         <span>
-          {isOpenPanel ? (
-            <Icon src={arrowTop} width={14} height={14} />
-          ) : (
-            <Icon src={arrowBottom} width={14} height={14} />
-          )}
+          <img
+            src={isOpenPanel ? arrowTop : arrowBottom}
+            width={14}
+            height={14}
+          />
         </span>
-      </S.AccordionTopContainer>
-      <S.AccordionPanelContainer
-        ref={panelRef}
-        isOpen={isOpenPanel}
-        maxHeight={maxHeight}
-        className={isOpenPanel ? 'active' : ''}>
+      </div>
+      <div className={styles.accordionPanelContainer({ isOpen: isOpenPanel })}>
         {children}
-      </S.AccordionPanelContainer>
-    </S.AccordionWrapper>
+      </div>
+    </div>
   );
 };
 

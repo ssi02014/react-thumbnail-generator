@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import * as S from './styled';
 import { SelectContext } from './index';
+import * as styles from './Select.css';
 
 interface SelectItemProps {
-  children: string;
+  children: React.ReactNode;
   value: string | number;
 }
 
@@ -14,15 +14,21 @@ interface SelectContextProps {
 
 const SelectItem = ({ children, value }: SelectItemProps) => {
   const { selectValue, onChange } = useContext(
-    SelectContext
+    SelectContext,
   ) as SelectContextProps;
 
   return (
-    <S.SelectListItem
-      className={selectValue === value ? 'active' : ''}
+    <li
+      className={
+        styles.selectListItem[
+          String(selectValue).toLowerCase() === String(value).toLowerCase()
+            ? 'active'
+            : 'default'
+        ]
+      }
       onClick={() => onChange(value)}>
       {children}
-    </S.SelectListItem>
+    </li>
   );
 };
 

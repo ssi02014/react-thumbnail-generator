@@ -1,8 +1,10 @@
 import React, { ComponentProps, useMemo } from 'react';
 import TextInput from '../TextInput';
-import * as S from './styled';
+import * as styles from './RangeInput.css';
+import { assignInlineVars } from '@vanilla-extract/dynamic';
 
 interface RangeInputProps extends ComponentProps<'input'> {
+  hasInput?: boolean;
   value: string;
   min: number;
   max: number;
@@ -10,6 +12,7 @@ interface RangeInputProps extends ComponentProps<'input'> {
 }
 
 const RangeInput = ({
+  hasInput = true,
   label,
   name,
   min,
@@ -22,22 +25,36 @@ const RangeInput = ({
     return ((+value - min) * 100) / (max - min) + '% 100%';
   }, [min, max, value]);
 
+  const rangeInputStyle = useMemo(() => {
+    return {
+      ...assignInlineVars({
+        [styles.backgroundSizeVar]: backgroundSize,
+      }),
+    };
+  }, [backgroundSize]);
+
   return (
-    <S.RangeInputWrapper>
-      <S.InputLabelRangeContainer>
-        <label htmlFor={name}>{label}</label>
-        <S.StyledRangeInput
+    <div className={styles.rangeInputWrapper}>
+      <div className={styles.labelRangeContainer}>
+        <label htmlFor={name} className={styles.label}>
+          {label}
+        </label>
+        <input
           type="range"
+          step={0.1}
           name={name}
           min={min}
           max={max}
           value={value}
           onChange={onChange}
-          backgroundSize={backgroundSize}
+          className={styles.rangeInput}
+          style={rangeInputStyle}
         />
-      </S.InputLabelRangeContainer>
-      <TextInput width={60} name={name} value={value} onChange={onChange} />
-    </S.RangeInputWrapper>
+      </div>
+      {hasInput && (
+        <TextInput width={80} name={name} value={value} onChange={onChange} />
+      )}
+    </div>
   );
 };
 
