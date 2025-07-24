@@ -1,6 +1,6 @@
 {
   "name": "react-thumbnail-generator",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "react-thumbnail-generator",
   "exports": {
     ".": {
@@ -40,6 +40,7 @@
     "@babel/preset-react": "^7.27.1",
     "@rollup/plugin-alias": "^5.1.1",
     "@rollup/plugin-commonjs": "^28.0.6",
+    "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.4",

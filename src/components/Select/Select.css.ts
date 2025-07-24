@@ -51,7 +51,7 @@ export const selectInputText = style({
 
 export const selectItemContainer = style({
   position: 'absolute',
-  bottom: '35px',
+  bottom: '25px',
   width: '100%',
   backgroundColor: '#fff',
   boxShadow: '0 0 3px 0.5px #afafaf',

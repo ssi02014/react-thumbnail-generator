@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { toggleButton } from '@assets/icons';
 import Portal from '@components/Portal';
-import '@css/reset.css';
 import ThumbnailGeneratorContent from '@components/ThumbnailGeneratorContent';
 import * as styles from '@components/ThumbnailGeneratorContent/ThumbnailGeneratorContent.css';
 
