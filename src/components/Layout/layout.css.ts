@@ -8,10 +8,10 @@ export const bodyWrapper = recipe({
     justifyContent: 'center',
     borderRadius: '7px',
     boxShadow: '1px 1px 10px #cccccc',
-    zIndex: '100',
     backgroundColor: '#ffffff',
     flexDirection: 'column',
     fontFamily: 'Arial',
+    zIndex: '9999',
   },
   variants: {
     isFullWidth: {
@@ -40,7 +40,7 @@ export const bodyWrapper = recipe({
   },
 });
 
-globalStyle(`${bodyWrapper} > *`, {
+globalStyle(`${bodyWrapper} *`, {
   margin: 0,
   padding: 0,
   boxSizing: 'border-box',
