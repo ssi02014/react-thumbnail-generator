@@ -8,6 +8,9 @@ interface AccordionProps {
   children: React.ReactNode;
 }
 
+/**
+ * @deprecated
+ */
 const Accordion = ({ title, children }: AccordionProps) => {
   const [isOpenPanel, setIsOpenPanel] = useToggle();
 

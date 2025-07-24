@@ -1,5 +1,5 @@
 # 💻 react-thumbnail-generator
-English | [한국어](README-ko_kr.md) | [简体中文](README-zh_cn.md) | [日本語](README-ja_jp.md)
+[English](README.md) | [한국어](README-ko_kr.md) | 简体中文 | [日本語](README-ja_jp.md)
 
 <a href="https://www.npmjs.com/package/react-thumbnail-generator" target="_blank">
   <img src="https://img.shields.io/npm/v/react-thumbnail-generator.svg">
@@ -19,32 +19,32 @@ English | [한국어](README-ko_kr.md) | [简体中文](README-zh_cn.md) | [日�
 </p>
 
 ## Overview 🎨
-`react-thumbnail-generator` is a versatile React component that allows you to easily create and customize thumbnails directly in your web browser. With an intuitive interface and rich feature set, you can generate  thumbnails for your projects without leaving your application.
+`react-thumbnail-generator` 是一个多功能的 React 组件，可让您直接在网页浏览器中轻松创建和自定义缩略图。凭借直观的界面和丰富的功能集，您可以在不离开应用程序的情况下为项目生成缩略图。
 
 https://github.com/user-attachments/assets/5d4f8c23-72c6-43ae-aa62-5c46ee0ddfc6
 
 <br />
 
 ### Key Features
-- 🎯 Simple drag & drop interface
-- 🎨 Background color/image customization 
-- ✍️ Text styling with multiple fonts and effects
-- 📏 Flexible canvas sizing
-- 🖼️ Multiple export formats (PNG, JPG, WebP)
-- 🔧 Highly configurable positioning and appearance
-- 📱 Desktop browser optimized
-- 📱 Client-side only component
+- 🎯 简单的拖放界面
+- 🎨 背景颜色/图像自定义
+- ✍️ 多种字体和效果的文本样式
+- 📏 灵活的画布尺寸调整
+- 🖼️ 多种导出格式 (PNG, JPG, WebP)
+- 🔧 高度可配置的位置和外观
+- 📱 桌面浏览器优化
+- 📱 纯客户端组件
 
 <br />
 
 ## Demo Page 🖼️
-[react-thumbnail-generator demo page](https://ssi02014.github.io/react-thumbnail-generator/?path=/story/components-thumbnailgenerator--default)
+[react-thumbnail-generator 演示页面](https://ssi02014.github.io/react-thumbnail-generator/?path=/story/components-thumbnailgenerator--default)
 
 <br />
 
 ## Quick Start 🚀
 ### STEP 1️⃣
-- Install Package
+- 安装包
 ```shell
 yarn add react-thumbnail-generator
 ```
@@ -59,8 +59,8 @@ npm install react-thumbnail-generator
 <br />
 
 ### STEP 2️⃣
-- Add `<ThumbnailGenerator>` component.
-- ThumbnailGenerator is automatically rendered as a `document.body` child by default using `Portal`.
+- 添加 `<ThumbnailGenerator>` 组件。
+- ThumbnailGenerator 默认使用 `Portal` 自动渲染为 `document.body` 的子元素。
 
 ```jsx
 import ThumbnailGenerator from 'react-thumbnail-generator';
@@ -69,23 +69,23 @@ const App = () => {
   return (
     <ThumbnailGenerator
       iconPosition="bottom-right"
-      // Specify the position of the toggle button icon (top-left, top-right, bottom-left, bottom-right)
+      // 指定切换按钮图标的位置 (top-left, top-right, bottom-left, bottom-right)
 
       modalPosition="right"
-      // Specifies the position where the thumbnail generator will be displayed (left, right, center)
+      // 指定缩略图生成器显示的位置 (left, right, center)
 
       iconSize="medium" 
-      // Sets the size of the toggle button icon (small, medium, large)
+      // 设置切换按钮图标的大小 (small, medium, large)
 
       additionalFontFamily={['Noto Sans', ...]}
-      // Add custom fonts to use in the generator
-      // Important: Fonts must be already loaded in your project to work
+      // 添加在生成器中使用的自定义字体
+      // 重要：字体必须已在您的项目中加载才能正常工作
 
       isFullWidth={true}
-      // Makes the thumbnail generator expand to full width when true
+      // 为 true 时，缩略图生成器扩展为全宽
 
       isDefaultOpen={false}
-      // Opens the thumbnail generator automatically on load when true
+      // 为 true 时，加载时自动打开缩略图生成器
     />
   )
 }
@@ -95,15 +95,15 @@ const App = () => {
 
 ## How to add Web Fonts 😊
 ### STEP 1️⃣
-- Add a web font in `public/index.html` or `index.html`
-- Or import web fonts in your `CSS/SCSS` files
+- 在 `public/index.html` 或 `index.html` 中添加网络字体
+- 或在您的 `CSS/SCSS` 文件中导入网络字体
 
 ```html
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <!-- ... -->
-    <!-- Add a web font -->
+    <!-- 添加网络字体 -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -120,8 +120,8 @@ const App = () => {
 <br />
 
 ### STEP 2️⃣
-- Add font names as an array to the `additionalFontFamily` prop
-- The font names must match exactly with the loaded web fonts
+- 将字体名称作为数组添加到 `additionalFontFamily` 属性
+- 字体名称必须与已加载的网络字体完全匹配
 
 ```jsx
 import ThumbnailGenerator from 'react-thumbnail-generator';
@@ -137,34 +137,34 @@ const App = () => {
 
 ## Options 📄
 - iconPosition
-  - **Optional**
-  - Default: `bottom-right`
-  - Type:`top-left | top-right | bottom-left | bottom-right`
+  - **可选**
+  - 默认值: `bottom-right`
+  - 类型: `top-left | top-right | bottom-left | bottom-right`
 - modalPosition
-  - **Optional**
-  - Default: `right`
-  - Type:`left | right | center`
+  - **可选**
+  - 默认值: `right`
+  - 类型: `left | right | center`
 - iconSize
-  - **Optional**
-  - Default: `medium`
-  - Type: `small | medium | large`
+  - **可选**
+  - 默认值: `medium`
+  - 类型: `small | medium | large`
 - additionalFontFamily
-  - **Optional**
-  - Type: `string[]`
+  - **可选**
+  - 类型: `string[]`
 - isFullWidth
-  - **Optional**
-  - Default: `false`
-  - Type: `boolean`
+  - **可选**
+  - 默认值: `false`
+  - 类型: `boolean`
 - isDefaultOpen
-  - **Optional**
-  - Default: `false`
-  - Type: `boolean`
+  - **可选**
+  - 默认值: `false`
+  - 类型: `boolean`
 
 <br />
 
 ## Contributing
 
-Thank you for your contribution. ❤️ Anyone can contribute to `react-thumbnail-generator`.
+感谢您的贡献。❤️ 任何人都可以为 `react-thumbnail-generator` 做出贡献。
 
 <a href="https://github.com/ssi02014/react-thumbnail-generator/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=ssi02014/react-thumbnail-generator">
@@ -173,4 +173,4 @@ Thank you for your contribution. ❤️ Anyone can contribute to `react-thumbnai
 <br />
 
 ## License
-MIT © ssi02014. See [LICENSE](./LICENSE) for details.
+MIT © ssi02014. 详情请参见 [LICENSE](./LICENSE)。
