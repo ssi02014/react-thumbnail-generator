@@ -1,6 +1,6 @@
 {
   "name": "react-thumbnail-generator",
-  "version": "3.3.0",
+  "version": "4.0.0",
   "description": "react-thumbnail-generator",
   "exports": {
     ".": {
@@ -20,7 +20,6 @@
     "*.css"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rm -rf dist && rollup -c",
     "storybook": "storybook dev -p 6006",
     "build:storybook": "storybook build",
@@ -87,7 +86,11 @@
     "banner",
     "icon",
     "generator",
-    "emotion"
+    "style",
+    "img",
+    "png",
+    "jpg",
+    "webp"
   ],
   "dependencies": {
     "@modern-kit/react": "^2.5.0",
