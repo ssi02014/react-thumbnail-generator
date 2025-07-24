@@ -46,8 +46,6 @@ export const BodyWrapper = styled.div<BodyWrapperProps>`
   }}
 
   * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
   }
 `;
