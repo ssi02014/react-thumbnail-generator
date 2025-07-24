@@ -1,5 +1,4 @@
 import type { StorybookConfig } from '@storybook/react-vite';
-import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 import path from 'path';
 
 const config: StorybookConfig = {
@@ -10,8 +9,6 @@ const config: StorybookConfig = {
     options: {},
   },
   viteFinal: (config) => {
-    config.plugins?.push(vanillaExtractPlugin());
-
     if (config.resolve) {
       config.resolve.alias = {
         ...config.resolve?.alias,
