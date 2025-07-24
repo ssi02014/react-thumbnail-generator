@@ -1,1 +1,1 @@
-{"v":4,"entries":{"components-thumbnailgenerator--default":{"id":"components-thumbnailgenerator--default","title":"components/ThumbnailGenerator","name":"Default","importPath":"./src/stories/components/ThumbnailGenerator.stories.tsx","tags":["story"],"type":"story"}}}
+{"v":5,"entries":{"components-thumbnailgenerator--default":{"type":"story","id":"components-thumbnailgenerator--default","name":"Default","title":"components/ThumbnailGenerator","importPath":"./src/stories/components/ThumbnailGenerator.stories.tsx","componentPath":"./src/index.tsx","tags":["dev","test"]}}}
