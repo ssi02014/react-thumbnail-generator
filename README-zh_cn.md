@@ -12,7 +12,7 @@
 </a>
 
 
-<p align="center">
+<p>
   <a href="https://www.npmjs.com/package/react-thumbnail-generator" target="_blank">
     <img src="https://user-images.githubusercontent.com/64779472/219855230-d6515d16-334c-432a-8d20-fa171e17c231.png" />
   </a>
