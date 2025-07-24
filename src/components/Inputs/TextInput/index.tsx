@@ -1,6 +1,9 @@
-import React, { ComponentProps, useMemo } from 'react';
-import * as styles from './TextInput.css';
-import { assignInlineVars } from '@vanilla-extract/dynamic';
+import React, { ComponentProps } from 'react';
+import {
+  TextInputContainer,
+  TextInputLabel,
+  TextInput as StyledTextInput,
+} from './TextInput.styled';
 
 interface TextInputProps extends ComponentProps<'input'> {
   label?: string;
@@ -15,22 +18,10 @@ const TextInput = ({
   disabled = false,
   onChange,
 }: TextInputProps) => {
-  const inputStyle = useMemo(() => {
-    return {
-      ...assignInlineVars({
-        [styles.widthVar]: `${width}px`,
-      }),
-    };
-  }, [width]);
-
   return (
-    <div className={styles.textInputContainer}>
-      {label && (
-        <label htmlFor={name} className={styles.textInputLabel}>
-          {label}
-        </label>
-      )}
-      <input
+    <TextInputContainer>
+      {label && <TextInputLabel htmlFor={name}>{label}</TextInputLabel>}
+      <StyledTextInput
         type="text"
         name={name}
         id={name}
@@ -38,10 +29,9 @@ const TextInput = ({
         maxLength={maxLength}
         onChange={onChange}
         disabled={disabled}
-        className={styles.textInput}
-        style={inputStyle}
+        width={`${width}px`}
       />
-    </div>
+    </TextInputContainer>
   );
 };
 

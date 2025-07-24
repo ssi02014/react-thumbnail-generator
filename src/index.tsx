@@ -4,7 +4,10 @@ import React, { useState } from 'react';
 import { toggleButton } from '@assets/icons';
 import Portal from '@components/Portal';
 import ThumbnailGeneratorContent from '@components/ThumbnailGeneratorContent';
-import * as styles from '@components/ThumbnailGeneratorContent/ThumbnailGeneratorContent.css';
+import { ThumbnailGeneratorOpenButton } from '@components/ThumbnailGeneratorContent/ThumbnailGeneratorContent.styled';
+
+import { Global } from '@emotion/react';
+import colorPickerStyles from './styles/global.styled';
 
 interface ThumbnailGeneratorProps {
   iconPosition?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
@@ -42,24 +45,25 @@ const ThumbnailGenerator = ({
   };
 
   return (
-    <Portal>
-      {isOpen ? (
-        <ThumbnailGeneratorContent
-          isFullWidth={isFullWidth}
-          modalPosition={modalPosition}
-          additionalFontFamily={additionalFontFamily}
-          onToggle={onToggleGenerator}
-        />
-      ) : (
-        <button
-          className={styles.thumbnailGeneratorOpenButton({
-            iconPosition,
-          })}
-          onClick={onToggleGenerator}>
-          <img src={toggleButton} width={tgIconSize} height={tgIconSize} />
-        </button>
-      )}
-    </Portal>
+    <>
+      <Global styles={colorPickerStyles} />
+      <Portal>
+        {isOpen ? (
+          <ThumbnailGeneratorContent
+            isFullWidth={isFullWidth}
+            modalPosition={modalPosition}
+            additionalFontFamily={additionalFontFamily}
+            onToggle={onToggleGenerator}
+          />
+        ) : (
+          <ThumbnailGeneratorOpenButton
+            iconPosition={iconPosition}
+            onClick={onToggleGenerator}>
+            <img src={toggleButton} width={tgIconSize} height={tgIconSize} />
+          </ThumbnailGeneratorOpenButton>
+        )}
+      </Portal>
+    </>
   );
 };
 

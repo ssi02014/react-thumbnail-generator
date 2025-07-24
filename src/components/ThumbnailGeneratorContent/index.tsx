@@ -25,8 +25,8 @@ import {
 import { useColor } from 'react-color-palette';
 import { downloadCanvas } from '@utils/common';
 import IconButton from '@components/IconButton';
-import * as layoutStyles from '../Layout/layout.css';
-import * as contentStyles from './ThumbnailGeneratorContent.css';
+import * as Layout from '../Layout/layout.styled';
+import * as S from './ThumbnailGeneratorContent.styled';
 import { useDebounce, useOutsidePointerDown } from '@modern-kit/react';
 import KonvaCanvas from '@components/KonvaCanvas';
 import Konva from 'konva';
@@ -263,15 +263,13 @@ const ThumbnailGeneratorContent = ({
   }, []);
 
   return (
-    <section
-      className={layoutStyles.bodyWrapper({ modalPosition, isFullWidth })}>
+    <Layout.BodyWrapper modalPosition={modalPosition} isFullWidth={isFullWidth}>
       <Header onToggle={onToggle} />
-      <div className={layoutStyles.innerWrapper}>
-        <div className={layoutStyles.contentWrapper}>
+      <Layout.InnerWrapper>
+        <Layout.ContentWrapper>
           <KonvaCanvas ref={canvasRef} canvasState={canvasStateWithColors} />
 
-          <div
-            className={contentStyles.thumbnailGeneratorIconControllerWrapper}>
+          <S.ThumbnailGeneratorIconControllerWrapper>
             <Select
               name="fontFamily"
               value={canvasState.fontFamily}
@@ -324,15 +322,13 @@ const ThumbnailGeneratorContent = ({
             </IconButton>
 
             {isOpenMoreOptions && (
-              <div
-                ref={moreOptionsRef}
-                className={contentStyles.thumbnailGeneratorMoreOptionsWrapper}>
+              <S.ThumbnailGeneratorMoreOptionsWrapper ref={moreOptionsRef}>
                 <RangeInput
-                  hasInput={false}
                   label={`Line Height`}
                   name="lineHeight"
                   min={-3}
                   max={3}
+                  step={0.1}
                   value={String(canvasState.lineHeight)}
                   onChange={handleChangeRange}
                 />
@@ -355,21 +351,20 @@ const ThumbnailGeneratorContent = ({
                     </SelectItem>
                   ))}
                 </Select>
-              </div>
+              </S.ThumbnailGeneratorMoreOptionsWrapper>
             )}
-          </div>
+          </S.ThumbnailGeneratorIconControllerWrapper>
 
-          <div className={contentStyles.thumbnailGeneratorTextareaWrapper}>
-            <textarea
-              className={contentStyles.thumbnailGeneratorTextArea}
+          <S.ThumbnailGeneratorTextareaWrapper>
+            <S.ThumbnailGeneratorTextArea
               name="value"
               rows={5}
               value={canvasState.value}
               onChange={onChangeTextValue}
               placeholder="THUMBNAIL TEXT"
             />
-          </div>
-          <div className={contentStyles.thumbnailGeneratorControllerWrapper}>
+          </S.ThumbnailGeneratorTextareaWrapper>
+          <S.ThumbnailGeneratorControllerWrapper>
             <TextInput
               name="canvasWidth"
               label={`Canvas Width (max: ${window.innerWidth}px)`}
@@ -386,11 +381,11 @@ const ThumbnailGeneratorContent = ({
               disabled={!!canvasState.selectedImage}
               width={200}
             />
-          </div>
+          </S.ThumbnailGeneratorControllerWrapper>
 
           <Divider color="#f3f3f3" height={10} margin={[10, 0, 0, 0]} />
 
-          <div className={contentStyles.thumbnailGeneratorControllerWrapper}>
+          <S.ThumbnailGeneratorControllerWrapper>
             <Select
               name="imageType"
               label="Download Image Type"
@@ -402,17 +397,15 @@ const ThumbnailGeneratorContent = ({
                 </SelectItem>
               ))}
             </Select>
-          </div>
-          <div className={contentStyles.thumbnailGeneratorButtonWrapper}>
-            <button
-              className={contentStyles.thumbnailGeneratorButton}
-              onClick={handleDownloadImage}>
+          </S.ThumbnailGeneratorControllerWrapper>
+          <S.ThumbnailGeneratorButtonWrapper>
+            <S.ThumbnailGeneratorButton onClick={handleDownloadImage}>
               DOWNLOAD
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
+            </S.ThumbnailGeneratorButton>
+          </S.ThumbnailGeneratorButtonWrapper>
+        </Layout.ContentWrapper>
+      </Layout.InnerWrapper>
+    </Layout.BodyWrapper>
   );
 };
 

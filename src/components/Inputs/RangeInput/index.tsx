@@ -1,60 +1,50 @@
 import React, { ComponentProps, useMemo } from 'react';
-import TextInput from '../TextInput';
-import * as styles from './RangeInput.css';
-import { assignInlineVars } from '@vanilla-extract/dynamic';
+import {
+  RangeInputWrapper,
+  LabelRangeContainer,
+  Label,
+  RangeInput as StyledRangeInput,
+} from './RangeInput.styled';
 
 interface RangeInputProps extends ComponentProps<'input'> {
-  hasInput?: boolean;
-  value: string;
-  min: number;
-  max: number;
-  label: string;
+  label?: string;
 }
 
 const RangeInput = ({
-  hasInput = true,
-  label,
   name,
-  min,
-  max,
+  label,
   value,
+  min = 0,
+  max = 100,
+  step = 1,
   onChange,
 }: RangeInputProps) => {
   const backgroundSize = useMemo(() => {
-    if (value === '-') return '50% 100%';
-    return ((+value - min) * 100) / (max - min) + '% 100%';
-  }, [min, max, value]);
-
-  const rangeInputStyle = useMemo(() => {
-    return {
-      ...assignInlineVars({
-        [styles.backgroundSizeVar]: backgroundSize,
-      }),
-    };
-  }, [backgroundSize]);
+    const numericValue = Number(value);
+    const numericMin = Number(min);
+    const numericMax = Number(max);
+    const percentage =
+      ((numericValue - numericMin) / (numericMax - numericMin)) * 100;
+    return `${percentage}%`;
+  }, [value, min, max]);
 
   return (
-    <div className={styles.rangeInputWrapper}>
-      <div className={styles.labelRangeContainer}>
-        <label htmlFor={name} className={styles.label}>
-          {label}
-        </label>
-        <input
+    <RangeInputWrapper>
+      <LabelRangeContainer>
+        {label && <Label htmlFor={name}>{label}</Label>}
+        <StyledRangeInput
           type="range"
-          step={0.1}
           name={name}
+          id={name}
+          value={value}
           min={min}
           max={max}
-          value={value}
+          step={step}
           onChange={onChange}
-          className={styles.rangeInput}
-          style={rangeInputStyle}
+          backgroundSize={backgroundSize}
         />
-      </div>
-      {hasInput && (
-        <TextInput width={80} name={name} value={value} onChange={onChange} />
-      )}
-    </div>
+      </LabelRangeContainer>
+    </RangeInputWrapper>
   );
 };
 

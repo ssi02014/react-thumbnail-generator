@@ -1,6 +1,5 @@
 import React, { ComponentProps } from 'react';
-import * as styles from './IconButton.css';
-import clsx from 'clsx';
+import { IconButton as StyledIconButton } from './IconButton.styled';
 
 interface IconButtonProps extends ComponentProps<'button'> {
   hasBorder?: boolean;
@@ -8,18 +7,9 @@ interface IconButtonProps extends ComponentProps<'button'> {
 }
 
 const IconButton = ({ hasBorder, isOpen, ...props }: IconButtonProps) => {
-  const { className, ...rest } = props;
-  return (
-    <button
-      {...rest}
-      className={clsx(
-        styles.iconButton[
-          isOpen ? 'isOpen' : hasBorder ? 'hasBorder' : 'default'
-        ],
-        className,
-      )}
-    />
-  );
+  const variant = isOpen ? 'isOpen' : hasBorder ? 'hasBorder' : 'default';
+
+  return <StyledIconButton variant={variant} {...props} />;
 };
 
 export default IconButton;

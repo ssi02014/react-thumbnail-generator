@@ -1,7 +1,12 @@
 import React, { useCallback } from 'react';
 import { arrowBottom, arrowTop } from '@assets/icons';
 import { useToggle } from '@modern-kit/react';
-import * as styles from './Accordion.css';
+import {
+  AccordionWrapper,
+  AccordionTopContainer,
+  AccordionTitle,
+  AccordionPanelContainer,
+} from './Accordion.styled';
 
 interface AccordionProps {
   title: string;
@@ -19,9 +24,9 @@ const Accordion = ({ title, children }: AccordionProps) => {
   }, [isOpenPanel]);
 
   return (
-    <div className={styles.accordionWrapper}>
-      <div className={styles.accordionTopContainer} onClick={handleToggle}>
-        <p className={styles.accordionTitle}>{title}</p>
+    <AccordionWrapper>
+      <AccordionTopContainer onClick={handleToggle}>
+        <AccordionTitle>{title}</AccordionTitle>
         <span>
           <img
             src={isOpenPanel ? arrowTop : arrowBottom}
@@ -29,11 +34,11 @@ const Accordion = ({ title, children }: AccordionProps) => {
             height={14}
           />
         </span>
-      </div>
-      <div className={styles.accordionPanelContainer({ isOpen: isOpenPanel })}>
+      </AccordionTopContainer>
+      <AccordionPanelContainer isOpen={isOpenPanel}>
         {children}
-      </div>
-    </div>
+      </AccordionPanelContainer>
+    </AccordionWrapper>
   );
 };
 
