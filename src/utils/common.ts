@@ -24,10 +24,10 @@ const download = (url: string, imageType: 'png' | 'jpg' | 'webp' = 'png') => {
 };
 
 export const downloadCanvas = (
-  ref: React.RefObject<Konva.Stage>,
+  ref: React.RefObject<Konva.Stage | null>,
   imageType: 'png' | 'jpg' | 'webp',
 ) => {
-  if (ref.current) {
+  if (ref?.current) {
     const url = ref.current.toDataURL();
     download(url, imageType);
   }

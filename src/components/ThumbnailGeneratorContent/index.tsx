@@ -94,7 +94,7 @@ const ThumbnailGeneratorContent = ({
   const [fontColor, setFontColor] = useColor('#fff');
   const [strokeColor, setStrokeColor] = useColor('#121212');
 
-  const canvasRef = useRef<Konva.Stage>(null);
+  const canvasRef = useRef<Konva.Stage | null>(null);
 
   const canvasStateWithColors = useMemo(() => {
     return {

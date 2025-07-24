@@ -42,6 +42,24 @@ https://github.com/user-attachments/assets/5d4f8c23-72c6-43ae-aa62-5c46ee0ddfc6
 
 <br />
 
+### Version Compatibility 🔄
+react-thumbnail-generator `v4`는 `react/react-dom v19` 이상을 지원합니다.
+
+react 18 이하를 사용하고 있다면 `v3.3.0` 버전을 사용해주세요. 단, 최신 기능은 사용할 수 없습니다.
+
+```shell
+yarn add react-thumbnail-generator@^3.3.0
+```
+```shell
+pnpm add react-thumbnail-generator@^3.3.0
+```
+```shell
+npm install react-thumbnail-generator@^3.3.0
+```
+
+
+<br />
+
 ## Quick Start 🚀
 ### STEP 1️⃣
 - 패키지 설치

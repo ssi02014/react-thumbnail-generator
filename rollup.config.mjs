@@ -7,7 +7,6 @@ import pkg from './package.json' assert { type: 'json' };
 import path from 'path';
 import esbuild from 'rollup-plugin-esbuild';
 import { vanillaExtractPlugin } from '@vanilla-extract/rollup-plugin';
-import json from '@rollup/plugin-json';
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx'];
 const __dirname = path.resolve();
@@ -56,7 +55,6 @@ export default {
     alias({
       entries: [{ find: '@', replacement: path.resolve(__dirname, './src') }],
     }),
-    json(),
   ],
   onwarn: (warning, warn) => {
     if (
