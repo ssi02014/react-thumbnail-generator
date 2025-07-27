@@ -45,16 +45,16 @@ https://github.com/user-attachments/assets/5d4f8c23-72c6-43ae-aa62-5c46ee0ddfc6
 ## Version Compatibility 🔄
 react-thumbnail-generator `v4` supports `react/react-dom v19` and above.
 
-If you are using react 18 or below, please use version `v3.3.0`.
+If you are using react 18 or below, please use version `v3.4.0`.
 
 ```shell
-yarn add react-thumbnail-generator@^3.3.0
+yarn add react-thumbnail-generator@^3.4.0
 ```
 ```shell
-pnpm add react-thumbnail-generator@^3.3.0
+pnpm add react-thumbnail-generator@^3.4.0
 ```
 ```shell
-npm install react-thumbnail-generator@^3.3.0
+npm install react-thumbnail-generator@^3.4.0
 ```
 
 <br />
