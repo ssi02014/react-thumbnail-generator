@@ -3,7 +3,7 @@ import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import alias from '@rollup/plugin-alias';
-import pkg from './package.json' assert { type: 'json' };
+import pkg from './package.json' with { type: 'json' };
 import path from 'path';
 import esbuild from 'rollup-plugin-esbuild';
 
@@ -24,7 +24,10 @@ export default {
       format: 'esm',
     },
   ],
-  external: ['react', 'react-dom'],
+  external: [
+    ...Object.keys(pkg.dependencies),
+    ...Object.keys(pkg.peerDependencies),
+  ],
   plugins: [
     peerDepsExternal(),
     nodeResolve({
