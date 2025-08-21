@@ -24,7 +24,10 @@ export default {
       format: 'esm',
     },
   ],
-  external: ['react', 'react-dom'],
+  external: [
+    ...Object.keys(pkg.dependencies),
+    ...Object.keys(pkg.peerDependencies),
+  ],
   plugins: [
     peerDepsExternal(),
     nodeResolve({
