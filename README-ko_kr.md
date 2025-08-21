@@ -19,7 +19,7 @@
 </p>
 
 ## Overview 🎨
-`react-thumbnail-generator`는 웹 브라우저에서 직접 썸네일을 쉽게 생성하고 커스터마이징할 수 있는 다재다능한 React 컴포넌트입니다. 직관적인 인터페이스와 풍부한 기능으로 애플리케이션을 떠나지 않고도 프로젝트용 썸네일을 생성할 수 있습니다.
+`react-thumbnail-generator`는 웹 브라우저에서 직접 썸네일을 쉽게 생성하고 커스터마이징할 수 있는 React 컴포넌트입니다. 직관적인 인터페이스와 풍부한 기능으로 애플리케이션을 떠나지 않고도 프로젝트용 썸네일을 생성할 수 있습니다.
 
 https://github.com/user-attachments/assets/5d4f8c23-72c6-43ae-aa62-5c46ee0ddfc6
 
@@ -43,18 +43,18 @@ https://github.com/user-attachments/assets/5d4f8c23-72c6-43ae-aa62-5c46ee0ddfc6
 <br />
 
 ### Version Compatibility 🔄
-react-thumbnail-generator `v4`는 `react/react-dom v19` 이상을 지원합니다.
+react-thumbnail-generator `v4`는 `react/react-dom v19`을 지원합니다.
 
-react 18 이하를 사용하고 있다면 `v3.3.0` 버전을 사용해주세요. 단, 최신 기능은 사용할 수 없습니다.
+react v18를 사용하고 있다면 `v3` 버전을 사용해주세요.
 
 ```shell
-yarn add react-thumbnail-generator@^3.3.0
+yarn add react-thumbnail-generator@^3
 ```
 ```shell
-pnpm add react-thumbnail-generator@^3.3.0
+pnpm add react-thumbnail-generator@^3
 ```
 ```shell
-npm install react-thumbnail-generator@^3.3.0
+npm install react-thumbnail-generator@^3
 ```
 
 

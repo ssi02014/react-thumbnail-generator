@@ -43,18 +43,18 @@ https://github.com/user-attachments/assets/5d4f8c23-72c6-43ae-aa62-5c46ee0ddfc6
 <br />
 
 ### Version Compatibility 🔄
-react-thumbnail-generator `v4` 支持 `react/react-dom v19` 及以上版本。
+react-thumbnail-generator `v4` 支持 `react/react-dom v19`。
 
-如果您使用的是 react 18 或更低版本，请使用版本 `v3.3.0`。但是，最新功能将不可用。
+如果您使用的是 react v18，请使用版本 `v3`。
 
 ```shell
-yarn add react-thumbnail-generator@^3.3.0
+yarn add react-thumbnail-generator@^3
 ```
 ```shell
-pnpm add react-thumbnail-generator@^3.3.0
+pnpm add react-thumbnail-generator@^3
 ```
 ```shell
-npm install react-thumbnail-generator@^3.3.0
+npm install react-thumbnail-generator@^3
 ```
 
 <br />
