@@ -91,9 +91,6 @@ const App = () => {
       modalPosition="right"
       // サムネイル生成器が表示される位置を指定 (left, right, center)
 
-      iconSize="medium" 
-      // トグルボタンアイコンのサイズを設定 (small, medium, large)
-
       additionalFontFamily={['Noto Sans', ...]}
       // 生成器で使用するカスタムフォントを追加
       // 重要: フォントがプロジェクトで既に読み込まれている必要があります
@@ -161,10 +158,6 @@ const App = () => {
   - **オプション**
   - デフォルト: `right`
   - タイプ: `left | right | center`
-- iconSize
-  - **オプション**
-  - デフォルト: `medium`
-  - タイプ: `small | medium | large`
 - additionalFontFamily
   - **オプション**
   - タイプ: `string[]`
