@@ -91,9 +91,6 @@ const App = () => {
       modalPosition="right"
       // 指定缩略图生成器显示的位置 (left, right, center)
 
-      iconSize="medium" 
-      // 设置切换按钮图标的大小 (small, medium, large)
-
       additionalFontFamily={['Noto Sans', ...]}
       // 添加在生成器中使用的自定义字体
       // 重要：字体必须已在您的项目中加载才能正常工作
@@ -161,10 +158,6 @@ const App = () => {
   - **可选**
   - 默认值: `right`
   - 类型: `left | right | center`
-- iconSize
-  - **可选**
-  - 默认值: `medium`
-  - 类型: `small | medium | large`
 - additionalFontFamily
   - **可选**
   - 类型: `string[]`
