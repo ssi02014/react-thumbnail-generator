@@ -1,11 +1,6 @@
 import { photo } from '@assets/icons';
 import React, { ChangeEvent, useRef } from 'react';
-import {
-  FileInputWrapper,
-  FileInput as StyledFileInput,
-  FileInputLabel,
-  FileInputImg,
-} from './FileInput.styled';
+import * as S from './FileInput.styled';
 
 interface FileInputProps {
   onChangeImage: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -23,17 +18,17 @@ const FileInput = ({ onChangeImage }: FileInputProps) => {
   };
 
   return (
-    <FileInputWrapper>
-      <FileInputLabel htmlFor="file">
-        <FileInputImg src={photo} width={20} height={20} />
-      </FileInputLabel>
-      <StyledFileInput
+    <S.FileInputWrapper>
+      <S.FileInputLabel htmlFor="file">
+        <S.FileInputImg src={photo} width={20} height={20} />
+      </S.FileInputLabel>
+      <S.FileInput
         ref={fileInputRef}
         id="file"
         type="file"
         onChange={handleFileChange}
       />
-    </FileInputWrapper>
+    </S.FileInputWrapper>
   );
 };
 

@@ -92,9 +92,6 @@ const App = () => {
       modalPosition="right"
       // 썸네일 생성기가 표시될 위치 지정 (left, right, center)
 
-      iconSize="medium" 
-      // 토글 버튼 아이콘의 크기 설정 (small, medium, large)
-
       additionalFontFamily={['Noto Sans', ...]}
       // 생성기에서 사용할 커스텀 폰트 추가
       // 중요: 폰트가 프로젝트에 이미 로드되어 있어야 작동합니다
@@ -162,10 +159,6 @@ const App = () => {
   - **Optional**
   - Default: `right`
   - Type:`left | right | center`
-- iconSize
-  - **Optional**
-  - Default: `medium`
-  - Type: `small | medium | large`
 - additionalFontFamily
   - **Optional**
   - Type: `string[]`
