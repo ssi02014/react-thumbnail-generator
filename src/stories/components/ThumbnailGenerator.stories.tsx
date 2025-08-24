@@ -3,7 +3,6 @@ import { Meta, StoryFn } from '@storybook/react-vite';
 import ThumbnailGenerator from '../../index';
 
 interface Props {
-  iconSize?: 'small' | 'medium' | 'large';
   modalPosition?: 'left' | 'right' | 'center';
   iconPosition?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
   isFullWidth?: boolean;
@@ -22,14 +21,12 @@ export default meta;
 const Template: ThumbnailGeneratorStory = ({
   modalPosition,
   iconPosition,
-  iconSize,
   isFullWidth,
 }: Props) => {
   return (
     <ThumbnailGenerator
       modalPosition={modalPosition}
       iconPosition={iconPosition}
-      iconSize={iconSize}
       isFullWidth={isFullWidth}
       isDefaultOpen
     />
@@ -37,7 +34,6 @@ const Template: ThumbnailGeneratorStory = ({
 };
 
 export const Default: ThumbnailGeneratorStory = Template.bind({
-  iconSize: 'medium',
   modalPosition: 'right',
   iconPosition: 'bottom-right',
   isFullWidth: false,

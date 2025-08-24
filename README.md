@@ -91,9 +91,6 @@ const App = () => {
       modalPosition="right"
       // Specifies the position where the thumbnail generator will be displayed (left, right, center)
 
-      iconSize="medium" 
-      // Sets the size of the toggle button icon (small, medium, large)
-
       additionalFontFamily={['Noto Sans', ...]}
       // Add custom fonts to use in the generator
       // Important: Fonts must be already loaded in your project to work
@@ -161,10 +158,6 @@ const App = () => {
   - **Optional**
   - Default: `right`
   - Type:`left | right | center`
-- iconSize
-  - **Optional**
-  - Default: `medium`
-  - Type: `small | medium | large`
 - additionalFontFamily
   - **Optional**
   - Type: `string[]`
