@@ -1,9 +1,5 @@
 import React, { ComponentProps } from 'react';
-import {
-  TextInputContainer,
-  TextInputLabel,
-  TextInput as StyledTextInput,
-} from './TextInput.styled';
+import * as S from './TextInput.styled';
 
 interface TextInputProps extends ComponentProps<'input'> {
   label?: string;
@@ -19,9 +15,9 @@ const TextInput = ({
   onChange,
 }: TextInputProps) => {
   return (
-    <TextInputContainer>
-      {label && <TextInputLabel htmlFor={name}>{label}</TextInputLabel>}
-      <StyledTextInput
+    <S.TextInputContainer>
+      {label && <S.TextInputLabel htmlFor={name}>{label}</S.TextInputLabel>}
+      <S.TextInput
         type="text"
         name={name}
         id={name}
@@ -31,7 +27,7 @@ const TextInput = ({
         disabled={disabled}
         width={`${width}px`}
       />
-    </TextInputContainer>
+    </S.TextInputContainer>
   );
 };
 

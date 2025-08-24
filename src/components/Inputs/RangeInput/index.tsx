@@ -1,10 +1,5 @@
 import React, { ComponentProps, useMemo } from 'react';
-import {
-  RangeInputWrapper,
-  LabelRangeContainer,
-  Label,
-  RangeInput as StyledRangeInput,
-} from './RangeInput.styled';
+import * as S from './RangeInput.styled';
 
 interface RangeInputProps extends ComponentProps<'input'> {
   label?: string;
@@ -29,10 +24,10 @@ const RangeInput = ({
   }, [value, min, max]);
 
   return (
-    <RangeInputWrapper>
-      <LabelRangeContainer>
-        {label && <Label htmlFor={name}>{label}</Label>}
-        <StyledRangeInput
+    <S.RangeInputWrapper>
+      <S.LabelRangeContainer>
+        {label && <S.Label htmlFor={name}>{label}</S.Label>}
+        <S.RangeInput
           type="range"
           name={name}
           id={name}
@@ -43,8 +38,8 @@ const RangeInput = ({
           onChange={onChange}
           backgroundSize={backgroundSize}
         />
-      </LabelRangeContainer>
-    </RangeInputWrapper>
+      </S.LabelRangeContainer>
+    </S.RangeInputWrapper>
   );
 };
 

@@ -6,13 +6,7 @@ import React, {
   useEffect,
   ComponentProps,
 } from 'react';
-import {
-  SelectWrapper,
-  SelectLabel,
-  SelectInput,
-  SelectInputText,
-  SelectItemContainer,
-} from './Select.styled';
+import * as S from './Select.styled';
 
 interface SelectContextProps {
   color?: string;
@@ -75,23 +69,25 @@ const Select = ({
   return (
     <SelectContext.Provider
       value={{ color, selectValue: value, onChange: handleChange }}>
-      <SelectWrapper>
-        {label && <SelectLabel>{label}</SelectLabel>}
-        <SelectInput
+      <S.SelectWrapper>
+        {label && <S.SelectLabel>{label}</S.SelectLabel>}
+        <S.SelectInput
           isOpen={isOpenSelect}
           ref={inputRef}
           onClick={handleToggleSelect}>
-          <SelectInputText>{value}</SelectInputText>
-          <SelectInputText>
+          <S.SelectInputText>{value}</S.SelectInputText>
+          <S.SelectInputText>
             <img
               src={isOpenSelect ? arrowTop : arrowBottom}
               width={12}
               height={12}
             />
-          </SelectInputText>
-        </SelectInput>
-        {isOpenSelect && <SelectItemContainer>{children}</SelectItemContainer>}
-      </SelectWrapper>
+          </S.SelectInputText>
+        </S.SelectInput>
+        {isOpenSelect && (
+          <S.SelectItemContainer>{children}</S.SelectItemContainer>
+        )}
+      </S.SelectWrapper>
     </SelectContext.Provider>
   );
 };

@@ -5,26 +5,9 @@ export const fontFamilies = [
   'Georgia',
   'Courier New',
   'Verdana',
-];
-export const strokeTypes = ['None', 'Thin', 'Normal', 'Thick'];
-export const fontStyles = ['normal', 'bold', 'italic'];
+] as const;
+export const strokeTypes = ['None', 'Thin', 'Normal', 'Thick'] as const;
 
-export const imageTypes = ['png', 'jpg', 'webp'];
+export const fontStyles = ['normal', 'bold', 'italic'] as const;
 
-export const fontSizes = [
-  '10px',
-  '20px',
-  '30px',
-  '40px',
-  '50px',
-  '60px',
-  '70px',
-  '80px',
-  '90px',
-  '100px',
-  '120px',
-  '140px',
-  '160px',
-  '180px',
-  '200px',
-];
+export const imageTypes = ['png', 'jpg', 'webp'] as const;

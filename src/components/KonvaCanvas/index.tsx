@@ -2,7 +2,7 @@ import React, { forwardRef, useEffect, useRef } from 'react';
 import { Layer, Text, Stage, Transformer, Rect } from 'react-konva';
 import { CanvasStateWithColors, StrokeTypes } from '../../interfaces/common';
 import { useMergeRefs, useOutsidePointerDown } from '@modern-kit/react';
-import { KonvaCanvasWrapper } from './KonvaCanvas.styled';
+import * as S from './KonvaCanvas.styled';
 import Konva from 'konva';
 
 interface CanvasV2Props {
@@ -104,7 +104,7 @@ const KonvaCanvas = forwardRef(({ canvasState }: CanvasV2Props, ref) => {
   }, [canvasState.selectedImage, canvasState.isBlur]);
 
   return (
-    <KonvaCanvasWrapper ref={outsideRef}>
+    <S.KonvaCanvasWrapper ref={outsideRef}>
       <Stage
         ref={useMergeRefs(stageRef, ref)}
         width={canvasState.canvasWidth}
@@ -154,7 +154,7 @@ const KonvaCanvas = forwardRef(({ canvasState }: CanvasV2Props, ref) => {
           />
         </Layer>
       </Stage>
-    </KonvaCanvasWrapper>
+    </S.KonvaCanvasWrapper>
   );
 });
 
