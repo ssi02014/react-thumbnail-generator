@@ -1,8 +1,8 @@
-name: Publish Package to npmjs
+name: Publish Package to npmjs(v3)
 on:
   push:
     branches:
-      - master
+      - v3
 jobs:
   npm-publish:
     runs-on: ubuntu-latest
@@ -19,25 +19,6 @@ jobs:
           yarn
           yarn build
       - name: Publish 🚀
-        run: yarn publish
+        run: yarn publish --tag v3-latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-  storybook-publish:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout 🔔
-        uses: actions/checkout@v4
-      - name: Node Setup 🔔
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          registry-url: 'https://registry.npmjs.org'
-      - name: Install & Build 🔨
-        run: |
-          yarn
-          yarn build:storybook
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          token: ${{ secrets.PUBLISH_TOKEN }}
-          folder: storybook-static
