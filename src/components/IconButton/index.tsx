@@ -1,5 +1,5 @@
 import React, { ComponentProps } from 'react';
-import { IconButton as StyledIconButton } from './IconButton.styled';
+import * as S from './IconButton.styled';
 
 interface IconButtonProps extends ComponentProps<'button'> {
   hasBorder?: boolean;
@@ -9,7 +9,7 @@ interface IconButtonProps extends ComponentProps<'button'> {
 const IconButton = ({ hasBorder, isOpen, ...props }: IconButtonProps) => {
   const variant = isOpen ? 'isOpen' : hasBorder ? 'hasBorder' : 'default';
 
-  return <StyledIconButton variant={variant} {...props} />;
+  return <S.IconButton variant={variant} {...props} />;
 };
 
 export default IconButton;

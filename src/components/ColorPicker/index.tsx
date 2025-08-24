@@ -1,15 +1,15 @@
 import React, {
   ComponentProps,
-  CSSProperties,
+  forwardRef,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from 'react';
 import { ColorPicker as PaletteColorPicker } from 'react-color-palette';
 import IconButton from '../IconButton';
-import { Portal } from '@modern-kit/react';
+import * as S from './ColorPicker.styled';
+import Portal from '@components/Portal';
 
 interface ColorPickerProps {
   children: React.ReactNode;
@@ -18,88 +18,72 @@ interface ColorPickerProps {
   toggleIsBlockEvent: () => void;
 }
 
-const ColorPicker = ({
-  children,
-  color,
-  toggleIsBlockEvent,
-  setColor,
-}: ColorPickerProps) => {
-  const [isOpenColorPicker, setIsOpenColorPicker] = useState(false);
-  const colorRef = useRef<HTMLDivElement>(null);
-  const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
+const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
+  ({ children, color, toggleIsBlockEvent, setColor }, ref) => {
+    const [isOpenColorPicker, setIsOpenColorPicker] = useState(false);
+    const colorRef = useRef<HTMLDivElement>(null);
+    const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
 
-  const handleCloseColorPicker = useCallback(
-    (e: any) => {
-      if (isOpenColorPicker) {
-        if (colorRef.current) {
-          if (!colorRef.current.contains(e.target)) {
-            setIsOpenColorPicker(false);
-            toggleIsBlockEvent();
+    const handleCloseColorPicker = useCallback(
+      (e: any) => {
+        if (isOpenColorPicker) {
+          if (colorRef.current) {
+            if (!colorRef.current.contains(e.target)) {
+              setIsOpenColorPicker(false);
+              toggleIsBlockEvent();
+            }
           }
         }
-      }
-    },
-    [isOpenColorPicker, toggleIsBlockEvent],
-  );
+      },
+      [isOpenColorPicker, toggleIsBlockEvent],
+    );
 
-  const handleOpenColorPicker = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      const { x, y } = e.currentTarget.getBoundingClientRect();
+    const handleOpenColorPicker = useCallback(
+      (e: React.MouseEvent<HTMLButtonElement>) => {
+        const { x, y } = e.currentTarget.getBoundingClientRect();
 
-      setCoordinates({ x, y });
-      setIsOpenColorPicker((prev) => !prev);
-      toggleIsBlockEvent();
-    },
-    [toggleIsBlockEvent],
-  );
+        setCoordinates({ x, y });
+        setIsOpenColorPicker((prev) => !prev);
+        toggleIsBlockEvent();
+      },
+      [toggleIsBlockEvent],
+    );
 
-  useEffect(() => {
-    document.addEventListener('mousedown', handleCloseColorPicker);
+    useEffect(() => {
+      document.addEventListener('mousedown', handleCloseColorPicker);
 
-    return () => {
-      document.removeEventListener('mousedown', handleCloseColorPicker);
-    };
-  }, [handleCloseColorPicker]);
+      return () => {
+        document.removeEventListener('mousedown', handleCloseColorPicker);
+      };
+    }, [handleCloseColorPicker]);
 
-  const wrapperStyle: CSSProperties = useMemo(() => {
-    return {
-      position: 'relative',
-    };
-  }, []);
+    return (
+      <S.ColorPickerWrapper ref={ref}>
+        <IconButton
+          isOpen={isOpenColorPicker}
+          onClick={handleOpenColorPicker}
+          hasBorder>
+          {children}
+        </IconButton>
 
-  const colorPickerWrapperStyle: CSSProperties = useMemo(() => {
-    return {
-      position: 'absolute',
-      left: `${coordinates.x}px`,
-      top: `${coordinates.y - 360}px`,
-      transform: 'translateX(-50%)',
-      zIndex: '9999',
-    };
-  }, [coordinates]);
-
-  return (
-    <div style={wrapperStyle}>
-      <IconButton
-        isOpen={isOpenColorPicker}
-        onClick={handleOpenColorPicker}
-        hasBorder>
-        {children}
-      </IconButton>
-
-      {isOpenColorPicker && (
-        <Portal>
-          <div ref={colorRef} style={colorPickerWrapperStyle}>
-            <PaletteColorPicker
-              height={150}
-              color={color}
-              onChange={setColor}
-              hideInput={['hsv']}
-            />
-          </div>
-        </Portal>
-      )}
-    </div>
-  );
-};
+        {isOpenColorPicker && (
+          <Portal>
+            <S.ColorPickerContent
+              ref={colorRef}
+              left={coordinates.x}
+              top={coordinates.y - 360}>
+              <PaletteColorPicker
+                height={150}
+                color={color}
+                onChange={setColor}
+                hideInput={['hsv']}
+              />
+            </S.ColorPickerContent>
+          </Portal>
+        )}
+      </S.ColorPickerWrapper>
+    );
+  },
+);
 
 export default ColorPicker;
