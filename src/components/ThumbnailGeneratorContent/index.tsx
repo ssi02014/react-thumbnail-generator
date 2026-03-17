@@ -1,6 +1,7 @@
 import React, {
   ChangeEvent,
   useCallback,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -13,7 +14,7 @@ import Divider from '../Divider';
 import ColorPicker from '../ColorPicker';
 import Header from '../Layout/Header';
 import { fontFamilies, imageTypes, strokeTypes } from '@constants/select';
-import { CanvasState, Color } from '@interfaces/common';
+import { Color, TextLayer } from '@interfaces/common';
 import {
   fill,
   stroke,
@@ -22,7 +23,6 @@ import {
   alignCenter,
   alignEnd,
 } from '@assets/icons';
-import { useColor } from 'react-color-palette';
 import { downloadCanvas } from '@utils/common';
 import IconButton from '@components/IconButton';
 import * as Layout from '../Layout/layout.styled';
@@ -34,7 +34,11 @@ import FontBoldIcon from '@assets/FontBoldIcon';
 import FontItalicIcon from '@assets/FontItalicIcon';
 import FontColorIcon from '@assets/FontColorIcon';
 import MoreDotIcon from '@assets/MoreDotIcon';
+import UndoIcon from '@assets/UndoIcon';
+import RedoIcon from '@assets/RedoIcon';
 import RangeInput from '@components/Inputs/RangeInput';
+import LayerPanel from '@components/LayerPanel';
+import { useCanvasReducer } from '@hooks/useCanvasReducer';
 
 interface ThumbnailGeneratorContentProps {
   additionalFontFamily?: string[];
@@ -43,28 +47,6 @@ interface ThumbnailGeneratorContentProps {
   onToggle: () => void;
 }
 
-const initialCanvasState: CanvasState = {
-  value: 'Simple Thumbnail\nGenerator 😁',
-  fontStrokeType: 'None',
-  textAlign: 'center',
-  fontFamily: 'Arial',
-  canvasWidth: 600,
-  canvasHeight: 400,
-  lineHeight: 1,
-  imageType: 'png',
-  fontStyle: 'normal',
-  isBlur: false,
-  selectedImage: undefined,
-  isBlockEvent: false,
-};
-
-const getReplaceCallback = (name: string) => {
-  const canvasOptions = ['canvasWidth', 'canvasHeight'];
-
-  if (canvasOptions.includes(name)) return () => '';
-  return (match: string, idx: number) => (!idx && match === '-' ? '-' : '');
-};
-
 const ThumbnailGeneratorContent = ({
   additionalFontFamily,
   modalPosition,
@@ -72,86 +54,100 @@ const ThumbnailGeneratorContent = ({
   onToggle,
 }: ThumbnailGeneratorContentProps) => {
   const { ref: moreOptionsRef } = useOutsidePointerDown<HTMLDivElement>(() => {
-    if (!canvasState.isBlockEvent) {
+    if (!state.isBlockEvent) {
       setIsOpenMoreOptions(false);
     }
   });
 
   const [isOpenMoreOptions, setIsOpenMoreOptions] = useState(false);
 
-  const [canvasState, setCanvasState] =
-    useState<CanvasState>(initialCanvasState);
+  const { state, dispatch, undo, redo, canUndo, canRedo, selectedLayer } =
+    useCanvasReducer();
 
-  const [canvasSize, setCanvasSize] = useState<
-    Pick<CanvasState, 'canvasWidth' | 'canvasHeight'>
-  >({
+  const [canvasSize, setCanvasSize] = useState<{
+    canvasWidth: number;
+    canvasHeight: number;
+  }>({
     canvasWidth: 600,
     canvasHeight: 400,
   });
-  const debouncedSetCanvasState = useDebounce(setCanvasState, 300);
-
-  const [bgColor, setBgColor] = useColor('#192841');
-  const [fontColor, setFontColor] = useColor('#fff');
-  const [strokeColor, setStrokeColor] = useColor('#121212');
+  const debouncedDispatch = useDebounce(
+    (changes: { canvasWidth?: number; canvasHeight?: number }) => {
+      dispatch({ type: 'SET_CANVAS_PROP', changes });
+    },
+    300,
+  );
 
   const canvasRef = useRef<Konva.Stage | null>(null);
 
-  const canvasStateWithColors = useMemo(() => {
-    return {
-      ...canvasState,
-      bgColor,
-      fontColor,
-      strokeColor,
-    };
-  }, [canvasState, bgColor, fontColor, strokeColor]);
+  const selectedTextLayer =
+    selectedLayer?.type === 'text' ? (selectedLayer as TextLayer) : null;
 
   const fontFamilyOptions = useMemo(() => {
     return [...(additionalFontFamily || []), ...fontFamilies];
   }, [additionalFontFamily]);
 
   const textAlignIcon = useMemo(() => {
-    const { textAlign } = canvasState;
-
+    if (!selectedTextLayer) return alignCenter;
+    const { textAlign } = selectedTextLayer;
     if (textAlign === 'center') return alignCenter;
     if (textAlign === 'right') return alignEnd;
     return alignStart;
-  }, [canvasState.textAlign]);
+  }, [selectedTextLayer]);
+
+  // Keyboard shortcuts for undo/redo
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+        e.preventDefault();
+        if (e.shiftKey) {
+          redo();
+        } else {
+          undo();
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [undo, redo]);
+
+  const toggleIsBlockEvent = useCallback(() => {
+    dispatch({ type: 'TOGGLE_BLOCK_EVENT' });
+  }, [dispatch]);
 
   const onChangeTextAlign = useCallback(() => {
-    const getNextTextAlign = (prev: CanvasState) => {
-      const { textAlign } = prev;
-
-      if (textAlign === 'center') return 'right';
-      if (textAlign === 'right') return 'left';
-      return 'center';
-    };
-
-    setCanvasState((prev) => ({
-      ...prev,
-      textAlign: getNextTextAlign(prev),
-    }));
-  }, []);
+    if (!selectedTextLayer) return;
+    const { textAlign } = selectedTextLayer;
+    const next =
+      textAlign === 'center'
+        ? 'right'
+        : textAlign === 'right'
+          ? 'left'
+          : 'center';
+    dispatch({
+      type: 'UPDATE_LAYER',
+      id: selectedTextLayer.id,
+      changes: { textAlign: next },
+    });
+  }, [selectedTextLayer, dispatch]);
 
   const onChangeStrokeColor = useCallback(
     (color: Color) => {
-      setStrokeColor(color);
-
-      if (canvasState.fontStrokeType === 'None') {
-        setCanvasState((prev) => ({
-          ...prev,
-          fontStrokeType: 'Normal',
-        }));
-      }
+      if (!selectedTextLayer) return;
+      const changes: Partial<TextLayer> =
+        selectedTextLayer.fontStrokeType === 'None'
+          ? { strokeColor: color, fontStrokeType: 'Normal' }
+          : { strokeColor: color };
+      dispatch({ type: 'UPDATE_LAYER', id: selectedTextLayer.id, changes });
     },
-    [canvasState.fontStrokeType, setStrokeColor],
+    [selectedTextLayer, dispatch],
   );
 
-  const toggleIsBlockEvent = useCallback(() => {
-    setCanvasState((prev) => ({
-      ...prev,
-      isBlockEvent: !prev.isBlockEvent,
-    }));
-  }, []);
+  const getReplaceCallback = (name: string) => {
+    const canvasOptions = ['canvasWidth', 'canvasHeight'];
+    if (canvasOptions.includes(name)) return () => '';
+    return (match: string, idx: number) => (!idx && match === '-' ? '-' : '');
+  };
 
   const onChangeCanvasSize = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -166,113 +162,208 @@ const ThumbnailGeneratorContent = ({
         return;
       }
 
-      debouncedSetCanvasState((prev) => ({
-        ...prev,
-        [name]: replacedValue,
-      }));
+      debouncedDispatch({ [name]: +replacedValue || 0 });
 
       setCanvasSize((prev) => ({
         ...prev,
         [name]: replacedValue,
       }));
     },
-    [debouncedSetCanvasState],
+    [debouncedDispatch],
   );
 
   const onChangeTextValue = useCallback(
     (e: ChangeEvent<HTMLTextAreaElement>) => {
-      const { name, value } = e.target;
-
-      setCanvasState((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
+      if (!selectedTextLayer) return;
+      dispatch({
+        type: 'UPDATE_LAYER',
+        id: selectedTextLayer.id,
+        changes: { value: e.target.value },
+      });
     },
-    [],
+    [selectedTextLayer, dispatch],
   );
 
   const onChangeSelectValue = useCallback(
     (name: string, value: string | number) => {
-      setCanvasState((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
+      if (name === 'imageType') {
+        dispatch({
+          type: 'SET_CANVAS_PROP',
+          changes: { imageType: value as 'png' | 'jpg' | 'webp' },
+        });
+      } else if (selectedTextLayer) {
+        dispatch({
+          type: 'UPDATE_LAYER',
+          id: selectedTextLayer.id,
+          changes: { [name]: value },
+        });
+      }
     },
-    [],
+    [selectedTextLayer, dispatch],
   );
 
   const onChangeBgColor = useCallback(
     (color: Color) => {
-      setCanvasState((prev) => ({
-        ...prev,
-        selectedImage: undefined,
-        isBlur: false,
-      }));
-      setBgColor(color);
+      dispatch({ type: 'SET_BG_COLOR', color });
     },
-    [setBgColor],
+    [dispatch],
   );
 
-  const onChangeImage = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    const { files } = e.target;
-
-    if (files) {
-      const img = new Image();
-
-      img.src = files[0] && URL.createObjectURL(files[0]);
-      img.onload = async () => {
-        setCanvasSize({
-          canvasWidth: img.width,
-          canvasHeight: img.height,
-        });
-        setCanvasState((prev) => ({
-          ...prev,
-          isBlur: false,
-          selectedImage: img,
-          canvasWidth: img.width,
-          canvasHeight: img.height,
-        }));
-      };
-    }
-  }, []);
+  const onChangeBackgroundImage = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const { files } = e.target;
+      if (files && files[0]) {
+        const img = new Image();
+        img.src = URL.createObjectURL(files[0]);
+        img.onload = () => {
+          setCanvasSize({
+            canvasWidth: img.width,
+            canvasHeight: img.height,
+          });
+          dispatch({
+            type: 'SET_BACKGROUND_IMAGE',
+            image: img,
+            width: img.width,
+            height: img.height,
+          });
+        };
+      }
+    },
+    [dispatch],
+  );
 
   const toggleCanvasBlur = useCallback(() => {
-    setCanvasState((prev) => ({
-      ...prev,
-      isBlur: !prev.isBlur,
-    }));
-  }, []);
+    dispatch({
+      type: 'SET_CANVAS_PROP',
+      changes: { isBlur: !state.isBlur },
+    });
+  }, [state.isBlur, dispatch]);
 
   const handleDownloadImage = useCallback(() => {
-    downloadCanvas(canvasRef, canvasState.imageType);
-  }, [canvasState.imageType]);
+    downloadCanvas(canvasRef, state.imageType);
+  }, [state.imageType]);
 
-  const handleToggleFontStyle = useCallback((style: 'bold' | 'italic') => {
-    setCanvasState((prev) => ({
-      ...prev,
-      fontStyle: prev.fontStyle === style ? 'normal' : style,
-    }));
-  }, []);
+  const handleToggleFontStyle = useCallback(
+    (style: 'bold' | 'italic') => {
+      if (!selectedTextLayer) return;
+      dispatch({
+        type: 'UPDATE_LAYER',
+        id: selectedTextLayer.id,
+        changes: {
+          fontStyle: selectedTextLayer.fontStyle === style ? 'normal' : style,
+        },
+      });
+    },
+    [selectedTextLayer, dispatch],
+  );
 
-  const handleChangeRange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setCanvasState((prev) => ({
-      ...prev,
-      [name]: +value,
-    }));
-  }, []);
+  const handleChangeRange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      if (!selectedTextLayer) return;
+      const { name, value } = e.target;
+      dispatch({
+        type: 'UPDATE_LAYER',
+        id: selectedTextLayer.id,
+        changes: { [name]: +value },
+      });
+    },
+    [selectedTextLayer, dispatch],
+  );
+
+  const handleChangeFontSize = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      if (!selectedTextLayer) return;
+      dispatch({
+        type: 'UPDATE_LAYER',
+        id: selectedTextLayer.id,
+        changes: { fontSize: +e.target.value || 1 },
+      });
+    },
+    [selectedTextLayer, dispatch],
+  );
+
+  const handleSelectLayer = useCallback(
+    (id: string | null) => {
+      dispatch({ type: 'SELECT_LAYER', id });
+    },
+    [dispatch],
+  );
+
+  const handleMoveLayer = useCallback(
+    (id: string, x: number, y: number) => {
+      dispatch({ type: 'MOVE_LAYER', id, x, y });
+    },
+    [dispatch],
+  );
+
+  const handleTransformLayer = useCallback(
+    (
+      id: string,
+      attrs: {
+        x: number;
+        y: number;
+        scaleX: number;
+        scaleY: number;
+        rotation: number;
+      },
+    ) => {
+      dispatch({ type: 'TRANSFORM_LAYER', id, attrs });
+    },
+    [dispatch],
+  );
+
+  const handleAddTextLayer = useCallback(() => {
+    dispatch({ type: 'ADD_TEXT_LAYER' });
+  }, [dispatch]);
+
+  const handleAddImageLayer = useCallback(
+    (image: HTMLImageElement, width: number, height: number) => {
+      dispatch({ type: 'ADD_IMAGE_LAYER', image, width, height });
+    },
+    [dispatch],
+  );
+
+  const handleDeleteLayer = useCallback(
+    (id: string) => {
+      dispatch({ type: 'DELETE_LAYER', id });
+    },
+    [dispatch],
+  );
+
+  const isTextControlsEnabled = !!selectedTextLayer;
 
   return (
     <Layout.BodyWrapper modalPosition={modalPosition} isFullWidth={isFullWidth}>
       <Header onToggle={onToggle} />
       <Layout.InnerWrapper>
         <Layout.ContentWrapper>
-          <KonvaCanvas ref={canvasRef} canvasState={canvasStateWithColors} />
+          <KonvaCanvas
+            ref={canvasRef}
+            canvasState={state}
+            onSelectLayer={handleSelectLayer}
+            onMoveLayer={handleMoveLayer}
+            onTransformLayer={handleTransformLayer}
+          />
 
           <S.ThumbnailGeneratorIconControllerWrapper>
+            <IconButton
+              hasBorder
+              onClick={undo}
+              disabled={!canUndo()}>
+              <UndoIcon width={16} height={16} fill={canUndo() ? '#09244B' : '#ccc'} />
+            </IconButton>
+            <IconButton
+              hasBorder
+              onClick={redo}
+              disabled={!canRedo()}>
+              <RedoIcon width={16} height={16} fill={canRedo() ? '#09244B' : '#ccc'} />
+            </IconButton>
+
+            <Divider color="#d3d1d1" height={20} width={1} />
+
             <Select
               name="fontFamily"
-              value={canvasState.fontFamily}
+              value={selectedTextLayer?.fontFamily ?? 'Arial'}
               onChange={onChangeSelectValue}>
               {fontFamilyOptions.map((item) => (
                 <SelectItem value={item} key={item}>
@@ -280,10 +371,10 @@ const ThumbnailGeneratorContent = ({
                 </SelectItem>
               ))}
             </Select>
-            <FileInput onChangeImage={onChangeImage} />
+            <FileInput onChangeImage={onChangeBackgroundImage} />
 
             <ColorPicker
-              color={bgColor}
+              color={state.bgColor}
               setColor={onChangeBgColor}
               toggleIsBlockEvent={toggleIsBlockEvent}>
               <img src={fill} width={20} height={20} />
@@ -294,21 +385,38 @@ const ThumbnailGeneratorContent = ({
 
             <Divider color="#d3d1d1" height={20} width={1} />
 
-            <IconButton hasBorder onClick={onChangeTextAlign}>
+            <IconButton
+              hasBorder
+              onClick={onChangeTextAlign}
+              disabled={!isTextControlsEnabled}>
               <img src={textAlignIcon} width={20} height={20} />
             </IconButton>
             <ColorPicker
-              color={fontColor}
-              setColor={setFontColor}
-              toggleIsBlockEvent={toggleIsBlockEvent}>
+              key={`fontColor-${selectedTextLayer?.id ?? 'none'}`}
+              color={selectedTextLayer?.fontColor ?? state.bgColor}
+              setColor={(color: Color) => {
+                if (selectedTextLayer) {
+                  dispatch({
+                    type: 'UPDATE_LAYER',
+                    id: selectedTextLayer.id,
+                    changes: { fontColor: color },
+                  });
+                }
+              }}
+              toggleIsBlockEvent={toggleIsBlockEvent}
+              disabled={!isTextControlsEnabled}>
               <FontColorIcon width={20} height={20} viewBox="0 0 24 24" />
             </ColorPicker>
-            <IconButton hasBorder onClick={() => handleToggleFontStyle('bold')}>
+            <IconButton
+              hasBorder
+              onClick={() => handleToggleFontStyle('bold')}
+              disabled={!isTextControlsEnabled}>
               <FontBoldIcon width={20} height={20} />
             </IconButton>
             <IconButton
               hasBorder
-              onClick={() => handleToggleFontStyle('italic')}>
+              onClick={() => handleToggleFontStyle('italic')}
+              disabled={!isTextControlsEnabled}>
               <FontItalicIcon width={20} height={20} />
             </IconButton>
 
@@ -324,26 +432,44 @@ const ThumbnailGeneratorContent = ({
             {isOpenMoreOptions && (
               <S.ThumbnailGeneratorMoreOptionsWrapper ref={moreOptionsRef}>
                 <RangeInput
-                  label={`Line Height`}
+                  label="Font Size"
+                  name="fontSize"
+                  min={8}
+                  max={120}
+                  step={1}
+                  value={String(selectedTextLayer?.fontSize ?? 30)}
+                  onChange={handleChangeFontSize}
+                  disabled={!isTextControlsEnabled}
+                />
+
+                <Divider color="#d3d1d1" height={20} width={1} />
+
+                <RangeInput
+                  label="Line Height"
                   name="lineHeight"
                   min={-3}
                   max={3}
                   step={0.1}
-                  value={String(canvasState.lineHeight)}
+                  value={String(selectedTextLayer?.lineHeight ?? 1)}
                   onChange={handleChangeRange}
+                  disabled={!isTextControlsEnabled}
                 />
 
                 <Divider color="#d3d1d1" height={20} width={1} />
 
                 <ColorPicker
-                  color={strokeColor}
+                  key={`strokeColor-${selectedTextLayer?.id ?? 'none'}`}
+                  color={
+                    selectedTextLayer?.strokeColor ?? state.bgColor
+                  }
                   setColor={onChangeStrokeColor}
-                  toggleIsBlockEvent={toggleIsBlockEvent}>
+                  toggleIsBlockEvent={toggleIsBlockEvent}
+                  disabled={!isTextControlsEnabled}>
                   <img src={stroke} width={20} height={20} />
                 </ColorPicker>
                 <Select
                   name="fontStrokeType"
-                  value={canvasState.fontStrokeType}
+                  value={selectedTextLayer?.fontStrokeType ?? 'None'}
                   onChange={onChangeSelectValue}>
                   {strokeTypes.map((item) => (
                     <SelectItem value={item} key={item}>
@@ -355,13 +481,27 @@ const ThumbnailGeneratorContent = ({
             )}
           </S.ThumbnailGeneratorIconControllerWrapper>
 
+          <LayerPanel
+            layers={state.layers}
+            selectedLayerId={state.selectedLayerId}
+            onSelectLayer={(id) => handleSelectLayer(id)}
+            onAddTextLayer={handleAddTextLayer}
+            onAddImageLayer={handleAddImageLayer}
+            onDeleteLayer={handleDeleteLayer}
+          />
+
           <S.ThumbnailGeneratorTextareaWrapper>
             <S.ThumbnailGeneratorTextArea
               name="value"
               rows={5}
-              value={canvasState.value}
+              value={selectedTextLayer?.value ?? ''}
               onChange={onChangeTextValue}
-              placeholder="THUMBNAIL TEXT"
+              placeholder={
+                isTextControlsEnabled
+                  ? 'THUMBNAIL TEXT'
+                  : 'Select a text layer to edit'
+              }
+              disabled={!isTextControlsEnabled}
             />
           </S.ThumbnailGeneratorTextareaWrapper>
           <S.ThumbnailGeneratorControllerWrapper>
@@ -370,7 +510,7 @@ const ThumbnailGeneratorContent = ({
               label={`Canvas Width (max: ${window.innerWidth}px)`}
               value={canvasSize.canvasWidth}
               onChange={onChangeCanvasSize}
-              disabled={!!canvasState.selectedImage}
+              disabled={!!state.backgroundImage}
               width={200}
             />
             <TextInput
@@ -378,7 +518,7 @@ const ThumbnailGeneratorContent = ({
               label="Canvas Height"
               value={canvasSize.canvasHeight}
               onChange={onChangeCanvasSize}
-              disabled={!!canvasState.selectedImage}
+              disabled={!!state.backgroundImage}
               width={200}
             />
           </S.ThumbnailGeneratorControllerWrapper>
@@ -389,7 +529,7 @@ const ThumbnailGeneratorContent = ({
             <Select
               name="imageType"
               label="Download Image Type"
-              value={canvasState.imageType}
+              value={state.imageType}
               onChange={onChangeSelectValue}>
               {imageTypes.map((item) => (
                 <SelectItem value={item} key={item}>

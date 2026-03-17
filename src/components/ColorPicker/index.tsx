@@ -16,10 +16,11 @@ interface ColorPickerProps {
   color: ComponentProps<typeof PaletteColorPicker>['color'];
   setColor: (color: ComponentProps<typeof PaletteColorPicker>['color']) => void;
   toggleIsBlockEvent: () => void;
+  disabled?: boolean;
 }
 
 const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
-  ({ children, color, toggleIsBlockEvent, setColor }, ref) => {
+  ({ children, color, toggleIsBlockEvent, setColor, disabled }, ref) => {
     const [isOpenColorPicker, setIsOpenColorPicker] = useState(false);
     const colorRef = useRef<HTMLDivElement>(null);
     const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
@@ -62,7 +63,8 @@ const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
         <IconButton
           isOpen={isOpenColorPicker}
           onClick={handleOpenColorPicker}
-          hasBorder>
+          hasBorder
+          disabled={disabled}>
           {children}
         </IconButton>
 
