@@ -12,6 +12,7 @@ const RangeInput = ({
   min = 0,
   max = 100,
   step = 1,
+  disabled = false,
   onChange,
 }: RangeInputProps) => {
   const backgroundSize = useMemo(() => {
@@ -37,6 +38,7 @@ const RangeInput = ({
           step={step}
           onChange={onChange}
           backgroundSize={backgroundSize}
+          disabled={disabled}
         />
       </S.LabelRangeContainer>
     </S.RangeInputWrapper>

@@ -83,6 +83,7 @@ export const ThumbnailGeneratorButton = styled.button`
   background-color: #192841;
   color: #fff;
   width: 300px;
+  max-width: calc(100% - 40px);
   padding: 12px 15px;
   border: none;
   border-radius: 5px;
@@ -97,7 +98,9 @@ export const ThumbnailGeneratorControllerWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
+  padding: 0 10px;
 `;
 
 export const ThumbnailGeneratorTextareaWrapper = styled.div`
@@ -109,6 +112,7 @@ export const ThumbnailGeneratorIconControllerWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
   background-color: #fcfcfc;
   border-bottom: 1px solid #ebedf2;
@@ -121,6 +125,7 @@ export const ThumbnailGeneratorMoreOptionsWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   padding: 10px;
   gap: 8px;
   top: 50px;
@@ -128,4 +133,15 @@ export const ThumbnailGeneratorMoreOptionsWrapper = styled.div`
   transform: translateX(230px);
   background-color: #fcfcfc;
   border: 1px solid #ebedf2;
+  z-index: 10;
+
+  @media (max-width: 640px) {
+    position: relative;
+    top: 0;
+    right: auto;
+    transform: none;
+    width: 100%;
+    border: none;
+    border-top: 1px solid #ebedf2;
+  }
 `;

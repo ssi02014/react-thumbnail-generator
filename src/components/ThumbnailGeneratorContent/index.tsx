@@ -218,15 +218,25 @@ const ThumbnailGeneratorContent = ({
         const img = new Image();
         img.src = URL.createObjectURL(files[0]);
         img.onload = () => {
+          const maxWidth = window.innerWidth;
+          const maxHeight = window.innerHeight * 0.6;
+          const scale = Math.min(
+            maxWidth / img.width,
+            maxHeight / img.height,
+            1,
+          );
+          const fitWidth = Math.round(img.width * scale);
+          const fitHeight = Math.round(img.height * scale);
+
           setCanvasSize({
-            canvasWidth: img.width,
-            canvasHeight: img.height,
+            canvasWidth: fitWidth,
+            canvasHeight: fitHeight,
           });
           dispatch({
             type: 'SET_BACKGROUND_IMAGE',
             image: img,
-            width: img.width,
-            height: img.height,
+            width: fitWidth,
+            height: fitHeight,
           });
         };
       }
