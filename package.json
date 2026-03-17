@@ -86,6 +86,9 @@
     "react": ">=19.0.0",
     "react-dom": ">=19.0.0"
   },
+  "engines": {
+    "node": ">=24"
+  },
   "keywords": [
     "react",
     "next",
