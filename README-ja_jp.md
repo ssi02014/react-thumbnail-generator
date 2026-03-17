@@ -26,14 +26,14 @@ https://github.com/user-attachments/assets/5d4f8c23-72c6-43ae-aa62-5c46ee0ddfc6
 <br />
 
 ### Key Features
-- 🎯 シンプルなドラッグ&ドロップインターフェース
-- 🎨 背景色/画像のカスタマイズ
-- ✍️ 複数のフォントとエフェクトによるテキストスタイリング
-- 📏 柔軟なキャンバスサイズ調整
-- 🖼️ 複数のエクスポート形式 (PNG, JPG, WebP)
-- 🔧 高度に設定可能な位置と外観
-- 📱 デスクトップブラウザ最適化
-- 📱 クライアントサイド専用コンポーネント
+- 🎯 レイヤーごとのドラッグ、回転、リサイズが可能なマルチレイヤーシステム
+- 🖼️ テキストレイヤーと画像レイヤーに対応
+- 🎨 背景色/画像のカスタマイズと自動リサイズ
+- ✍️ レイヤーごとのテキストスタイリング（フォント、サイズ、色、ストローク、配置）
+- ↩️ 元に戻す / やり直し及びキーボードショートカット（Ctrl+Z / Ctrl+Shift+Z）
+- 📏 柔軟なキャンバスサイズ調整と境界保護
+- 💾 複数のエクスポート形式（PNG、JPG、WebP）
+- 📱 モバイルレスポンシブレイアウト
 
 <br />
 
@@ -150,25 +150,14 @@ const App = () => {
 <br />
 
 ## Options 📄
-- iconPosition
-  - **オプション**
-  - デフォルト: `bottom-right`
-  - タイプ: `top-left | top-right | bottom-left | bottom-right`
-- modalPosition
-  - **オプション**
-  - デフォルト: `right`
-  - タイプ: `left | right | center`
-- additionalFontFamily
-  - **オプション**
-  - タイプ: `string[]`
-- isFullWidth
-  - **オプション**
-  - デフォルト: `false`
-  - タイプ: `boolean`
-- isDefaultOpen
-  - **オプション**
-  - デフォルト: `false`
-  - タイプ: `boolean`
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `iconPosition` | `'top-left' \| 'top-right' \| 'bottom-left' \| 'bottom-right'` | `'bottom-right'` | トグルボタンアイコンの位置 |
+| `modalPosition` | `'left' \| 'right' \| 'center'` | `'right'` | サムネイルジェネレーターモーダルの表示位置 |
+| `additionalFontFamily` | `string[]` | `-` | ジェネレーターに追加するカスタムフォント（事前読み込み必要） |
+| `isFullWidth` | `boolean` | `false` | ジェネレーターを全幅に拡張 |
+| `isDefaultOpen` | `boolean` | `false` | 読み込み時にジェネレーターを自動的に開く |
 
 <br />
 

@@ -1,4 +1,4 @@
-import React, { ComponentProps } from 'react';
+import React, { ComponentProps, forwardRef } from 'react';
 import * as S from './IconButton.styled';
 
 interface IconButtonProps extends ComponentProps<'button'> {
@@ -6,10 +6,10 @@ interface IconButtonProps extends ComponentProps<'button'> {
   isOpen?: boolean;
 }
 
-const IconButton = ({ hasBorder, isOpen, ...props }: IconButtonProps) => {
+const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({ hasBorder, isOpen, ...props }, ref) => {
   const variant = isOpen ? 'isOpen' : hasBorder ? 'hasBorder' : 'default';
 
-  return <S.IconButton variant={variant} {...props} />;
-};
+  return <S.IconButton variant={variant} ref={ref} {...props} />;
+});
 
 export default IconButton;

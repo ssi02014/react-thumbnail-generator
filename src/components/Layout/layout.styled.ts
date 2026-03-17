@@ -17,6 +17,7 @@ export const BodyWrapper = styled.div<BodyWrapperProps>`
   font-family: Arial;
   z-index: 9999;
   min-width: ${(props) => (props.isFullWidth ? '100%' : '600px')};
+  max-width: 100vw;
 
   ${(props) => {
     switch (props.modalPosition) {
@@ -44,6 +45,16 @@ export const BodyWrapper = styled.div<BodyWrapperProps>`
         `;
     }
   }}
+
+  @media (max-width: 640px) {
+    min-width: 100vw;
+    max-width: 100vw;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 0;
+    transform: none;
+  }
 
   * {
     box-sizing: border-box;

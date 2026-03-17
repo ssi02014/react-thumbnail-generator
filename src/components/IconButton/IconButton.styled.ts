@@ -42,4 +42,10 @@ export const IconButton = styled.button<IconButtonProps>`
         `;
     }
   }}
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
 `;
