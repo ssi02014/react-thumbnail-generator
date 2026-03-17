@@ -26,14 +26,14 @@ https://github.com/user-attachments/assets/5d4f8c23-72c6-43ae-aa62-5c46ee0ddfc6
 <br />
 
 ### Key Features
-- 🎯 简单的拖放界面
-- 🎨 背景颜色/图像自定义
-- ✍️ 多种字体和效果的文本样式
-- 📏 灵活的画布尺寸调整
-- 🖼️ 多种导出格式 (PNG, JPG, WebP)
-- 🔧 高度可配置的位置和外观
-- 📱 桌面浏览器优化
-- 📱 纯客户端组件
+- 🎯 支持逐层拖动、旋转和缩放的多图层系统
+- 🖼️ 支持文本和图像图层
+- 🎨 背景颜色/图像自定义及自动缩放
+- ✍️ 逐层文本样式设置（字体、大小、颜色、描边、对齐）
+- ↩️ 撤销 / 重做及键盘快捷键（Ctrl+Z / Ctrl+Shift+Z）
+- 📏 灵活的画布尺寸调整及边界保护
+- 💾 多种导出格式（PNG、JPG、WebP）
+- 📱 移动端响应式布局
 
 <br />
 
@@ -150,25 +150,14 @@ const App = () => {
 <br />
 
 ## Options 📄
-- iconPosition
-  - **可选**
-  - 默认值: `bottom-right`
-  - 类型: `top-left | top-right | bottom-left | bottom-right`
-- modalPosition
-  - **可选**
-  - 默认值: `right`
-  - 类型: `left | right | center`
-- additionalFontFamily
-  - **可选**
-  - 类型: `string[]`
-- isFullWidth
-  - **可选**
-  - 默认值: `false`
-  - 类型: `boolean`
-- isDefaultOpen
-  - **可选**
-  - 默认值: `false`
-  - 类型: `boolean`
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `iconPosition` | `'top-left' \| 'top-right' \| 'bottom-left' \| 'bottom-right'` | `'bottom-right'` | 切换按钮图标的位置 |
+| `modalPosition` | `'left' \| 'right' \| 'center'` | `'right'` | 缩略图生成器模态框的显示位置 |
+| `additionalFontFamily` | `string[]` | `-` | 添加到生成器的自定义字体（需预加载） |
+| `isFullWidth` | `boolean` | `false` | 将生成器扩展为全宽 |
+| `isDefaultOpen` | `boolean` | `false` | 加载时自动打开生成器 |
 
 <br />
 
