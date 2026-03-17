@@ -26,14 +26,14 @@ https://github.com/user-attachments/assets/5d4f8c23-72c6-43ae-aa62-5c46ee0ddfc6
 <br />
 
 ### Key Features
-- 🎯 간단한 드래그 앤 드롭 인터페이스
-- 🎨 배경 색상/이미지 커스터마이징
-- ✍️ 다양한 폰트와 효과로 텍스트 스타일링
-- 📏 유연한 캔버스 크기 조정
-- 🖼️ 다양한 내보내기 형식 (PNG, JPG, WebP)
-- 🔧 높은 설정 가능성을 가진 위치 및 외관
-- 📱 데스크톱 브라우저 최적화
-- 📱 클라이언트 사이드 전용 컴포넌트
+- 🎯 레이어별 드래그, 회전, 크기 조절이 가능한 멀티 레이어 시스템
+- 🖼️ 텍스트 및 이미지 레이어 지원
+- 🎨 배경 색상/이미지 커스터마이징 및 자동 리사이즈
+- ✍️ 레이어별 텍스트 스타일링 (폰트, 크기, 색상, 스트로크, 정렬)
+- ↩️ Undo / Redo 및 키보드 단축키 (Ctrl+Z / Ctrl+Shift+Z)
+- 📏 유연한 캔버스 크기 조정 및 경계 보호
+- 💾 다양한 내보내기 형식 (PNG, JPG, WebP)
+- 📱 모바일 반응형 레이아웃
 
 <br />
 
@@ -151,25 +151,14 @@ const App = () => {
 <br />
 
 ## Options 📄
-- iconPosition
-  - **Optional**
-  - Default: `bottom-right`
-  - Type:`top-left | top-right | bottom-left | bottom-right`
-- modalPosition
-  - **Optional**
-  - Default: `right`
-  - Type:`left | right | center`
-- additionalFontFamily
-  - **Optional**
-  - Type: `string[]`
-- isFullWidth
-  - **Optional**
-  - Default: `false`
-  - Type: `boolean`
-- isDefaultOpen
-  - **Optional**
-  - Default: `false`
-  - Type: `boolean`
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `iconPosition` | `'top-left' \| 'top-right' \| 'bottom-left' \| 'bottom-right'` | `'bottom-right'` | 토글 버튼 아이콘의 위치 |
+| `modalPosition` | `'left' \| 'right' \| 'center'` | `'right'` | 썸네일 생성기 모달의 표시 위치 |
+| `additionalFontFamily` | `string[]` | `-` | 생성기에 추가할 커스텀 폰트 (사전 로드 필요) |
+| `isFullWidth` | `boolean` | `false` | 생성기를 전체 너비로 확장 |
+| `isDefaultOpen` | `boolean` | `false` | 로드 시 자동으로 생성기 열기 |
 
 <br />
 

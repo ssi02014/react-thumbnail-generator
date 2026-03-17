@@ -6,6 +6,8 @@ import { ImageLayer } from '@interfaces/common';
 interface ImageNodeProps {
   layer: ImageLayer;
   isSelected: boolean;
+  canvasWidth: number;
+  canvasHeight: number;
   onSelect: () => void;
   onDragEnd: (x: number, y: number) => void;
   onTransformEnd: (attrs: {
@@ -20,6 +22,8 @@ interface ImageNodeProps {
 const ImageNode = ({
   layer,
   isSelected,
+  canvasWidth,
+  canvasHeight,
   onSelect,
   onDragEnd,
   onTransformEnd,
@@ -35,7 +39,22 @@ const ImageNode = ({
   }, [isSelected]);
 
   const handleDragEnd = (e: Konva.KonvaEventObject<DragEvent>) => {
-    onDragEnd(e.target.x(), e.target.y());
+    const node = e.target;
+    const rect = node.getClientRect();
+    const isOutside =
+      rect.x + rect.width < 0 ||
+      rect.y + rect.height < 0 ||
+      rect.x > canvasWidth ||
+      rect.y > canvasHeight;
+
+    if (isOutside) {
+      const centerX = canvasWidth / 2;
+      const centerY = canvasHeight / 2;
+      node.position({ x: centerX, y: centerY });
+      onDragEnd(centerX, centerY);
+    } else {
+      onDragEnd(node.x(), node.y());
+    }
   };
 
   const handleTransformEnd = () => {

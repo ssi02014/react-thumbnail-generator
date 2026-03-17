@@ -1,6 +1,6 @@
 # Release Notes
 
-## v4.1.0
+## v4.3.0
 
 ### Breaking Changes
 - `CanvasState` interface has been completely redesigned. The single-text based state properties (`value`, `fontFamily`, `fontColor`, etc.) have been removed and replaced with a `layers` array-based structure.

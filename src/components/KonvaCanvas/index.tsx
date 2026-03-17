@@ -89,6 +89,8 @@ const KonvaCanvas = forwardRef(
                     key={layer.id}
                     layer={layer}
                     isSelected={isSelected}
+                    canvasWidth={canvasState.canvasWidth}
+                    canvasHeight={canvasState.canvasHeight}
                     onSelect={() => onSelectLayer(layer.id)}
                     onDragEnd={(x, y) => onMoveLayer(layer.id, x, y)}
                     onTransformEnd={(attrs) =>
@@ -104,6 +106,8 @@ const KonvaCanvas = forwardRef(
                     key={layer.id}
                     layer={layer}
                     isSelected={isSelected}
+                    canvasWidth={canvasState.canvasWidth}
+                    canvasHeight={canvasState.canvasHeight}
                     onSelect={() => onSelectLayer(layer.id)}
                     onDragEnd={(x, y) => onMoveLayer(layer.id, x, y)}
                     onTransformEnd={(attrs) =>

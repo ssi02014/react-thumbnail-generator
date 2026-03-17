@@ -26,14 +26,14 @@ https://github.com/user-attachments/assets/5d4f8c23-72c6-43ae-aa62-5c46ee0ddfc6
 <br />
 
 ### Key Features
-- 🎯 Simple drag & drop interface
-- 🎨 Background color/image customization 
-- ✍️ Text styling with multiple fonts and effects
-- 📏 Flexible canvas sizing
-- 🖼️ Multiple export formats (PNG, JPG, WebP)
-- 🔧 Highly configurable positioning and appearance
-- 📱 Desktop browser optimized
-- 📱 Client-side only component
+- 🎯 Multi-layer system with drag, rotate, and resize per layer
+- 🖼️ Support for both text and image layers
+- 🎨 Background color/image customization with auto-resize
+- ✍️ Per-layer text styling (font, size, color, stroke, alignment)
+- ↩️ Undo / Redo with keyboard shortcuts (Ctrl+Z / Ctrl+Shift+Z)
+- 📏 Flexible canvas sizing with boundary guard
+- 💾 Multiple export formats (PNG, JPG, WebP)
+- 📱 Mobile responsive layout
 
 <br />
 
@@ -150,25 +150,14 @@ const App = () => {
 <br />
 
 ## Options 📄
-- iconPosition
-  - **Optional**
-  - Default: `bottom-right`
-  - Type:`top-left | top-right | bottom-left | bottom-right`
-- modalPosition
-  - **Optional**
-  - Default: `right`
-  - Type:`left | right | center`
-- additionalFontFamily
-  - **Optional**
-  - Type: `string[]`
-- isFullWidth
-  - **Optional**
-  - Default: `false`
-  - Type: `boolean`
-- isDefaultOpen
-  - **Optional**
-  - Default: `false`
-  - Type: `boolean`
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `iconPosition` | `'top-left' \| 'top-right' \| 'bottom-left' \| 'bottom-right'` | `'bottom-right'` | Position of the toggle button icon |
+| `modalPosition` | `'left' \| 'right' \| 'center'` | `'right'` | Position where the thumbnail generator modal is displayed |
+| `additionalFontFamily` | `string[]` | `-` | Custom fonts to add to the generator (must be pre-loaded) |
+| `isFullWidth` | `boolean` | `false` | Expands the generator to full width |
+| `isDefaultOpen` | `boolean` | `false` | Opens the generator automatically on load |
 
 <br />
 
