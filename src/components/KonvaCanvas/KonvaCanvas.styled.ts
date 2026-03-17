@@ -5,4 +5,5 @@ export const KonvaCanvasWrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+  overflow: auto;
 `;

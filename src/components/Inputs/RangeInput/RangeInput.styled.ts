@@ -53,4 +53,24 @@ export const RangeInput = styled.input<RangeInputProps>`
     background: #3264b5;
     cursor: pointer;
   }
+
+  &:disabled {
+    background-image: linear-gradient(#bbb, #bbb);
+    opacity: 0.5;
+    cursor: not-allowed;
+
+    &:hover {
+      opacity: 0.5;
+    }
+
+    &::-webkit-slider-thumb {
+      background: #999;
+      cursor: not-allowed;
+    }
+
+    &::-moz-range-thumb {
+      background: #999;
+      cursor: not-allowed;
+    }
+  }
 `;

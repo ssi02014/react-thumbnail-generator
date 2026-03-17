@@ -1,6 +1,6 @@
 {
   "name": "react-thumbnail-generator",
-  "version": "4.1.2",
+  "version": "4.2.0",
   "description": "react-thumbnail-generator",
   "exports": {
     ".": {
@@ -85,6 +85,9 @@
   "peerDependencies": {
     "react": ">=19.0.0",
     "react-dom": ">=19.0.0"
+  },
+  "engines": {
+    "node": ">=24"
   },
   "keywords": [
     "react",
