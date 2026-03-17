@@ -53,11 +53,15 @@ const ThumbnailGeneratorContent = ({
   isFullWidth,
   onToggle,
 }: ThumbnailGeneratorContentProps) => {
-  const { ref: moreOptionsRef } = useOutsidePointerDown<HTMLDivElement>(() => {
-    if (!state.isBlockEvent) {
-      setIsOpenMoreOptions(false);
-    }
-  });
+  const moreButtonRef = useRef<HTMLButtonElement>(null);
+  const { ref: moreOptionsRef } = useOutsidePointerDown<HTMLDivElement>(
+    () => {
+      if (!state.isBlockEvent) {
+        setIsOpenMoreOptions(false);
+      }
+    },
+    { excludeRefs: [moreButtonRef as React.RefObject<HTMLButtonElement>] },
+  );
 
   const [isOpenMoreOptions, setIsOpenMoreOptions] = useState(false);
 
@@ -433,6 +437,7 @@ const ThumbnailGeneratorContent = ({
             <Divider color="#d3d1d1" height={20} width={1} />
 
             <IconButton
+              ref={moreButtonRef}
               hasBorder
               isOpen={isOpenMoreOptions}
               onClick={() => setIsOpenMoreOptions((prev) => !prev)}>

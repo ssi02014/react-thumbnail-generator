@@ -98,9 +98,12 @@ export const ThumbnailGeneratorControllerWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
   gap: 10px;
-  padding: 0 10px;
+
+  @media (max-width: 640px) {
+    flex-wrap: wrap;
+    padding: 0 10px;
+  }
 `;
 
 export const ThumbnailGeneratorTextareaWrapper = styled.div`
@@ -112,12 +115,15 @@ export const ThumbnailGeneratorIconControllerWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
   gap: 8px;
   background-color: #fcfcfc;
   border-bottom: 1px solid #ebedf2;
   padding: 8px 10px;
   border-radius: 5px;
+
+  @media (max-width: 640px) {
+    flex-wrap: wrap;
+  }
 `;
 
 export const ThumbnailGeneratorMoreOptionsWrapper = styled.div`
@@ -125,7 +131,6 @@ export const ThumbnailGeneratorMoreOptionsWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
   padding: 10px;
   gap: 8px;
   top: 50px;
@@ -136,6 +141,7 @@ export const ThumbnailGeneratorMoreOptionsWrapper = styled.div`
   z-index: 10;
 
   @media (max-width: 640px) {
+    flex-wrap: wrap;
     position: relative;
     top: 0;
     right: auto;
